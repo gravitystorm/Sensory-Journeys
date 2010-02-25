@@ -1,0 +1,12 @@
+- id: 1
+  name: Morton School
+  lat: 51.46195
+  lon: -2.55671
+- id: 2
+  name: Compton School
+  lat: 51.48222
+  lon: -2.45622
+- id: 3
+  name: Bordenham School
+  lat: 51.57000
+  lon: -2.27222
