@@ -1,3 +1,7 @@
 <p>... Menu ... </p>
 <div id="map">Map goes here</div>
-<p>...</p>
+<p>
+<% @schools.each do |school| %>
+<%= school.name %>
+<% end %>
+</p>
