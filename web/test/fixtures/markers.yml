@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user: 
+  emotion: MyString
+  test: MyString
+
+two:
+  user: 
+  emotion: MyString
+  test: MyString
