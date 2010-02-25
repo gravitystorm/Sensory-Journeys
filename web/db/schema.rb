@@ -9,12 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100225181158) do
+ActiveRecord::Schema.define(:version => 20100225191823) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
     t.string   "emotion"
     t.string   "test"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "schools", :force => true do |t|
+    t.string   "name"
+    t.float    "lat"
+    t.float    "lon"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
