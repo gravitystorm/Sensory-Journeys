@@ -1,0 +1,13 @@
+<h1>Upload a GPX file</h1>
+
+<% if flash[:notice] %>
+        <div id="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<% form_tag (:action => 'uploadFile', :multipart => true) do %>
+  <p><label for="upload_file">Select File</label> : 
+  <%= file_field 'upload', 'datafile' %></p>
+  <%= submit_tag "Upload" %>
+
+  <p>Stuff goes here about selecting options</p>
+<% end %>
