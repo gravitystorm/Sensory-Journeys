@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100225191823) do
+ActiveRecord::Schema.define(:version => 20100310175155) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(:version => 20100225191823) do
     t.string   "name"
     t.float    "lat"
     t.float    "lon"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "trace_points", :force => true do |t|
+    t.float    "lat"
+    t.float    "lon"
+    t.datetime "timestamp"
+    t.integer  "trace_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
