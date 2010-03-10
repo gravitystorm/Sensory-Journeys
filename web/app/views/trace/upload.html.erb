@@ -4,9 +4,9 @@
         <div id="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<% form_tag (:action => 'uploadFile', :multipart => true) do %>
+<% form_tag ({:action => 'uploadFile'}, :multipart => true) do %>
   <p><label for="upload_file">Select File</label> : 
-  <%= file_field 'upload', 'datafile' %></p>
+  <%= file_field 'upload', 'gpx' %></p>
   <%= submit_tag "Upload" %>
 
   <p>Stuff goes here about selecting options</p>
