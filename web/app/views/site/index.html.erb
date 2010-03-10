@@ -14,8 +14,9 @@
     <p>Zoom to a school:</p>
     <ul>
       <% @schools.each do |school| %>
-      <li><a href="#"><%= school.name %></a></li>
+        <li><a href="#"><%= school.name %></a></li>
       <% end %>
     </ul>
+    <%= link_to 'Upload GPX', :controller => :trace, :action => :upload %>
   </div>
 </div>
