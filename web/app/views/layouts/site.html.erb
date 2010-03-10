@@ -1,12 +1,43 @@
 <html>
 <head>
   <%= stylesheet_link_tag 'common' %>
+  <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+  <%= javascript_include_tag 'map.js' %>
+      <script type="text/javascript">
+        <!--
+        function init(){
+          var centre = lonLatToMercator( new OpenLayers.LonLat(-1.85, 53.8));
+          var zoom = 6;
+          var cookietext = readCookie('_osm_location');
+          if (cookietext) {
+            var cb = cookietext.split('|');
+            centre = lonLatToMercator( new OpenLayers.LonLat(cb[0], cb[1]));
+            zoom = cb[2];
+            //var layers = cb[3];
+          }
+          var map = createMap("map", centre, zoom);
+        }   
+        function readCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+                  var c = ca[i];
+                  while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                  if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+        }
+
+        // -->
+      </script>
 </head>
 
-<body>
+<body onload="init();">
 <h1>Sensory Schools Network</h1>
 <p>This project visulises the experience of young people on their journey to school. By sharing and analysing this information we can create better, safer and healthier cities for everyone</p>
 <%= @content_for_layout %>
 <p>A collaboration between the artist Christian Nold &amp; Sustrans the sustainable transport charity</p>
+
+
 </body>
 </html>
