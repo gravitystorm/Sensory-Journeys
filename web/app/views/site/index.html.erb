@@ -7,9 +7,15 @@
     <li><a href="#">Public Transport</a></li>
   </ul>
 </div>
-<div id="map"></div>
-<p>
-<% @schools.each do |school| %>
-<%= school.name %>
-<% end %>
-</p>
+
+<div>
+  <div id="map"></div>
+  <div id="sidebar">
+    <p>Zoom to a school:</p>
+    <ul>
+      <% @schools.each do |school| %>
+      <li><a href="#"><%= school.name %></a></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

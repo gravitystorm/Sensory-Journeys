@@ -1,11 +1,13 @@
-body {
-  width: 800px;
+body
+{
+  width: 1000px;
 }
 
 #tabnav
 {
   height: 20px;
   margin: 0px;
+  margin-bottom: 1em;
   padding-left: 215px;
   padding-top: 5px;
   background: url('../images/tab_bottom.gif') repeat-x bottom;
@@ -39,4 +41,28 @@ body {
 #tabnav a:link:hover
 {
   background: #fff;
+}
+
+#map
+{
+  width: 740px;
+  height: 600px;
+  border: 1px solid black;
+  float: left;
+  display: inline;
+}
+
+#sidebar
+{
+  padding-left: 1em;
+  float: right;
+  display: inline;
+  width: 200px;
+}
+
+#footer
+{ 
+  clear: left;
+  padding-top: 1em;
+  font-size: 0.8em;
 }
