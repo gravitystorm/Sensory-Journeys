@@ -16,6 +16,10 @@ class TraceController < ApplicationController
     @trace = Trace.find(params[:id])
   end
   
+  def kml
+    send_data Trace.find(params[:id]).to_kml.to_s, :type => "text/plain", :disposition => 'inline'
+  end
+  
   def uploadFile
     #TODO - a bucketon of error handling
     # dodgy and/or empty values for mode, school
@@ -24,6 +28,7 @@ class TraceController < ApplicationController
     t.file_name = params[:upload]['gpx'].original_filename
     t.mode_id = params[:mode]
     t.school_id = params[:school]
+    t.save!
     
     parser = XML::Parser.new()
     parser.string = params[:upload]['gpx'].read
