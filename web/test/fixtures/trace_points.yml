@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  lat: 1.5
+  lon: 1.5
+  timestamp: 2010-03-10 17:51:55
+  trace: 
+
+two:
+  lat: 1.5
+  lon: 1.5
+  timestamp: 2010-03-10 17:51:55
+  trace: 
