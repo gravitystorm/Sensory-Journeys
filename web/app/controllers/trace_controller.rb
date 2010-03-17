@@ -12,6 +12,10 @@ class TraceController < ApplicationController
     @modes = Mode.find(:all)
   end
   
+  def view
+    @trace = Trace.find(params[:id])
+  end
+  
   def uploadFile
     #TODO - a bucketon of error handling
     # dodgy and/or empty values for mode, school
@@ -43,6 +47,6 @@ class TraceController < ApplicationController
     #flash[:notice] = "You went to #{params[:school]} and used #{params[:mode]} "
     flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
     #redirect_to(:action => :view, :id => t.id)
-    redirect_to(:action => :upload)
+    redirect_to(:action => :view, :id => t.id)
   end
 end

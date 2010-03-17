@@ -1,0 +1,17 @@
+<h1>Viewing trace <%= @trace.id %></h1>
+
+<script type="text/javascript">
+  <!--
+  function init(){
+    var centre = lonLatToMercator( new OpenLayers.LonLat(0, 53.8));
+    var zoom = 6;
+    var map = createMap("map", centre, zoom);
+    // OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
+    var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
+    setMapExtent(bbox);
+  }  
+  // -->
+</script>
+<%= link_to "Upload Another", :action => :upload %>
+Original filename: <%= @trace.file_name %>
+<div id="map"></div>

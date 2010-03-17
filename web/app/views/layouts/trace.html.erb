@@ -1,0 +1,11 @@
+<html>
+<head>
+  <%= stylesheet_link_tag 'common' %>
+  <%= javascript_include_tag '/openlayers/OpenLayers.js' %>
+  <%= javascript_include_tag 'map.js' %>
+</head>
+
+<body onload="init();">
+<%= @content_for_layout %>
+</body>
+</html>
