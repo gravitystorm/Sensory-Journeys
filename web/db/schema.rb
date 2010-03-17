@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100317153207) do
+ActiveRecord::Schema.define(:version => 20100317153700) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -46,9 +46,13 @@ ActiveRecord::Schema.define(:version => 20100317153207) do
     t.integer  "user_id"
     t.string   "file_name"
     t.boolean  "inserted"
-    t.string   "transport"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mode_id"
+    t.float    "min_lat"
+    t.float    "max_lat"
+    t.float    "min_lon"
+    t.float    "max_lon"
   end
 
   create_table "users", :force => true do |t|
