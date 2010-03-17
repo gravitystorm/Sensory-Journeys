@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100317153700) do
+ActiveRecord::Schema.define(:version => 20100317161609) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20100317153700) do
     t.float    "max_lat"
     t.float    "min_lon"
     t.float    "max_lon"
+    t.integer  "school_id"
   end
 
   create_table "users", :force => true do |t|

@@ -17,8 +17,8 @@
   <p>2 Which transport did you mainly use:</p>
   <% @modes.each do |mode| %>
     <p>
-      <%= radio_button_tag 'mode', mode, false %>
-      <%= label_tag "mode_#{mode}", mode %>
+      <%= radio_button_tag 'mode', mode.id, false %>
+      <%= label_tag "mode_#{mode.id}", mode.name %>
     </p>
   <% end %>
   <%= submit_tag "Upload" %>
