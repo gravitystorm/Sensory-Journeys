@@ -9,12 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100310175155) do
+ActiveRecord::Schema.define(:version => 20100317153207) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
     t.string   "emotion"
     t.string   "test"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "modes", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
