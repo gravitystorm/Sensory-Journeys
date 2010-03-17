@@ -7,6 +7,9 @@ class TraceController < ApplicationController
   end
   
   def upload
+    @schools = School.find(:all)
+    # need to change this to an array of objects: spaces break label_for tags
+    @modes = ["car", "walk", "cycling", "public transport"]
   end
   
   def uploadFile
@@ -22,7 +25,7 @@ class TraceController < ApplicationController
       pt = TracePoint.new()
       pt.lat = trkpt["lat"]
       pt.lon = trkpt["lon"]
-      pt.timestampe = trkpt["timestamp"]
+      pt.timestamp = trkpt["timestamp"]
       pt.trace_id = t.id
       pt.save!
     end

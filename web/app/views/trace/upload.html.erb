@@ -1,13 +1,26 @@
 <h1>Upload a GPX file</h1>
-
 <% if flash[:notice] %>
         <div id="notice"><%= flash[:notice] %></div>
 <% end %>
+<p>Please upload a GPX file from your GPS</p>
 
 <% form_tag ({:action => 'uploadFile'}, :multipart => true) do %>
   <p><label for="upload_file">Select File</label> : 
   <%= file_field 'upload', 'gpx' %></p>
+
+  <% @schools.each do |school| %>
+    <p>
+      <%= radio_button_tag 'school', school.id, false %>
+      <%= label_tag "school_#{school.id}", school.name %>
+    </p>
+  <% end %>
+  <p>2 Which transport did you mainly use:</p>
+  <% @modes.each do |mode| %>
+    <p>
+      <%= radio_button_tag 'mode', mode, false %>
+      <%= label_tag "mode_#{mode}", mode %>
+    </p>
+  <% end %>
   <%= submit_tag "Upload" %>
 
-  <p>Stuff goes here about selecting options</p>
 <% end %>
