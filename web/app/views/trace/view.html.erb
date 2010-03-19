@@ -67,7 +67,10 @@
     if(feature) {
       geo = feature.geometry.clone();
       geo.transform(map.getProjectionObject(), map.displayProjection)
-      alert(geo.y);
+      $('lat').value = geo.y
+      $('lon').value = geo.x
+      $('text').value = 'Moved'
+      $('marker_form').submit();
     }
   }
   // -->
@@ -75,6 +78,10 @@
 <%= link_to "Upload Another", :action => :upload %>
 Original filename: <%= @trace.file_name %><br />
 <span onclick="addMarker();">Click to add marker</span><br />
-<span onclick="controls['drag'].activate();">Move markers</span>
-
+<span onclick="controls['drag'].activate();">Move markers</span> <br />
 <div id="map"></div>
+<% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+  <%= text_field_tag 'lat' %>
+  <%= text_field_tag 'lon' %>
+  <%= text_field_tag 'text', 'Yabba dabba' %>
+<% end %>
