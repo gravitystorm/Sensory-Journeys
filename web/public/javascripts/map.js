@@ -15,56 +15,27 @@ function createMap(divName, centre, zoom) {
                               units: 'm',
                               projection: "EPSG:900913",
                               controls: [
-				new OpenLayers.Control.LayerSwitcher(),
-				new OpenLayers.Control.Permalink('permalink'),
-				//new OpenLayers.Control.Permalink('editlink', 'http://www.openstreetmap.org/edit.html'),
-				new OpenLayers.Control.Attribution(),
-				new OpenLayers.Control.PanZoomBar(),
-				new OpenLayers.Control.MouseDefaults()
+                              new OpenLayers.Control.LayerSwitcher(),
+                              new OpenLayers.Control.PanZoomBar(),
+                              new OpenLayers.Control.MouseDefaults()
                               ],
                               displayProjection:  new OpenLayers.Projection("EPSG:4326") });
 
-   var cycleattrib = '<b>OpenCycleMap.org - the <a href="http://www.openstreetmap.org">OpenStreetMap</a> Cycle Map</b><br />'
-                   + '<a href="http://www.gravitystorm.co.uk/shine/cycle-info/">Key and More Info</a> | <a href="http://www.gravitystorm.co.uk/shine/cycle-map-help">Help</a> | <a href="http://www.gravitystorm.co.uk/shine/gps-recommendations">GPS</a><br />'
-                   + 'Created by <a href="http://www.gravitystorm.co.uk">Andy Allan</a> and Dave Stubbs<br />'
-                   + 'Sponsored by <a href="http://www.cloudmade.com">CloudMade</a> <br />'
-                   ;
-   var cmattrib = 'Map images copyright <a href="http://www.cloudmade.com">CloudMade</a><br />';
-   var cmstandardattrib = '<b>CloudMade standard style</b><br />' + cmattrib;
-   var cmmobileattrib = '<b>CloudMade mobile style</b><br />' + cmattrib;
-   var cmnonamesattrib = '<b>CloudMade nonames style</b><br />A debug layer for OSM contributors<br />' + cmattrib;
+   var mapnik = new OpenLayers.Layer.TMS("OpenStreetMap",
+                                         ["http://a.tile.openstreetmap.org/",
+                                          "http://b.tile.openstreetmap.org/",
+                                          "http://c.tile.openstreetmap.org/"],
+                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                          transitionEffect: 'resize'});
+   map.addLayer(mapnik);
 
-   var cycle = new OpenLayers.Layer.TMS("OSM Cycle Map", 
+   var cycle = new OpenLayers.Layer.TMS("OpenCycleMap", 
                                         ["http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
                                          "http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
                                          "http://c.andy.sandbox.cloudmade.com/tiles/cycle/"],
                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
-                                          attribution: cycleattrib, transitionEffect: 'resize'});
+                                          transitionEffect: 'resize'});
    map.addLayer(cycle);
-
-   var mapnik = new OpenLayers.Layer.TMS("CloudMade Fresh",
-                                         ["http://a.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/997/256/",
-                                          "http://b.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/997/256/",
-					  "http://c.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/997/256/"],
-                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
-					   attribution: cmstandardattrib, transitionEffect: 'resize'});
-   map.addLayer(mapnik);
-
-   var mobile = new OpenLayers.Layer.TMS("Fine Line",
-                                            ["http://a.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/2/256/",
-                                             "http://b.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/2/256/",
-                                             "http://c.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/2/256/"],
-                                             { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
-					       attribution: cmmobileattrib, transitionEffect: 'resize'});
-   map.addLayer(mobile);
-
-   var nonames = new OpenLayers.Layer.TMS("NoNames style",
-                                            ["http://a.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/3/256/",
-                                             "http://b.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/3/256/",
-                                             "http://c.tile.cloudmade.com/8bafab36916b5ce6b4395ede3cb9ddea/3/256/"],
-                                             { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
-                                               attribution: cmnonamesattrib, transitionEffect: 'resize'});
-   map.addLayer(nonames);
 
    if (!map.getCenter()) map.setCenter(centre, zoom);
    map.events.register("moveend", map, updateLocation);
