@@ -12,7 +12,7 @@ class MarkerController < ApplicationController
     m.text = params[:text]
     m.emotion = params[:emotion]
     m.save!
-    redirect_to(:controller => :trace, :action=> :view, :id => 13)
+    redirect_to(:controller => :trace, :action=> :view, :id => params[:trace_id])
   end
   
   def all

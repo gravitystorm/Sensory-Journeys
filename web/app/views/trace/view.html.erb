@@ -153,10 +153,14 @@ Original filename: <%= @trace.file_name %><br />
   <span id="tMap" style="display:none">Now click on the map</span>
   <span id="tMarker" style="display:none">Move marker or press save</span>
   <% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
-    <%= text_field_tag 'lat' %>
-    <%= text_field_tag 'lon' %>
-    <%= text_field_tag 'text' %>
-    <%= text_field_tag 'emotion', 'happy' %>
+    <%= hidden_field_tag 'lat' %>
+    <%= hidden_field_tag 'lon' %>
+    <%= hidden_field_tag 'trace_id', @trace.id %>
+    <%= text_area_tag 'text' %>
+    <% ['happy','neutral','sad'].each do |emotion| %>
+      <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
+      <%= label_tag "mode_#{emotion}", emotion %><br />
+    <% end %>
     <%= submit_tag 'save' %>
   <% end %>
 </div>
