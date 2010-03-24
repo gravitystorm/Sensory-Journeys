@@ -14,7 +14,7 @@
     <p>Zoom to a school:</p>
     <ul>
       <% @schools.each do |school| %>
-        <li><a href="#"><%= school.name %></a></li>
+        <li><a href="#" onclick="map.setCenter(lonLatToMercator(new OpenLayers.LonLat(<%= school.lon %>,<%= school.lat %>)));map.zoomTo(17);"><%= school.name %></a></li>
       <% end %>
     </ul>
     <%= link_to 'Upload GPX', :controller => :trace, :action => :upload %>
