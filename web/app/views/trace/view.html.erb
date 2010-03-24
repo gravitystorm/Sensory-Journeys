@@ -25,7 +25,7 @@
     var vectors = new OpenLayers.Layer.Vector("Vector Layer", 
                     { styleMap: new OpenLayers.StyleMap({
                         // Set the external graphic and background graphic images.
-                        externalGraphic: "/openlayers/img/marker-gold.png",
+                        externalGraphic: "/openlayers/img/marker-blue.png",
                         backgroundGraphic: "/images/marker_shadow.png",
                         
                         // Makes sure the background graphic is placed correctly relative
@@ -56,13 +56,6 @@
                     });
     map.addLayer(markers);
 
-    var selector = new OpenLayers.Control.SelectFeature(markers, 
-                        { onSelect: createPopup,
-                          onUnselect : destroyPopup 
-                        });
-    map.addControl(selector);
-    selector.activate();
-    
     function createPopup(feature) {
       feature.popup = new OpenLayers.Popup.FramedCloud("pop",
           feature.geometry.getBounds().getCenterLonLat(),
@@ -70,7 +63,7 @@
           '<i>'+feature.attributes.description+'</i>',
           null,
           true,
-          function() { selector.unselectAll(); }
+          function() { controls['selector'].unselectAll(); }
       );
       map.addPopup(feature.popup);
     }
@@ -83,14 +76,15 @@
     controls = {
         point: new OpenLayers.Control.DrawFeature(vectors,
                     OpenLayers.Handler.Point, {'featureAdded': onCompleteAdd}),
-        drag: new OpenLayers.Control.DragFeature(vectors, {'onComplete': onCompleteMove})
-        //modify: new OpenLayers.Control.ModifyFeature(vectors)
+        drag: new OpenLayers.Control.DragFeature(vectors, {'onComplete': onCompleteMove}),
+        selector: new OpenLayers.Control.SelectFeature(markers, { onSelect: createPopup, onUnselect: destroyPopup })
     };
 
     for(var key in controls) {
         map.addControl(controls[key]);
     }
 
+    controls['selector'].activate();
   }
 
   function addMarker() {
@@ -100,8 +94,10 @@
   }  
   
   function onCompleteAdd(feature) {
-    controls['drag'].activate();
+    controls['selector'].deactivate();
     controls['point'].deactivate();
+    controls['drag'].activate();
+    
     if(feature) {
       geo = feature.geometry.clone();
       geo.transform(map.getProjectionObject(), map.displayProjection)
