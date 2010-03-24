@@ -22,7 +22,7 @@
     var SHADOW_Z_INDEX = 9;
     var MARKER_Z_INDEX = 10;
 
-    vectors = new OpenLayers.Layer.Vector("Vector Layer", 
+    var vectors = new OpenLayers.Layer.Vector("Vector Layer", 
                     { styleMap: new OpenLayers.StyleMap({
                         // Set the external graphic and background graphic images.
                         externalGraphic: "/openlayers/img/marker-gold.png",
@@ -46,9 +46,43 @@
               );
     map.addLayer(vectors);
 
+    var markers = new OpenLayers.Layer.Vector("markers",
+                    { protocol: new OpenLayers.Protocol.HTTP({
+                        url: '/marker/all',
+                        format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true})
+                      }),
+                      strategies: [new OpenLayers.Strategy.Fixed()],
+                      projection: new OpenLayers.Projection("EPSG:4326")
+                    });
+    map.addLayer(markers);
+
+    var selector = new OpenLayers.Control.SelectFeature(markers, 
+                        { onSelect: createPopup,
+                          onUnselect : destroyPopup 
+                        });
+    map.addControl(selector);
+    selector.activate();
+    
+    function createPopup(feature) {
+      feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+          feature.geometry.getBounds().getCenterLonLat(),
+          null,
+          '<i>'+feature.attributes.description+'</i>',
+          null,
+          true,
+          function() { selector.unselectAll(); }
+      );
+      map.addPopup(feature.popup);
+    }
+
+    function destroyPopup(feature) {
+      feature.popup.destroy();
+      feature.popup = null;
+    }
+
     controls = {
         point: new OpenLayers.Control.DrawFeature(vectors,
-                    OpenLayers.Handler.Point),
+                    OpenLayers.Handler.Point, {'featureAdded': onCompleteAdd}),
         drag: new OpenLayers.Control.DragFeature(vectors, {'onComplete': onCompleteMove})
         //modify: new OpenLayers.Control.ModifyFeature(vectors)
     };
@@ -61,7 +95,22 @@
 
   function addMarker() {
     controls['point'].activate();
+    $('tClick').style.display = 'none';
+    $('tMap').style.display = 'block';
   }  
+  
+  function onCompleteAdd(feature) {
+    controls['drag'].activate();
+    controls['point'].deactivate();
+    if(feature) {
+      geo = feature.geometry.clone();
+      geo.transform(map.getProjectionObject(), map.displayProjection)
+      $('lat').value = geo.y
+      $('lon').value = geo.x
+    }
+    $('tMap').style.display = 'none';
+    $('tMarker').style.display = 'block';
+  }
   
   function onCompleteMove(feature) {
     if(feature) {
@@ -69,20 +118,22 @@
       geo.transform(map.getProjectionObject(), map.displayProjection)
       $('lat').value = geo.y
       $('lon').value = geo.x
-      $('text').value = 'Moved'
-      $('marker_form').submit();
     }
   }
   // -->
 </script>
-<%= link_to "Upload Another", :action => :upload %>
 Original filename: <%= @trace.file_name %><br />
-<span onclick="addMarker();">Click to add marker</span><br />
-<span onclick="controls['drag'].activate();">Move markers</span> <br />
 <div id="map"></div>
-<% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
-  <%= text_field_tag 'lat' %>
-  <%= text_field_tag 'lon' %>
-  <%= text_field_tag 'text', 'Yabba dabba' %>
-  <%= text_field_tag 'emotion', 'happy' %>
-<% end %>
+<div id="sidebar">
+  <%= link_to "Upload Another", :action => :upload %><br/><br />
+  <span onclick="addMarker();" id="tClick">Click here to add marker</span>
+  <span id="tMap" style="display:none">Now click on the map</span>
+  <span id="tMarker" style="display:none">Move marker or press save</span>
+  <% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+    <%= text_field_tag 'lat' %>
+    <%= text_field_tag 'lon' %>
+    <%= text_field_tag 'text' %>
+    <%= text_field_tag 'emotion', 'happy' %>
+    <%= submit_tag 'save' %>
+  <% end %>
+</div>
