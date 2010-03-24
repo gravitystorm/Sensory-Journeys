@@ -9,7 +9,7 @@
     // OpenLayers.Bounds(min_lon, min_lat, max_lon, max_lat);
     var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
     setMapExtent(bbox);
-    map.addLayer(new OpenLayers.Layer.GML("KML", "/trace/kml/<%= @trace.id%>", 
+    map.addLayer(new OpenLayers.Layer.GML("GPX trace", "/trace/kml/<%= @trace.id%>",
         {
         format: OpenLayers.Format.KML, 
         projection: map.displayProjection,
@@ -17,7 +17,8 @@
           extractStyles: false, 
           extractAttributes: true,
           maxDepth: 2
-        }
+        },
+        styleMap: new OpenLayers.StyleMap({ strokeWidth: 9, strokeColor: '#0000ff', strokeOpacity: 0.7 })
         }));
     var SHADOW_Z_INDEX = 9;
     var MARKER_Z_INDEX = 10;
