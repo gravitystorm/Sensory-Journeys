@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Style id="happy">
+      <LabelStyle>
+        <color>00ffffff</color>
+      </LabelStyle>
+      <IconStyle>
+        <Icon>
+          <href>/openlayers/img/marker-green.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="neutral">
+      <LabelStyle>
+        <color>00ffffff</color>
+      </LabelStyle>
+      <IconStyle>
+        <scale>0.5</scale>
+        <Icon>
+          <href>/openlayers/img/marker-gold.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="sad">
+      <LabelStyle>
+        <color>00ffffff</color>
+      </LabelStyle>
+      <IconStyle>
+        <Icon>
+          <href>/openlayers/img/marker.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <% @markers.each do |marker| %>
+    <Placemark>
+      <name><%= marker.emotion %></name>
+      <description><%= marker.text %></description>
+      <styleUrl>#<%= marker.emotion %></styleUrl>
+      <Point>
+        <coordinates><%= marker.lon %>,<%= marker.lat %>,0</coordinates>
+      </Point>
+    </Placemark>
+    <% end %>
+  </Document>
+</kml>
