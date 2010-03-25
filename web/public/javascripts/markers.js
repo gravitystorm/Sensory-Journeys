@@ -29,11 +29,12 @@ markerStyle.addUniqueValueRules("default", "name", emotionIcons);
 var markers = new OpenLayers.Layer.Vector("markers",
                 { protocol: new OpenLayers.Protocol.HTTP({
                     url: '/marker/all.kml',
-                    format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true})
+                    format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true}),
                   }),
-                  strategies: [new OpenLayers.Strategy.Fixed()],
+                  strategies: [new OpenLayers.Strategy.BBOX()],
                   projection: new OpenLayers.Projection("EPSG:4326"),
-                  styleMap: markerStyle
+                  styleMap: markerStyle,
+                  minScale: 100000
                 });
 
 var newmarkers = new OpenLayers.Layer.Vector("New Markers", 

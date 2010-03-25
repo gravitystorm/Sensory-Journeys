@@ -57,7 +57,7 @@ body
   padding-left: 1em;
   float: right;
   display: inline;
-  width: 200px;
+  width: 240px;
 }
 
 #footer
@@ -72,4 +72,12 @@ body
   background-color: #f3ff80;
   border: 1px solid #d9e473;
   padding: 0.4em;
+}
+
+.sidebarbox
+{
+  background-color: #fbfcbb;
+  border: 1px solid #efefb2;
+  padding: 0.2em;
+  margin-bottom: 2em;
 }

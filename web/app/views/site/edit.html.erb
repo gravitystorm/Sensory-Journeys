@@ -12,6 +12,7 @@
   <!--
 
  function post_init() {
+
     map.addLayer(newmarkers);
     map.addLayer(markers);
 
@@ -19,6 +20,8 @@
         map.addControl(controls[key]);
     }
     controls['selector'].activate();
+    // refresh the map so that it fetches the layers.
+    map.setCenter(map.getCenter); 
  }
   // -->
 </script>
@@ -26,10 +29,11 @@
 <div>
   <div id="map"></div>
   <div id="sidebar">
+    <div class="sidebarbox">
     <span onclick="addMarker();" id="tClick">Click here to add marker</span>
     <span id="tMap" style="display:none">Now click on the map</span>
     <span id="tMarker" style="display:none">Move marker or press save</span>
-    <% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+    <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
       <%= hidden_field_tag 'lat' %>
       <%= hidden_field_tag 'lon' %>
       <%= text_area_tag 'text' %>
@@ -39,6 +43,14 @@
       <% end %>
       <%= submit_tag 'save' %>
     <% end %>
+    </div>
+    <div class="sidebarbox">
+      <%= link_to 'Upload GPX', :controller => :trace, :action =>:upload %><br />
+      <%= link_to 'Upload Map', :controller => :paper, :action =>:upload %>
+    </div>
+    <div class="sidebarbox">
+      <%= link_to 'Print the section of the map you have selected', :controller => :paper, :action => :print %>
+    </div>
     <%= link_to 'Logout', :controller => :site, :action => :logout %>
   </div>
 </div>
