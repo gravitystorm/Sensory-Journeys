@@ -8,10 +8,37 @@
   </ul>
 </div>
 
+<script type="text/javascript">
+  <!--
+
+ function post_init() {
+    map.addLayer(newmarkers);
+    map.addLayer(markers);
+
+    for(var key in controls) {
+        map.addControl(controls[key]);
+    }
+    controls['selector'].activate();
+ }
+  // -->
+</script>
+
 <div>
   <div id="map"></div>
   <div id="sidebar">
-    
+    <span onclick="addMarker();" id="tClick">Click here to add marker</span>
+    <span id="tMap" style="display:none">Now click on the map</span>
+    <span id="tMarker" style="display:none">Move marker or press save</span>
+    <% form_tag ({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+      <%= hidden_field_tag 'lat' %>
+      <%= hidden_field_tag 'lon' %>
+      <%= text_area_tag 'text' %>
+      <% ['happy','neutral','sad'].each do |emotion| %>
+        <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
+        <%= label_tag "mode_#{emotion}", emotion %><br />
+      <% end %>
+      <%= submit_tag 'save' %>
+    <% end %>
     <%= link_to 'Logout', :controller => :site, :action => :logout %>
   </div>
 </div>
