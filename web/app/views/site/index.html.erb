@@ -17,6 +17,6 @@
         <li><a href="#" onclick="map.setCenter(lonLatToMercator(new OpenLayers.LonLat(<%= school.lon %>,<%= school.lat %>)));map.zoomTo(17);"><%= school.name %></a></li>
       <% end %>
     </ul>
-    <%= link_to 'Upload GPX', :controller => :trace, :action => :upload %>
+    <%= link_to 'Login', :controller => :site, :action => :login %>
   </div>
 </div>

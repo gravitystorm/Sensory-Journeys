@@ -35,6 +35,9 @@
 <body onload="init();">
   <h1>Sensory Schools Network</h1>
   <p>This project visulises the experience of young people on their journey to school. By sharing and analysing this information we can create better, safer and healthier cities for everyone</p>
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
   <%= @content_for_layout %>
   <div id="footer">A collaboration between the artist Christian Nold &amp; Sustrans the sustainable transport charity</div>
 </body>
