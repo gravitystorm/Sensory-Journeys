@@ -17,7 +17,14 @@ class MarkerController < ApplicationController
   
   def all
     # This will have bbox parameters at some point in the future
-    @markers = Marker.find(:all)
+    if params[:bbox]
+      minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
+      # @markers = Marker.find(:lat > minlat, :lon > minlon, :lat < maxlat, :lon < maxlon)
+      @markers = Marker.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
+                             :limit => 50, :order => "created_at DESC")
+    else
+      @markers = Marker.find(:all)
+    end
     # TODO use correct Content-type
   end
 
