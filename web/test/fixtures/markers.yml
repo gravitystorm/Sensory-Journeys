@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  user: 
-  emotion: MyString
-  test: MyString
+  user_id: 
+  emotion: happy
+  text: FooBar2
 
 two:
-  user: 
-  emotion: MyString
-  test: MyString
+  user_id: 
+  emotion: sad
+  text: This is a longer text

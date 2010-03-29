@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  user: 
+  user_id: 
   file_name: MyString
   inserted: false
-  transport: MyString
+  mode_id:
 
 two:
-  user: 
+  user_id: 
   file_name: MyString
   inserted: false
-  transport: MyString
+  mode_id: MyString
