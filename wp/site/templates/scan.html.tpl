@@ -27,7 +27,6 @@
     {if $scan && $scan.last_step != 6 && $scan.last_step != $constants.STEP_FATAL_ERROR && $scan.last_step != $constants.STEP_FATAL_QRCODE_ERROR}
         <meta http-equiv="refresh" content="5" />
     {else}
-        <script type="text/javascript" src="http://www.openstreetmap.org/javascripts/swfobject.js"></script>
         <script type="text/javascript" src="{$base_dir}/modestmaps.js"></script>
         <script type="text/javascript" src="{$base_dir}/script.js"></script>
         <script type="text/javascript" src="{$base_dir}/scan.js"></script>
@@ -57,27 +56,10 @@
         </span>
     {/if}
 
-    {include file="navigation.htmlf.tpl"}
     
     {if $scan}
         {if $scan.last_step == $constants.STEP_FINISHED}
-            <h2>{strip}
-                {if $language == "de"}
-                    Eingescannte Karte
-                {elseif $language == "nl"}
-                    Gescande kaart
-               {elseif $language == "es"}
-                    Mapa escaneado
-                {elseif $language == "fr"}
-                    Carte scannée
-                {elseif $language == "ja"}
-                    取り込んだ地図
-                {elseif $language == "it"}
-                    Mappa scannerizzata
-                {else}
-                    Scanned Map
-                {/if}
-            {/strip}</h2>
+            <h2>Scan Complete!</h2>
             
             {if $scan.description}
                 <p style="font-style: italic;">
@@ -86,145 +68,11 @@
             {/if}
             
             <p>
-                {if $language == "de"}
-                    Umfasst diesen Bereich
-                {elseif $language == "nl"}
-                    Omvat het gebied rondom
-                {elseif $language == "es"}
-                    Cubre el área próxima
-                {elseif $language == "fr"}
-                    Couvre la zone près de
-                {elseif $language == "ja"}
-                    近所をカバー
-                {elseif $language == "it"}
-                    Copre l'area vicino a
-                {else}
-                    Covers the area near
-                {/if}
-
-                {if $print.place_woeid}
-                    <a id="print-location" href="http://www.openstreetmap.org/?lat={$print.latitude|escape}&amp;lon={$print.longitude|escape}&amp;zoom=15&amp;layers=B000FTF">
-                        {$print.latitude|nice_degree:"lat"|escape}, {$print.longitude|nice_degree:"lon"|escape}</a>
-                    <br />
-                    {$print.place_name|escape}
-        
-                {else}
-                    <a id="print-location" href="http://www.openstreetmap.org/?lat={$print.latitude|escape}&amp;lon={$print.longitude|escape}&amp;zoom=15&amp;layers=B000FTF">
-                        {$print.latitude|nice_degree:"lat"|escape}, {$print.longitude|nice_degree:"lon"|escape}</a>
-                {/if}
-                <br/>
-                {if $language == "de"}
-                    Hochgeladen {$scan.age|nice_relativetime|escape}.
-                {elseif $language == "nl"}
-                    {$scan.age|nice_relativetime|escape} geupload.
-                {elseif $language == "es"}
-                    Subido {$scan.age|nice_relativetime|escape}.
-                {elseif $language == "fr"}
-                    Envoyé le {$scan.age|nice_relativetime|escape}.
-                {elseif $language == "ja"}
-                    アップロード {$scan.age|nice_relativetime|escape}
-                {elseif $language == "it"}
-                    Inviato {$scan.age|nice_relativetime|escape}.
-                {else}
-                    Uploaded {$scan.age|nice_relativetime|escape}.
-                {/if}
+                <a href="{$scan.base_url}/large.png">
+                    <img border="1" src="{$scan.base_url}/preview.png" /></a>
             </p>
-            
-            {if !$print.place_woeid}
-                <script type="text/javascript" language="javascript1.2">
-                // <![CDATA[
-                
-                    var onPlaces = new Function('res', "appendPlacename(res, document.getElementById('print-location'))");
-                    var flickrKey = '{$constants.FLICKR_KEY|escape}';
-                    var lat = {$print.latitude|escape};
-                    var lon = {$print.longitude|escape};
-                    
-                    getPlacename(lat, lon, flickrKey, 'onPlaces');
-            
-                // ]]>
-                </script>
-            {/if}
-        
-            <p>
-                <a href="{$scan.base_url}/large.jpg">
-                    <img border="1" src="{$scan.base_url}/preview.jpg" /></a>
-            </p>
-        
-            <p>
-                {if $language == "de"}
-                    Eine
-                    <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">neue Version der Karte des Gebietes vom Ausdruck #{$scan.print_id|escape} herunterladen</a>.
-                {elseif $language == "nl"}
-                    Een
-                    <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">nieuwe kaart van dit gebied</a> downloaden.
-                {elseif $language == "fr"}
-                    Télécharger <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">une carte récente de cette zone à partir de l'impression</a>.
-                {elseif $language == "ja"}
-                    <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">印刷された地図 #{$scan.print_id|escape} からこのエリアの最新地図</a>をダウンロードする
-                {elseif $language == "es"}
-                    Descarga un
-                    <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">mapa actualizado de este área a partir de la impresión #{$scan.print_id|escape}</a>.
-                {elseif $language == "it"}
-                    Scarica <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">una mappa recente di quest'area partendo dalla stampa #{$scan.print_id|escape}</a>.
-                {else}
-                    Download a
-                    <a href="{$base_dir}/print.php?id={$scan.print_id|escape}">fresh map of this area from print #{$scan.print_id|escape}</a>.
-                {/if}
-            </p>
-    
-            <h2>{strip}
-                {if $language == "de"}
-                    Karte bearbeiten
-                {elseif $language == "nl"}
-                    Kaart bewerken
-                {elseif $language == "es"}
-                  Editar mapa
-                {elseif $language == "fr"}
-                    Modifier la carte
-                {elseif $language == "ja"}
-                    The Mapの編集
-                {elseif $language == "it"}
-                    Modifica la mappa
-                {else}
-                    Edit The Map
-                {/if}
-            {/strip}</h2>
-    
-            {include file="$language/scan-editor-info.htmlf.tpl"}
-            
-            <div id="editor">
-                <form onsubmit="return editInPotlatch(this.elements);">
-
-                    {include file="$language/scan-potlatch-info.htmlf.tpl"}
-
-                    <p>
-                        {if $language == "de"}
-                            {assign var="label" value="Bearbeiten"}
-                        {elseif $language == "nl"}
-                            {* nl: WRITE ME *}
-                            {assign var="label" value="Edit"}
-                        {elseif $language == "es"}
-                            {assign var="label" value="Editar"}
-                        {elseif $language == "fr"}
-                            {assign var="label" value="Modifier"}
-                        {elseif $language == "ja"}
-                            {assign var="label" value="編集"}
-                        {elseif $language == "it"}
-                            {assign var="label" value="Modifica"}
-                        {else}
-                            {assign var="label" value="Edit"}
-                        {/if}
-                        <input class="mac-button" name="action" type="submit" value="{$label}" />
-                        <input name="minrow" type="hidden" value="{$scan.min_row|escape}" />
-                        <input name="mincolumn" type="hidden" value="{$scan.min_column|escape}" />
-                        <input name="minzoom" type="hidden" value="{$scan.min_zoom|escape}" />
-                        <input name="maxrow" type="hidden" value="{$scan.max_row|escape}" />
-                        <input name="maxcolumn" type="hidden" value="{$scan.max_column|escape}" />
-                        <input name="maxzoom" type="hidden" value="{$scan.max_zoom|escape}" />
-                        <input name="base_url" type="hidden" value="{$scan.base_url|escape}" />
-                    </p>
-                </form>
-            </div>
+            <p><a href="http://localhost:3000/site/edit?scan={$scan.id}">Now view results on a map</a></p>
+ 
         {else}
             {if $step.number == $constants.STEP_FATAL_ERROR || $step.number == $constants.STEP_FATAL_QRCODE_ERROR}
                 <p>

@@ -12,6 +12,13 @@
   <!--
 
   function post_init() {
+    <% if @overlay_url %>
+      var overlay = new OpenLayers.Layer.TMS("OpenCycleMap", 
+                                        ["<%= @overlay_url %>"],
+                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                          transitionEffect: 'resize', isBaseLayer: false});
+      map.addLayer(overlay);
+    <% end %>
 
     map.addLayer(newmarkers);
     map.addLayer(markers);
@@ -25,6 +32,8 @@
     
     map.events.register("moveend", map, updatePrintLinks);
     updatePrintLinks();
+    
+
   }
  
   function updatePrintLinks() {

@@ -5,7 +5,7 @@ var epsg4326 = new OpenLayers.Projection("EPSG:4326");
 
 function createMap(divName, centre, zoom) {
    OpenLayers.Util.onImageLoadError = function() {
-      this.src = "/images/osm_logo.png";
+      this.src = "/openlayers/img/blank.gif";
    }
 
    map = new OpenLayers.Map(divName,

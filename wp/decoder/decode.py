@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import re
@@ -121,20 +122,20 @@ def main(url, markers, apibase, message_id, password):
         renders = {}
         
         # make a smallish preview image
-        preview_name = 'preview.jpg'
+        preview_name = 'preview.png'
         preview_bytes = StringIO.StringIO()
         preview_image = image.copy()
         preview_image.thumbnail((409, 280), PIL.Image.ANTIALIAS)
-        preview_image.save(preview_bytes, 'JPEG')
+        preview_image.save(preview_bytes, 'PNG')
         preview_bytes = preview_bytes.getvalue()
         appendScanFile(scan_id, preview_name, preview_bytes, apibase, password)
         
         # make a largish image
-        large_name = 'large.jpg'
+        large_name = 'large.png'
         large_bytes = StringIO.StringIO()
         large_image = image.copy()
         large_image.thumbnail((900, 900), PIL.Image.ANTIALIAS)
-        large_image.save(large_bytes, 'JPEG')
+        large_image.save(large_bytes, 'PNG')
         large_bytes = large_bytes.getvalue()
         appendScanFile(scan_id, large_name, large_bytes, apibase, password)
         
@@ -148,10 +149,10 @@ def main(url, markers, apibase, message_id, password):
             
             for (coord, tile_image) in zoom_renders:
                 x, y, z = coord.column, coord.row, coord.zoom
-                tile_name = '%(z)d/%(x)d/%(y)d.jpg' % locals()
+                tile_name = '%(z)d/%(x)d/%(y)d.png' % locals()
                 
                 tile_bytes = StringIO.StringIO()
-                tile_image.save(tile_bytes, 'JPEG')
+                tile_image.save(tile_bytes, 'PNG')
                 tile_bytes = tile_bytes.getvalue()
 
                 appendScanFile(scan_id, tile_name, tile_bytes, apibase, password)

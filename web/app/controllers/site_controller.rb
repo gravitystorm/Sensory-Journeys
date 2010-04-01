@@ -4,6 +4,10 @@ class SiteController < ApplicationController
   end
   
   def edit
+    if params[:scan]
+      # could validate the path here
+      @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
+    end
   end
 
   def login
