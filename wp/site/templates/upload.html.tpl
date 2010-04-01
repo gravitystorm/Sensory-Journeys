@@ -4,23 +4,7 @@
 <html lang="{$language|default:"en"}">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>{strip}
-        {if $language == "de"}
-            Scan hochladen
-        {elseif $language == "nl"}
-            Scan uploaden
-        {elseif $language == "es"}
-            Subir scan
-        {elseif $language == "fr"}
-            Envoyer un scan
-        {elseif $language == "ja"}
-            スキャナーデータのアップロード
-        {elseif $language == "it"}
-            Invia una mappa scannerizzata
-        {else}
-            Upload Scan
-        {/if}
-    {/strip} (Walking Papers)</title>
+    <title>Upload Scan</title>
     <link rel="stylesheet" href="{$base_dir}/style.css" type="text/css" />
     <meta http-equiv="refresh" content="30" />
 </head>
@@ -28,7 +12,7 @@
 
     {include file="navigation.htmlf.tpl"}
     
-    {include file="$language/upload-instructions.htmlf.tpl"}
+    {include file="en/upload-instructions.htmlf.tpl"}
     
     {if $language == "de"}
         {assign var="label" value="Hochladen"}
@@ -74,7 +58,7 @@
         </form>
     {/if}
     
-    {include file="footer.htmlf.tpl"}
+    
     
 </body>
 </html>
