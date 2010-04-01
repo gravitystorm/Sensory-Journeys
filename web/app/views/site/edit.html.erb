@@ -11,7 +11,7 @@
 <script type="text/javascript">
   <!--
 
- function post_init() {
+  function post_init() {
 
     map.addLayer(newmarkers);
     map.addLayer(markers);
@@ -22,7 +22,19 @@
     controls['selector'].activate();
     // refresh the map so that it fetches the layers.
     map.setCenter(map.getCenter); 
- }
+    
+    map.events.register("moveend", map, updatePrintLinks);
+    updatePrintLinks();
+  }
+ 
+  function updatePrintLinks() {
+    center = map.getCenter().clone();
+    center.transform(map.getProjectionObject(), map.displayProjection);
+    $('north').value = center.lat;
+    $('south').value = center.lat;
+    $('east').value = center.lon;
+    $('west').value = center.lon;
+  }
   // -->
 </script>
 
@@ -30,26 +42,36 @@
   <div id="map"></div>
   <div id="sidebar">
     <div class="sidebarbox">
-    <span onclick="addMarker();" id="tClick">Click here to add marker</span>
-    <span id="tMap" style="display:none">Now click on the map</span>
-    <span id="tMarker" style="display:none">Move marker or press save</span>
-    <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
-      <%= hidden_field_tag 'lat' %>
-      <%= hidden_field_tag 'lon' %>
-      <%= text_area_tag 'text' %>
-      <% ['happy','neutral','sad'].each do |emotion| %>
-        <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
-        <%= label_tag "mode_#{emotion}", emotion %><br />
+      <span onclick="addMarker();" id="tClick">Click here to add marker</span>
+      <span id="tMap" style="display:none">Now click on the map</span>
+      <span id="tMarker" style="display:none">Move marker or press save</span>
+      <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+        <%= hidden_field_tag 'lat' %>
+        <%= hidden_field_tag 'lon' %>
+        <%= text_area_tag 'text' %>
+        <% ['happy','neutral','sad'].each do |emotion| %>
+          <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
+          <%= label_tag "mode_#{emotion}", emotion %><br />
+        <% end %>
+        <%= submit_tag 'save' %>
       <% end %>
-      <%= submit_tag 'save' %>
-    <% end %>
     </div>
     <div class="sidebarbox">
       <%= link_to 'Upload GPX', :controller => :trace, :action =>:upload %><br />
       <%= link_to 'Upload Map', :controller => :paper, :action =>:upload %>
     </div>
     <div class="sidebarbox">
-      <%= link_to 'Print the section of the map you have selected', :controller => :paper, :action => :print %>
+      Print the section of the map you are looking at.
+      <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form'}) do %>
+        <%= hidden_field_tag 'north', '51' %>
+        <%= hidden_field_tag 'south', '51' %>
+        <%= hidden_field_tag 'east', '-1' %>
+        <%= hidden_field_tag 'west', '-1' %>
+        <%= hidden_field_tag 'zoom', '16' %>
+        <%= hidden_field_tag 'provider', 'http://tile.openstreetmap.org/{Z}/{X}/{Y}.png' %>
+        <%= hidden_field_tag 'paper', 'landscape-a4' %>
+        <%= submit_tag 'Print' %>
+      <% end %>
     </div>
     <%= link_to 'Logout', :controller => :site, :action => :logout %>
   </div>
