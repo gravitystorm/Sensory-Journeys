@@ -68,8 +68,9 @@
         
         $dbh->query('COMMIT');
         
-        $print_url = 'http://'.get_domain_name().get_base_dir().'/print.php?id='.urlencode($print['id']);
-        header("Location: {$print_url}");
+//         $print_url = 'http://'.get_domain_name().get_base_dir().'/print.php?id='.urlencode($print['id']);
+//         header("Location: {$print_url}");
+        header("Location: {$print['pdf_url']}");
     }
     
     /**** ... ****/
