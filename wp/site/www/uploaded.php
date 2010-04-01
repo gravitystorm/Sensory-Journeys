@@ -62,8 +62,8 @@
         
         $dbh->query('COMMIT');
         
-        //header('Location: http://'.get_domain_name().get_base_dir().'/scan.php?id='.urlencode($scan['id']));
-        //exit();
+        header('Location: http://'.get_domain_name().get_base_dir().'/scan.php?id='.urlencode($scan['id']));
+        exit();
     }
 
     if($attempted_upload)
