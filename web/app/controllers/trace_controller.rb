@@ -22,7 +22,7 @@ class TraceController < ApplicationController
   end
   
   def uploadFile
-    #TODO - a bucketon of error handling
+    # TODO - a bucketon of error handling
     # dodgy and/or empty values for mode, school
     # broken gpx file
     t = Trace.new()
@@ -30,15 +30,13 @@ class TraceController < ApplicationController
     t.mode_id = params[:mode]
     t.school_id = params[:school]
     t.save!
+
+    gpx = GPX::File.new(StringIO.new(params[:upload]['gpx'].read))
     
-    parser = XML::Parser.new()
-    parser.string = params[:upload]['gpx'].read
-    doc = parser.parse
-    
-    doc.find('//g:trkpt', 'g:http://www.topografix.com/GPX/1/1').each do |trkpt|
+    gpx.points do |trkpt|
       pt = TracePoint.new()
-      pt.lat = trkpt["lat"].to_f
-      pt.lon = trkpt["lon"].to_f
+      pt.lat = trkpt.latitude.to_f
+      pt.lon = trkpt.longitude.to_f
       t.min_lat = pt.lat if t.min_lat == nil || t.min_lat > pt.lat
       t.max_lat = pt.lat if t.max_lat == nil || t.max_lat < pt.lat
       t.min_lon = pt.lon if t.min_lon == nil || t.min_lon > pt.lon
@@ -47,6 +45,7 @@ class TraceController < ApplicationController
       pt.trace_id = t.id
       pt.save!
     end
+    
     t.inserted = true
     t.save!
     
