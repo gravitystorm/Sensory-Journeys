@@ -4,3 +4,46 @@
    14  createdb -E UTF8 -O sensory sensory_prod
    15  history
 
+sudo apt-get install ruby1.8 rdoc1.8 ri1.8 ruby irb libxml2-dev ruby1.8-dev apache2-threaded-dev libmagick9-dev build-essential libopenssl-ruby apache2
+wget http://rubyforge.org/frs/download.php/69365/rubygems-1.3.6.tgz
+tar -xzvf rubygems-1.3.3.tgz 
+cd rubygems-1.3.3/
+sudo ruby setup.rb 
+sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+
+sudo gem install rails
+sudo gem install pg
+
+cd config
+cp postgres.example.database.yml database.yml
+nano database.yml
+
+rake db:migrate
+
+sudo gem install passenger
+sudo passenger-install-apache2-module  
+
+LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11/ext/apache2/mod_passenger.so
+   PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11
+   PassengerRuby /usr/bin/ruby1.8
+
+(apache sites-available stuff)
+
+======== walking papers ===========
+
+% apt-get install curl python-imaging python-numpy openjdk-6-jre-headless
+% apt-get install libapache2-mod-php5 php5-gd php5-mysql mysql-server-5.1 php-pear
+
+% pear install Crypt_HMAC HTTP_Request DB
+% pear install Crypt_HMAC2 MDB2 MDB2#mysql
+
+% mysql -u root
+    > create database paperwalking character set='utf8';
+    > grant select, insert, update, delete, lock tables on paperwalking.* to paperwalking@localhost identified by 'w4lks';
+    > flush privileges;
+    > quit;
+
+% mysql -u root paperwalking < site/doc/create.mysql
+
+
+*** change the php.ini to allow bigger file uploads
