@@ -39,10 +39,25 @@
   function updatePrintLinks() {
     center = map.getCenter().clone();
     center.transform(map.getProjectionObject(), map.displayProjection);
-    $('north').value = center.lat;
-    $('south').value = center.lat;
-    $('east').value = center.lon;
-    $('west').value = center.lon;
+//     $('north').value = center.lat;
+//     $('south').value = center.lat;
+//     $('east').value = center.lon;
+//     $('west').value = center.lon;
+    centerpx = map.getViewPortPxFromLonLat(map.getCenter());
+    // These magic numbers are what Walking Paper uses to size the preview
+    // when making the map, hardcoded for landscape a4. Who knows how it 
+    // actually works.
+    tl = new OpenLayers.Pixel(centerpx.x-240, centerpx.y-151);
+    br = new OpenLayers.Pixel(centerpx.x+240, centerpx.y+151);
+    nw = map.getLonLatFromPixel(tl);
+    se = map.getLonLatFromPixel(br);
+    nw.transform(map.getProjectionObject(), map.displayProjection);
+    se.transform(map.getProjectionObject(), map.displayProjection);
+    $('north').value = nw.lat;
+    $('west').value = nw.lon;
+    $('south').value = se.lat;
+    $('east').value = se.lon;
+    $('zoom').value = map.getZoom();
   }
   // -->
 </script>
