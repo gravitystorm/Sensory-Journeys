@@ -34,11 +34,11 @@
     </Style>
     <% @markers.each do |marker| %>
     <Placemark>
-      <name><%= marker.emotion %></name>
-      <description><%= marker.text %></description>
-      <styleUrl>#<%= marker.emotion %></styleUrl>
+      <name><%=h marker.emotion %></name>
+      <description><%=h marker.text %></description>
+      <styleUrl>#<%=h marker.emotion %></styleUrl>
       <Point>
-        <coordinates><%= marker.lon %>,<%= marker.lat %>,0</coordinates>
+        <coordinates><%=h marker.lon %>,<%=h marker.lat %>,0</coordinates>
       </Point>
     </Placemark>
     <% end %>
