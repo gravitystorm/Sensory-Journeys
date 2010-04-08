@@ -76,6 +76,7 @@ function createPopup(feature) {
       true,
       function() { controls['selector'].unselectAll(); }
   );
+  //feature.popup.closeOnMove = true;
   map.addPopup(feature.popup);
 }
 
@@ -94,6 +95,9 @@ function onCompleteAdd(feature) {
   controls['selector'].deactivate();
   controls['point'].deactivate();
   controls['drag'].activate();
+  
+  //feature.attributes.description = "w00t";
+  //createPopup(feature);
   
   if(feature) {
     geo = feature.geometry.clone();
