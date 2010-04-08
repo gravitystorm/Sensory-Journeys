@@ -43,7 +43,7 @@
     }
     controls['selector'].activate();
     // refresh the map so that it fetches the layers.
-    map.setCenter(map.getCenter); 
+    map.setCenter(map.getCenter());
     
     map.events.register("moveend", map, updatePrintLinks);
     updatePrintLinks();
