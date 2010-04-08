@@ -71,7 +71,7 @@ function createPopup(feature) {
   feature.popup = new OpenLayers.Popup.FramedCloud("pop",
       feature.geometry.getBounds().getCenterLonLat(),
       null,
-      '<i>'+feature.attributes.description+'</i>',
+      '<div class="markerContent">'+feature.attributes.description+'</div>',
       null,
       true,
       function() { controls['selector'].unselectAll(); }

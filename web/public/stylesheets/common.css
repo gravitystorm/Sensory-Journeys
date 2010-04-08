@@ -81,3 +81,8 @@ body
   padding: 0.2em;
   margin-bottom: 2em;
 }
+
+.markerContent
+{
+  max-width: 250px;
+}
