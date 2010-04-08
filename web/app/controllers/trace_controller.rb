@@ -50,8 +50,8 @@ class TraceController < ApplicationController
     t.save!
     
     #flash[:notice] = "You went to #{params[:school]} and used #{params[:mode]} "
-    flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
+    #flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
     #redirect_to(:action => :view, :id => t.id)
-    redirect_to(:action => :view, :id => t.id)
+    redirect_to(:controller => :site, :action => :edit, :trace => t.id)
   end
 end

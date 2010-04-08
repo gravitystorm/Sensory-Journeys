@@ -8,6 +8,10 @@ class SiteController < ApplicationController
       # could validate the path here
       @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
     end
+    if params[:trace]
+      @trace = Trace.find(params[:trace])
+      @showtrace = true if @trace
+    end
   end
 
   def login

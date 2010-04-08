@@ -19,7 +19,22 @@
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
     <% end %>
-
+    <% if @showtrace %>
+      var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
+      setMapExtent(bbox);
+      var trace = new OpenLayers.Layer.GML("GPX trace", "/trace/kml/<%= @trace.id %>",
+        {
+        format: OpenLayers.Format.KML,
+        projection: map.displayProjection,
+        formatOptions: {
+          extractStyles: false, 
+          extractAttributes: true,
+          maxDepth: 2
+        },
+        styleMap: new OpenLayers.StyleMap({ strokeWidth: 9, strokeColor: '#0000ff', strokeOpacity: 0.7 })
+        });
+      map.addLayer(trace);
+    <% end %>
     map.addLayer(newmarkers);
     map.addLayer(markers);
 
