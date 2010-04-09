@@ -118,6 +118,21 @@ def main(url, markers, apibase, message_id, password):
         bottomright = gym.locationCoordinate(ModestMaps.Geo.Location(south, east))
         
         print topleft, bottomright
+        
+        # image fettling
+        
+        m = image.load()
+        s = image.size
+        
+        # iterate through x and y (every pixel) 
+        for x in xrange(s[0]):
+          for y in xrange(s[1]):
+            r,g,b,a = m[x,y]
+            # if the red is too dark, or if the others are as bright as red, remove 
+            if(r < 100 or r < (g+100) or r < (b+100)):
+              m[x,y] = 0,0,0,1
+            else:
+              m[x,y] = r,0,0,255
 
         renders = {}
         
@@ -395,7 +410,7 @@ def extractTile(image, coord, coordinatePixel, renders):
     
     # pull the original pixels out
     tile_pixels = image.transform((512, 512), PIL.Image.AFFINE, (axt, bxt, cxt, ayt, byt, cyt), PIL.Image.BICUBIC)
-    tile_img = PIL.Image.new('L', tile_pixels.size, 0xCC).convert('RGB')
+    tile_img = PIL.Image.new('RGBA', tile_pixels.size, (0,0,0,0))
     tile_img.paste(tile_pixels, (0, 0), tile_pixels)
 
     # interpolate in some of the previous renders; these may look better
