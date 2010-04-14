@@ -1,7 +1,7 @@
 var emotionIcons = {
-  "happy": {externalGraphic: "/openlayers/img/marker-green.png"},
-  "neutral": {externalGraphic: "/openlayers/img/marker-gold.png"},
-  "sad": {externalGraphic: "/openlayers/img/marker.png"}
+  "happy": {externalGraphic: "/images/positive.png"},
+  "neutral": {externalGraphic: "/images/neutral.png"},
+  "sad": {externalGraphic: "/images/negative.png"}
 };
 
 var SHADOW_Z_INDEX = 9;
