@@ -36,8 +36,8 @@
 </head>
 
 <body onload="init();">
-  <h1>Sensory Schools Network</h1>
-  <p>This project visulises the experience of young people on their journey to school. By sharing and analysing this information we can create better, safer and healthier cities for everyone</p>
+  <div class="banner"><%= image_tag "sensory_journeys.png", :alt => 'Sensory Journeys' %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
+
     <% if flash[:notice] %>
       <div class="notice"><%= flash[:notice] %></div>
     <% end %>

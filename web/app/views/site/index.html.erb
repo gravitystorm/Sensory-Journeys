@@ -1,12 +1,22 @@
-<div>
-  <ul id="tabnav">
-    <li><a href="#" class="active">All</a></li>
-    <li><a href="#">Car</a></li>
-    <li><a href="#">Walking</a></li>
-    <li><a href="#">Cycling</a></li>
-    <li><a href="#">Public Transport</a></li>
-  </ul>
-</div>
+<table>
+  <tr>
+    <td class="navtab">
+      <ul id="tabnav">
+        <li><a href="#" class="active">All</a></li>
+        <li><a href="#">Car</a></li>
+        <li><a href="#">Walking</a></li>
+        <li><a href="#">Cycling</a></li>
+        <li><a href="#">Public Transport</a></li>
+      </ul>
+    </td>
+    <td>
+      <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', :controller => :site, :action => :about %></div>
+    </td>
+    <td>
+      <div class="iconlink"><%= link_to image_tag("login.png", :alt => 'Login')+'Log in', :controller => :site, :action => :login %></div>
+    </td>
+  </tr>
+</table>
 
 <div>
   <div id="map"></div>
@@ -17,6 +27,5 @@
         <li><a href="#" onclick="map.setCenter(lonLatToMercator(new OpenLayers.LonLat(<%= school.lon %>,<%= school.lat %>)));map.zoomTo(17);"><%= school.name %></a></li>
       <% end %>
     </ul>
-    <%= link_to 'Login', :controller => :site, :action => :login %>
   </div>
 </div>

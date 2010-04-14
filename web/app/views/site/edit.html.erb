@@ -80,26 +80,36 @@
 <div>
   <div id="map"></div>
   <div id="sidebar">
-    <div class="sidebarbox">
+    <div id="sidebar-menu" class="sidebarbox">
+      <%= image_tag 'marker.png' %>Add Experience Marker<br />
+      <%= image_tag 'gps.png' %>Upload GPS Track<br />
+      <%= image_tag 'sketchupload.png' %>Upload Sketch Map Scan<br />
+      <%= image_tag 'print.png' %>Print Map For Sketching<br />
+    </div>
+    <div id="sidebar-marker" class="sidebarbox">
       <span onclick="addMarker();" id="tClick">Click here to add marker</span>
       <span id="tMap" style="display:none">Now click on the map</span>
       <span id="tMarker" style="display:none">Move marker or press save</span>
       <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
         <%= hidden_field_tag 'lat' %>
         <%= hidden_field_tag 'lon' %>
-        <%= text_area_tag 'text' %>
+        <p>1. How was the experience?</p>
         <% ['happy','neutral','sad'].each do |emotion| %>
           <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
           <%= label_tag "mode_#{emotion}", emotion %><br />
         <% end %>
+        <p>2. Enter a text description</p>
+        <%= text_area_tag 'text' %>
         <%= submit_tag 'save' %>
       <% end %>
     </div>
-    <div class="sidebarbox">
+    <div id="sidebar-gps" class="sidebarbox">
       <%= link_to 'Upload GPX', :controller => :trace, :action =>:upload %><br />
+    </div>
+    <div id="sidebar-scan" class="sidebarbox">
       <%= link_to 'Upload Map', WP_URL + 'upload.php' %>
     </div>
-    <div class="sidebarbox">
+    <div id="sidebar-print" class="sidebarbox">
       Print the section of the map you are looking at.
       <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form'}) do %>
         <%= hidden_field_tag 'north', '51' %>

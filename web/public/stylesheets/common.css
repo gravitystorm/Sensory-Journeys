@@ -3,6 +3,25 @@ body
   width: 1000px;
 }
 
+td.navtab
+{
+  width: 740px;
+  vertical-align: bottom;
+}
+
+div.iconlink
+{
+  padding: 0.5em;
+  font-size: 0.8em;
+  vertical-align: center;
+}
+
+div.iconlink img
+{
+  vertical-align: center;
+  border: none;
+}
+
 #tabnav
 {
   height: 20px;
@@ -85,4 +104,25 @@ body
 .markerContent
 {
   max-width: 250px;
+}
+
+.banner
+{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  text-align: right;
+  background-color: #f3f3f3;
+  padding: 0em 1em;
+  margin: 1em 0em;
+}
+
+.banner img
+{
+  float: left;
+}
+
+.banner h2 
+{
+  font-size: 1em;
+  font-weight: normal;
 }
