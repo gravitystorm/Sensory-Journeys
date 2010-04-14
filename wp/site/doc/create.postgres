@@ -1,0 +1,134 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+
+    id          VARCHAR(8) NOT NULL,
+    name        VARCHAR(32),
+    
+    created     TIMESTAMP,
+    
+    PRIMARY KEY (id)
+
+);
+
+
+DROP TYPE IF EXISTS orientations CASCADE;
+CREATE TYPE orientations AS ENUM ('portrait', 'landscape');
+
+DROP TABLE IF EXISTS prints;
+CREATE TABLE prints (
+
+    id          VARCHAR(8) PRIMARY KEY,
+    
+    north       DOUBLE PRECISION,
+    south       DOUBLE PRECISION,
+    east        DOUBLE PRECISION,
+    west        DOUBLE PRECISION,
+    
+    zoom        INT,
+    
+    /* paper_size */
+    orientation orientations DEFAULT 'portrait',
+    provider    VARCHAR(255),
+    
+    pdf_url     VARCHAR(255),
+    preview_url VARCHAR(255),
+    
+    country_name    VARCHAR(64),
+    country_woeid   INT,
+    
+    region_name     VARCHAR(64),
+    region_woeid    INT,
+    
+    place_name      VARCHAR(128),
+    place_woeid     INT,
+    
+    user_id     VARCHAR(8) NOT NULL,
+    created     TIMESTAMP DEFAULT NOW()
+);
+CREATE INDEX "prints_user_id_idx" on prints (user_id);
+
+DROP TYPE IF EXISTS papersizes CASCADE;
+CREATE TYPE papersizes AS ENUM ('letter', 'a4', 'a3');
+ALTER TABLE prints ADD COLUMN paper_size papersizes DEFAULT 'letter';
+
+DROP TYPE IF EXISTS yesno CASCADE;
+CREATE TYPE yesno AS ENUM ('yes', 'no');
+
+DROP TABLE IF EXISTS scans;
+CREATE TABLE scans (
+
+    id          VARCHAR(8) PRIMARY KEY,
+
+    print_id    VARCHAR(8),
+    last_step   INT NULL,
+    
+    min_row     FLOAT,
+    min_column  FLOAT,
+    min_zoom    INT,
+    max_row     FLOAT,
+    max_column  FLOAT,
+    max_zoom    INT,
+    
+    description TEXT,
+    is_private  yesno DEFAULT 'no',
+    will_edit   yesno    DEFAULT 'yes',
+
+    user_id     VARCHAR(8) NOT NULL,
+    created     TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX "scans_print_id_idx" on scans (print_id);
+CREATE INDEX "scans_user_id_idx" on scans (user_id);
+CREATE INDEX "scans_last_step_idx" on scans (last_step);
+
+ALTER TABLE scans ADD COLUMN base_url VARCHAR(255);
+
+
+
+DROP TABLE IF EXISTS steps;
+
+CREATE TABLE steps (
+
+    scan_id     VARCHAR(8) NOT NULL,
+    "number"      INT NOT NULL,
+
+    user_id     VARCHAR(8),
+    created     TIMESTAMP DEFAULT NOW()
+
+
+);
+CREATE INDEX "steps_scan_step_idx" on steps (scan_id, "number");
+CREATE INDEX "steps_user_id_idx" on steps (user_id);
+
+
+DROP TABLE IF EXISTS messages;
+
+CREATE TABLE messages (
+
+    id          SERIAL PRIMARY KEY,
+    
+    content     TEXT,
+    deleted     SMALLINT DEFAULT 0,
+
+    created     TIMESTAMP DEFAULT NOW(),
+    available   TIMESTAMP
+
+);
+CREATE INDEX "messages_available_idx" on messages (available);
+CREATE INDEX "messages_deleted_idx" on messages (deleted);
+
+-- no params
+CREATE OR REPLACE FUNCTION unix_timestamp() RETURNS bigint AS '
+    SELECT EXTRACT(EPOCH FROM CURRENT_TIMESTAMP(0))::bigint AS result;
+' LANGUAGE 'SQL';
+ 
+-- timestamp without time zone (i.e. 1973-11-29 21:33:09)
+CREATE OR REPLACE FUNCTION unix_timestamp(timestamp) RETURNS bigint AS '
+    SELECT EXTRACT(EPOCH FROM $1)::bigint AS result;
+' LANGUAGE 'SQL';
+ 
+-- timestamp with time zone (i.e. 1973-11-29 21:33:09+01)
+CREATE OR REPLACE FUNCTION unix_timestamp(timestamp WITH time zone) RETURNS bigint AS '
+    SELECT EXTRACT(EPOCH FROM $1)::bigint AS result;
+' LANGUAGE 'SQL';

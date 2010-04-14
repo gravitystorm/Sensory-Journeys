@@ -1,7 +1,8 @@
 <?php
 
     putenv("TZ=America/Los_Angeles");
-    define('DB_DSN', 'mysql://paperwalking:w4lks@localhost/paperwalking');
+#    define('DB_DSN', 'mysql://paperwalking:w4lks@localhost/paperwalking');
+    define('DB_DSN', 'pgsql://sensory:sensory@localhost/paperwalking');
     define('TMP_DIR', dirname(realpath(__FILE__)).'/../tmp');
     
     define('API_PASSWORD', 'hoopla');

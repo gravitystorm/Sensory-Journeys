@@ -220,8 +220,8 @@
     
     function table_columns(&$dbh, $table)
     {
-        $q = 'DESCRIBE '.$dbh->escapeSimple($table);
-
+#        $q = 'DESCRIBE '.$dbh->escapeSimple($table);
+        $q = 'select column_name AS Field, data_type AS Type from INFORMATION_SCHEMA.COLUMNS where table_name = \''.$dbh->escapeSimple($table).'\'';
         $res = $dbh->query($q);
         
         if(PEAR::isError($res)) 
@@ -230,7 +230,7 @@
         $columns = array();
         
         while($col = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            $columns[$col['Field']] = $col['Type'];
+            $columns[$col['field']] = $col['type'];
 
         return $columns;
     }
@@ -241,8 +241,8 @@
         {
             $print_id = generate_id();
             
-            $q = sprintf('INSERT INTO prints
-                          SET id = %s, user_id = %s',
+            $q = sprintf('INSERT INTO prints (id, user_id)
+                          VALUES (%s, %s)',
                          $dbh->quoteSmart($print_id),
                          $dbh->quoteSmart($user_id));
 
@@ -268,8 +268,8 @@
         {
             $scan_id = generate_id();
             
-            $q = sprintf('INSERT INTO scans
-                          SET id = %s, user_id = %s',
+            $q = sprintf('INSERT INTO scans (id, user_id)
+                          VALUES (%s, %s)',
                          $dbh->quoteSmart($scan_id),
                          $dbh->quoteSmart($user_id));
 
@@ -297,8 +297,8 @@
         {
             $user_id = generate_id();
             
-            $q = sprintf('INSERT INTO users
-                          SET id = %s',
+            $q = sprintf('INSERT INTO users (id)
+                          VALUES (%s)',
                          $dbh->quoteSmart($user_id));
 
             error_log(preg_replace('/\s+/', ' ', $q));
@@ -319,8 +319,8 @@
     
     function add_step(&$dbh, $scan_id, $number)
     {
-        $q = sprintf('INSERT INTO steps
-                      SET scan_id = %s, number = %d',
+        $q = sprintf('INSERT INTO steps (scan_id, number) 
+                      VALUES (%s, %d)',
                      $dbh->quoteSmart($scan_id),
                      $number);
 
@@ -354,8 +354,8 @@
     
     function add_message(&$dbh, $content)
     {
-        $q = sprintf('INSERT INTO messages
-                      SET content = %s, available = NOW()',
+        $q = sprintf('INSERT INTO messages (content, available)
+                      VALUES (%s, NOW())',
                      $dbh->quoteSmart($content));
 
         error_log(preg_replace('/\s+/', ' ', $q));
@@ -689,10 +689,11 @@
     
     function get_message(&$dbh, $timeout)
     {
-        $res = $dbh->query('LOCK TABLES messages WRITE');
-        
-        if(PEAR::isError($res)) 
-            die_with_code(500, "{$res->message}\n{$q}\n");
+// TODO FIXME do something postgres-like with this locking stuff
+//         $res = $dbh->query('LOCK TABLES messages WRITE');
+//         
+//         if(PEAR::isError($res)) 
+//             die_with_code(500, "{$res->message}\n{$q}\n");
 
         $q = sprintf('SELECT id, content
                       FROM messages
@@ -713,10 +714,10 @@
             $msg = false;
         }
 
-        $res = $dbh->query('UNLOCK TABLES');
-        
-        if(PEAR::isError($res)) 
-            die_with_code(500, "{$res->message}\n{$q}\n");
+//         $res = $dbh->query('UNLOCK TABLES');
+//         
+//         if(PEAR::isError($res)) 
+//             die_with_code(500, "{$res->message}\n{$q}\n");
         
         return $msg;
     }
@@ -833,7 +834,7 @@
             $q = sprintf('SELECT id
                           FROM scans
                           WHERE last_step = 0
-                            AND created < NOW() - INTERVAL %d SECOND
+                            AND created < NOW() - INTERVAL \'%d SECOND\'
                           LIMIT 1',
                          $age);
     
@@ -858,7 +859,7 @@
     function postpone_message(&$dbh, $message_id, $timeout)
     {
         $q = sprintf('UPDATE messages
-                      SET available = NOW() + INTERVAL %d SECOND
+                      SET available = NOW() + INTERVAL \'%d SECOND\'
                       WHERE id = %d',
                      $timeout,
                      $message_id);
