@@ -17,7 +17,8 @@ function createMap(divName, centre, zoom) {
                               controls: [
                               new OpenLayers.Control.LayerSwitcher(),
                               new OpenLayers.Control.PanZoomBar(),
-                              new OpenLayers.Control.MouseDefaults()
+                              new OpenLayers.Control.MouseDefaults(),
+                              new OpenLayers.Control.Permalink()
                               ],
                               displayProjection:  new OpenLayers.Projection("EPSG:4326") });
 

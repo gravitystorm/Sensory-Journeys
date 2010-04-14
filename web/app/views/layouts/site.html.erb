@@ -8,8 +8,8 @@
         <!--
         
         function init(){
-          var centre = lonLatToMercator( new OpenLayers.LonLat(-1.85, 53.8));
-          var zoom = 11;
+          var centre = lonLatToMercator( new OpenLayers.LonLat(<%= HOME_LOCATION[:lon] %>, <%= HOME_LOCATION[:lat] %>));
+          var zoom = <%= HOME_LOCATION[:zoom] %>;
           var cookietext = readCookie('_osm_location');
           if (cookietext) {
             var cb = cookietext.split('|');
