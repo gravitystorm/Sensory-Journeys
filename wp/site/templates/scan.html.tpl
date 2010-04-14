@@ -71,7 +71,7 @@
                 <a href="{$scan.base_url}/large.png">
                     <img border="1" src="{$scan.base_url}/preview.png" /></a>
             </p>
-            <p><a href="http://localhost:3000/site/edit?scan={$scan.id}">Now view results on a map</a></p>
+            <p><a href="http://localhost:3000/site/edit?scan={$scan.id}&amp;bbox={$print.west},{$print.south},{$print.east},{$print.north}">Now view results on a map</a></p>
  
         {else}
             {if $step.number == $constants.STEP_FATAL_ERROR || $step.number == $constants.STEP_FATAL_QRCODE_ERROR}
