@@ -23,7 +23,7 @@
 
   function post_init() {
     <% if @overlay_url %>
-      var overlay = new OpenLayers.Layer.TMS("OpenCycleMap", 
+      var overlay = new OpenLayers.Layer.TMS("Overlay", 
                                         ["<%= @overlay_url %>"],
                                         { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize', isBaseLayer: false});
@@ -32,7 +32,7 @@
     <% if @showtrace %>
       var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
       setMapExtent(bbox);
-      var trace = new OpenLayers.Layer.GML("GPX trace", "/trace/kml/<%= @trace.id %>",
+      var trace = new OpenLayers.Layer.GML("GPS trace", "/trace/kml/<%= @trace.id %>",
         {
         format: OpenLayers.Format.KML,
         projection: map.displayProjection,
