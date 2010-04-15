@@ -1,12 +1,22 @@
-<div>
-  <ul id="tabnav">
-    <li><a href="#" class="active">All</a></li>
-    <li><a href="#">Car</a></li>
-    <li><a href="#">Walking</a></li>
-    <li><a href="#">Cycling</a></li>
-    <li><a href="#">Public Transport</a></li>
-  </ul>
-</div>
+<table>
+  <tr>
+    <td class="navtab">
+      <ul id="tabnav">
+        <li><a href="#" class="active">All</a></li>
+        <li><a href="#">Car</a></li>
+        <li><a href="#">Walking</a></li>
+        <li><a href="#">Cycling</a></li>
+        <li><a href="#">Public Transport</a></li>
+      </ul>
+    </td>
+    <td>
+      <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', :controller => :site, :action => :about %></div>
+    </td>
+    <td>
+      <div class="iconlink"><%= link_to image_tag("logout.png", :alt => 'Logout')+'Log out', :controller => :site, :action => :logout %></div>
+    </td>
+  </tr>
+</table>
 
 <script type="text/javascript">
   <!--
@@ -122,6 +132,5 @@
         <%= submit_tag 'Print' %>
       <% end %>
     </div>
-    <%= link_to 'Logout', :controller => :site, :action => :logout %>
   </div>
 </div>
