@@ -160,7 +160,7 @@ private
 
   class TrkPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp)
     def valid?
-      self.latitude and self.longitude and self.timestamp and
+      self.latitude and self.longitude and
       self.latitude >= -90 and self.latitude <= 90 and
       self.longitude >= -180 and self.longitude <= 180
     end
