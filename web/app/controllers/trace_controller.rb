@@ -11,7 +11,6 @@ class TraceController < ApplicationController
   
   def upload
     @schools = School.find(:all)
-    # need to change this to an array of objects: spaces break label_for tags
     @modes = Mode.find(:all)
   end
   
@@ -41,37 +40,40 @@ class TraceController < ApplicationController
   end
   
   def uploadFile
-    # TODO - a bucketon of error handling
-    # dodgy and/or empty values for mode, school
-    # broken gpx file
-    t = Trace.new()
-    t.file_name = params[:upload]['gpx'].original_filename
-    t.mode_id = params[:mode]
-    t.school_id = params[:school]
-    t.user_id = @user.id
-    t.save!
+    if params[:upload] && params[:mode] && params[:school]
+      t = Trace.new()
+      t.file_name = params[:upload]['gpx'].original_filename
+      t.mode_id = params[:mode]
+      t.school_id = params[:school]
+      t.user_id = @user.id
+      t.save!
 
-    gpx = GPX::File.new(StringIO.new(params[:upload]['gpx'].read))
-    
-    gpx.points do |trkpt|
-      pt = TracePoint.new()
-      pt.lat = trkpt.latitude.to_f
-      pt.lon = trkpt.longitude.to_f
-      t.min_lat = pt.lat if t.min_lat == nil || t.min_lat > pt.lat
-      t.max_lat = pt.lat if t.max_lat == nil || t.max_lat < pt.lat
-      t.min_lon = pt.lon if t.min_lon == nil || t.min_lon > pt.lon
-      t.max_lon = pt.lon if t.max_lon == nil || t.max_lon < pt.lon
-      pt.timestamp = trkpt["timestamp"]
-      pt.trace_id = t.id
-      pt.save!
+      gpx = GPX::File.new(StringIO.new(params[:upload]['gpx'].read))
+      
+      gpx.points do |trkpt|
+        pt = TracePoint.new()
+        pt.lat = trkpt.latitude.to_f
+        pt.lon = trkpt.longitude.to_f
+        t.min_lat = pt.lat if t.min_lat == nil || t.min_lat > pt.lat
+        t.max_lat = pt.lat if t.max_lat == nil || t.max_lat < pt.lat
+        t.min_lon = pt.lon if t.min_lon == nil || t.min_lon > pt.lon
+        t.max_lon = pt.lon if t.max_lon == nil || t.max_lon < pt.lon
+        pt.timestamp = trkpt["timestamp"]
+        pt.trace_id = t.id
+        pt.save!
+      end
+      
+      #TODO check number of trace points - if zero then don't commit
+      t.inserted = true
+      t.save!
+      
+      #flash[:notice] = "You went to #{params[:school]} and used #{params[:mode]} "
+      #flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
+      #redirect_to(:action => :view, :id => t.id)
+      redirect_to(:controller => :site, :action => :edit, :trace => t.id)
+    else
+      flash[:notice] = "You need to fill in everything when uploading a trace"
+      redirect_to(:controller => :site, :action => :edit)
     end
-    
-    t.inserted = true
-    t.save!
-    
-    #flash[:notice] = "You went to #{params[:school]} and used #{params[:mode]} "
-    #flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
-    #redirect_to(:action => :view, :id => t.id)
-    redirect_to(:controller => :site, :action => :edit, :trace => t.id)
   end
 end

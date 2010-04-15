@@ -99,7 +99,12 @@
   
   function onMarkerSubmit() {
     $('marker_save').disable();
-    $('marker_save').value = 'saving...';
+    $('marker_save').value = 'Saving...';
+  }
+  
+  function onTraceSubmit() {
+    $('trace_save').disable();
+    $('trace_save').value = 'Uploading ...';
   }
   // -->
 </script>
@@ -128,7 +133,7 @@
         <% end %>
         <p>2. Enter a text description</p>
         <%= text_area_tag 'text' %>
-        <%= submit_tag 'save', :id => :marker_save %><span style="float:right"><%= link_to 'Cancel', :action => 'edit' %></span>
+        <%= submit_tag 'Save', :id => :marker_save %><span style="float:right"><%= link_to 'Cancel', :action => :edit %></span>
       <% end %>
     </div>
     

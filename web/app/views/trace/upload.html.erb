@@ -1,10 +1,20 @@
+<script type="text/javascript">
+  <!--
+
+  function onTraceSubmit() {
+    $('trace_save').disable();
+    $('trace_save').value = 'Uploading ...';
+  }
+
+  // -->
+</script>
 <h1>Upload a GPX file</h1>
 <% if flash[:notice] %>
         <div id="notice"><%= flash[:notice] %></div>
 <% end %>
 <p>Please upload a GPX file from your GPS</p>
 
-<% form_tag ({:action => 'uploadFile'}, :multipart => true) do %>
+<% form_tag ({:action => 'uploadFile'}, :multipart => true, :id => :trace_form, :onsubmit => 'onTraceSubmit();') do %>
   <p><label for="upload_file">Select File</label> : 
   <%= file_field 'upload', 'gpx' %></p>
 
@@ -21,6 +31,6 @@
       <%= label_tag "mode_#{mode.id}", mode.name %>
     </p>
   <% end %>
-  <%= submit_tag "Upload" %>
+  <%= submit_tag "Upload", :id => 'trace_save' %>
 
 <% end %>
