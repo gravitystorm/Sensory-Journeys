@@ -35,7 +35,7 @@
     <% @markers.each do |marker| %>
     <Placemark>
       <name><%=h marker.emotion %></name>
-      <description><% if marker.text != '' %><%=h marker.text %><% else %>(no text)<% end %></description>
+      <description><% if marker.text != '' %><%=h marker.text %><% else %><% end %></description>
       <styleUrl>#<%=h marker.emotion %></styleUrl>
       <Point>
         <coordinates><%=h marker.lon %>,<%=h marker.lat %>,0</coordinates>
