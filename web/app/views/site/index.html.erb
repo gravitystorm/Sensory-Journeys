@@ -1,13 +1,7 @@
 <table>
   <tr>
     <td class="navtab">
-      <ul id="tabnav">
-        <li><a href="#" class="active">All</a></li>
-        <li><a href="#">Car</a></li>
-        <li><a href="#">Walking</a></li>
-        <li><a href="#">Cycling</a></li>
-        <li><a href="#">Public Transport</a></li>
-      </ul>
+      <%= render :partial => 'tabnav', :locals => {:mode => @mode} %>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', :controller => :site, :action => :about %></div>
@@ -20,7 +14,11 @@
 <script type="text/javascript">
   <!--
   function post_init() {
-    map.addLayer(getTraces());
+    <% if @mode %>
+      map.addLayer(getTraces("<%=h @mode %>"));
+    <% else %>
+      map.addLayer(getTraces());
+    <% end %>
     map.addLayer(markers);
     map.setCenter(map.getCenter());
   }

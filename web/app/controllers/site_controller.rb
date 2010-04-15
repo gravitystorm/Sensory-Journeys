@@ -5,6 +5,10 @@ class SiteController < ApplicationController
   
   def index
     @schools = School.find(:all)
+    if params[:mode]
+      #TODO validate
+      @mode = params[:mode]
+    end
   end
   
   def edit
