@@ -12,6 +12,8 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 WP_URL = 'http://localhost/' #with trailing slash
 HOME_LOCATION = {:lat => 51.45855, :lon => -2.58391, :zoom => 13}
+MAX_MARKERS = 50
+MAX_TRACES = 5
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
