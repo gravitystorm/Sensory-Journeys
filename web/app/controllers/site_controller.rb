@@ -21,6 +21,10 @@ class SiteController < ApplicationController
       @showtrace = true if @trace
     end
   end
+  
+  def about
+    render :layout => false
+  end
 
   def login
     #TODO ask for password or check IP
