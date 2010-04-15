@@ -1,4 +1,8 @@
 class SiteController < ApplicationController
+  
+  before_filter :authorize
+  before_filter :require_user, :only => [:edit]
+  
   def index
     @schools = School.find(:all)
   end
@@ -15,13 +19,16 @@ class SiteController < ApplicationController
   end
 
   def login
-    #TODO do stuff
-    flash[:notice] = "Login functionality not yet implemented"
+    #TODO ask for password or check IP
+    user = User.new
+    user.save!
+    session[:user] = user.id
+    flash[:notice] = "You are now logged in"
     redirect_to(:action => :edit)
   end
   
   def logout
-    #TODO do stuff
+    session[:user] = nil
     flash[:notice] = "You are now logged out"
     redirect_to(:action => :index)
   end
