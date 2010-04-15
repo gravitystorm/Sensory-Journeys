@@ -2,6 +2,9 @@ class MarkerController < ApplicationController
   require 'xml/libxml'
   include XML
   
+  before_filter :authorize
+  before_filter :require_user, :only => [:save]
+  
   def view
   end
   
@@ -11,6 +14,7 @@ class MarkerController < ApplicationController
     m.lon = params[:lon]
     m.text = params[:text]
     m.emotion = params[:emotion]
+    m.user_id = @user.id
     m.save!
     redirect_to(:controller => :site, :action=> :edit)
   end

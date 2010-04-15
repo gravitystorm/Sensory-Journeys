@@ -2,6 +2,9 @@ class TraceController < ApplicationController
   require 'xml/libxml'
   include XML
   
+  before_filter :authorize
+  before_filter :require_user, :only => [:uploadFile]
+  
   def index
     @traces = Trace.find(:all)
   end
@@ -45,6 +48,7 @@ class TraceController < ApplicationController
     t.file_name = params[:upload]['gpx'].original_filename
     t.mode_id = params[:mode]
     t.school_id = params[:school]
+    t.user_id = @user.id
     t.save!
 
     gpx = GPX::File.new(StringIO.new(params[:upload]['gpx'].read))
