@@ -140,5 +140,9 @@
       <% end %>
     </div>
     
+    <div id="sidebar-stats" class="sidebarbox">
+      <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %> 
+      and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces'%></p>
+    </div>
   </div>
 </div>
