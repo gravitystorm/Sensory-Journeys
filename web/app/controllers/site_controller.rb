@@ -26,13 +26,24 @@ class SiteController < ApplicationController
     render :layout => false
   end
 
+  def logindialog
+    render :layout => false
+  end
+  
   def login
-    #TODO ask for password or check IP
-    user = User.new
-    user.save!
-    session[:user] = user.id
-    flash[:notice] = "You are now logged in"
-    redirect_to(:action => :edit)
+    # TODO admin mode
+    if params[:password]
+      if params[:password] == USER_PASSWORD
+        user = User.new
+        user.save!
+        session[:user] = user.id
+        flash[:notice] = "You are now logged in"
+        redirect_to(:action => :edit)
+      end
+    else
+      flash[:notice] = "You need to supply a password"
+      redirect_to(:action => :index)
+    end
   end
   
   def logout

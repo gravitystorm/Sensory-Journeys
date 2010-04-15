@@ -7,7 +7,7 @@
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
     </td>
     <td>
-      <div class="iconlink"><%= link_to image_tag("login.png", :alt => 'Login')+'Log in', :controller => :site, :action => :login %></div>
+      <div class="iconlink"><%= link_to image_tag("login.png", :alt => 'Login')+'Log in', {:controller => :site, :action => :logindialog}, :rel => :facebox %></div>
     </td>
   </tr>
 </table>
