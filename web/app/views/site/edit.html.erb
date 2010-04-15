@@ -10,7 +10,7 @@
       </ul>
     </td>
     <td>
-      <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', :controller => :site, :action => :about %></div>
+      <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("logout.png", :alt => 'Logout')+'Log out', :controller => :site, :action => :logout %></div>
