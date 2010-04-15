@@ -21,6 +21,22 @@ class TraceController < ApplicationController
     send_data Trace.find(params[:id]).to_kml.to_s, :type => "text/plain", :disposition => 'inline'
   end
   
+  def traces
+    if params[:bbox]
+      minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
+      if params[:mode]
+        mode_id = params[:mode]
+        @traces = Trace.find(:all, :conditions => ["(min_lat+max_lat)/2 > ? AND (min_lon+max_lon)/2  > ? AND (min_lat+max_lat)/2 < ? AND (min_lon+max_lon)/2  < ? AND mode_id = ?", minlat, minlon, maxlat, maxlon, mode_id],
+                             :limit => MAX_TRACES, :order => "created_at DESC")
+      else
+        @traces = Trace.find(:all, :conditions => ["(min_lat+max_lat)/2 > ? AND (min_lon+max_lon)/2  > ? AND (min_lat+max_lat)/2 < ? AND (min_lon+max_lon)/2  < ?", minlat, minlon, maxlat, maxlon],
+                             :limit => MAX_TRACES, :order => "created_at DESC")
+      end
+    else
+      @traces = Trace.find(:all, :limit=> MAX_TRACES, :order => "created_at DESC")
+    end
+  end
+  
   def uploadFile
     # TODO - a bucketon of error handling
     # dodgy and/or empty values for mode, school
