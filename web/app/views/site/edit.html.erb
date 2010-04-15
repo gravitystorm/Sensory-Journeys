@@ -84,19 +84,31 @@
     $('east').value = se.lon;
     $('zoom').value = map.getZoom();
   }
+  
+  function showMarkerDialog() {
+    $('sidebar-menu').hide();
+    $('sidebar-marker').show();
+  }
+  
+  function showPrintDialog() {
+    $('sidebar-menu').hide();
+    $('sidebar-print').show();
+  }
   // -->
 </script>
 
 <div>
   <div id="map"></div>
   <div id="sidebar">
+  
     <div id="sidebar-menu" class="sidebarbox">
-      <%= image_tag 'marker.png' %>Add Experience Marker<br />
-      <%= image_tag 'gps.png' %>Upload GPS Track<br />
-      <%= image_tag 'sketchupload.png' %>Upload Sketch Map Scan<br />
-      <%= image_tag 'print.png' %>Print Map For Sketching<br />
+      <a href="#" onclick="showMarkerDialog()" class="sidebarlink"><%= image_tag 'marker.png' %>Add Experience Marker</a><br />
+      <%= link_to (image_tag 'gps.png')+'Upload GPS Track', {:controller => :trace, :action => :upload}, :rel => :facebox, :class => :sidebarlink %><br />
+      <%= link_to (image_tag 'sketchupload.png')+'Upload Sketch Map Scan', WP_URL + 'upload.php', :class => :sidebarlink %><br />
+      <a href="#" onclick="showPrintDialog()" class="sidebarlink"><%= image_tag 'print.png' %>Print Map For Sketching</a><br />
     </div>
-    <div id="sidebar-marker" class="sidebarbox">
+    
+    <div id="sidebar-marker" class="sidebarbox" style="display:none">
       <span onclick="addMarker();" id="tClick">Click here to add marker</span>
       <span id="tMap" style="display:none">Now click on the map</span>
       <span id="tMarker" style="display:none">Move marker or press save</span>
@@ -113,13 +125,8 @@
         <%= submit_tag 'save' %>
       <% end %>
     </div>
-    <div id="sidebar-gps" class="sidebarbox">
-      <%= link_to 'Upload GPX', :controller => :trace, :action =>:upload %><br />
-    </div>
-    <div id="sidebar-scan" class="sidebarbox">
-      <%= link_to 'Upload Map', WP_URL + 'upload.php' %>
-    </div>
-    <div id="sidebar-print" class="sidebarbox">
+    
+    <div id="sidebar-print" class="sidebarbox" style="display:none">
       Print the section of the map you are looking at.
       <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form'}) do %>
         <%= hidden_field_tag 'north', '51' %>
@@ -132,5 +139,6 @@
         <%= submit_tag 'Print' %>
       <% end %>
     </div>
+    
   </div>
 </div>

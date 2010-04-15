@@ -126,3 +126,20 @@ div.iconlink img
   font-size: 1em;
   font-weight: normal;
 }
+
+.sidebarlink img
+{
+  border: none;
+  margin: 5px;
+}
+
+a.sidebarlink, a.sidebarlink:visited
+{
+  text-decoration: none;
+  color: black;
+}
+
+a.sidebarlink:hover
+{
+  text-decoration: underline;
+}
