@@ -143,3 +143,8 @@ a.sidebarlink:hover
 {
   text-decoration: underline;
 }
+
+#tMap, #tMarker
+{
+  font-weight: bold;
+}

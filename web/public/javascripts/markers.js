@@ -87,14 +87,16 @@ function destroyPopup(feature) {
 
 function addMarker() {
   controls['point'].activate();
-  $('tClick').style.display = 'none';
-  $('tMap').style.display = 'block';
+  $('tMap').show();
 }  
 
 function onCompleteAdd(feature) {
   controls['selector'].deactivate();
   controls['point'].deactivate();
   controls['drag'].activate();
+  $('tMap').hide();
+  $('tMarker').show();
+  $('marker_form').show();
   
   //feature.attributes.description = "w00t";
   //createPopup(feature);
@@ -105,8 +107,7 @@ function onCompleteAdd(feature) {
     $('lat').value = geo.y
     $('lon').value = geo.x
   }
-  $('tMap').style.display = 'none';
-  $('tMarker').style.display = 'block';
+
 }
 
 function onCompleteMove(feature) {

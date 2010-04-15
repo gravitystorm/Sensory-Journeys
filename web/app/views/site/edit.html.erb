@@ -87,12 +87,19 @@
   
   function showMarkerDialog() {
     $('sidebar-menu').hide();
+    $('marker_form').hide();
     $('sidebar-marker').show();
+    addMarker();
   }
   
   function showPrintDialog() {
     $('sidebar-menu').hide();
     $('sidebar-print').show();
+  }
+  
+  function onMarkerSubmit() {
+    $('marker_save').disable();
+    $('marker_save').value = 'saving...';
   }
   // -->
 </script>
@@ -109,20 +116,19 @@
     </div>
     
     <div id="sidebar-marker" class="sidebarbox" style="display:none">
-      <span onclick="addMarker();" id="tClick">Click here to add marker</span>
-      <span id="tMap" style="display:none">Now click on the map</span>
-      <span id="tMarker" style="display:none">Move marker or press save</span>
-      <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form'}) do %>
+      <span id="tMap" style="">First, click on the map where you had the experience.</span>
+      <span id="tMarker" style="display:none">You can drag the marker around. Then answer the questions and press save.</span>
+      <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form', :onsubmit => 'onMarkerSubmit();'}) do %>
         <%= hidden_field_tag 'lat' %>
         <%= hidden_field_tag 'lon' %>
         <p>1. How was the experience?</p>
         <% ['happy','neutral','sad'].each do |emotion| %>
           <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
-          <%= label_tag "mode_#{emotion}", emotion %><br />
+          <%= label_tag "emotion_#{emotion}", emotion %><br />
         <% end %>
         <p>2. Enter a text description</p>
         <%= text_area_tag 'text' %>
-        <%= submit_tag 'save' %>
+        <%= submit_tag 'save', :id => :marker_save %><span style="float:right"><%= link_to 'Cancel', :action => 'edit' %></span>
       <% end %>
     </div>
     
