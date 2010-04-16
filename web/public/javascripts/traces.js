@@ -13,7 +13,7 @@ function getTraces(mode) {
             }),
             strategies: [new OpenLayers.Strategy.BBOX()],
             projection: new OpenLayers.Projection("EPSG:4326"),
-            styleMap: new OpenLayers.StyleMap({ strokeWidth: 9, strokeColor: '#0000ff', strokeOpacity: 0.7 }),
+            styleMap: new OpenLayers.StyleMap({ strokeWidth: 4, strokeColor: '#0000ff', strokeOpacity: 0.3 }),
             minScale: 100000
             });
   return layer;
