@@ -97,10 +97,8 @@ function updateLocation() {
     var zoom = map.getZoom();
     var layers = getMapLayers();
     var extents = map.getExtent().clone().transform(map.getProjectionObject(), epsg4326);
-    var expiry = new Date();
 
-    expiry.setYear(expiry.getFullYear() + 10); 
-    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; expires=" + expiry.toGMTString();
+    document.cookie = "_osm_location=" + lonlat.lon + "|" + lonlat.lat + "|" + zoom + "|" + layers + "; path=/";
   }
 
 function getMapLayers() {
