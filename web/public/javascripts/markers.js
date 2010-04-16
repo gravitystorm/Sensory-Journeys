@@ -26,7 +26,7 @@ var markerStyle = new OpenLayers.StyleMap({
 
 markerStyle.addUniqueValueRules("default", "name", emotionIcons);
 
-var markers = new OpenLayers.Layer.Vector("markers",
+var markers = new OpenLayers.Layer.Vector("All Markers",
                 { protocol: new OpenLayers.Protocol.HTTP({
                     url: '/marker/all.kml',
                     format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true}),
