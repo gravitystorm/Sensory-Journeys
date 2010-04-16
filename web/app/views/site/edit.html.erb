@@ -32,19 +32,18 @@
     <% if @showtrace %>
       var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
       setMapExtent(bbox);
-      var trace = new OpenLayers.Layer.GML("GPS trace", "/trace/kml/<%= @trace.id %>",
-        {
-        format: OpenLayers.Format.KML,
-        projection: map.displayProjection,
-        formatOptions: {
-          extractStyles: false, 
-          extractAttributes: true,
-          maxDepth: 2
-        },
-        styleMap: new OpenLayers.StyleMap({ strokeWidth: 9, strokeColor: '#0000ff', strokeOpacity: 0.7 })
-        });
-      map.addLayer(trace);
     <% end %>
+    var traces = new OpenLayers.Layer.Vector("My GPS traces",
+                    { protocol: new OpenLayers.Protocol.HTTP({
+                                    url: "/trace/traces.kml?user=<%= @user.id %>",
+                                    format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true})
+                                    }),
+                      strategies: [new OpenLayers.Strategy.BBOX()],
+                      projection: new OpenLayers.Projection("EPSG:4326"),
+                      styleMap: new OpenLayers.StyleMap({ strokeWidth: 4, strokeColor: '#0000ff', strokeOpacity: 0.4 }),
+                      minScale: 100000
+                    });
+    map.addLayer(traces);
     map.addLayer(newmarkers);
     map.addLayer(markers);
 
