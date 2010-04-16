@@ -6,9 +6,9 @@
            cyclingstyle = 'active' if mode == "3"
            publicstyle = 'active' if mode == "4"
         %>
-        <li><%= link_to 'All', {:controller => :site, :action => :index}, {:class => allstyle} %></li>
-        <li><%= link_to 'Car', {:controller => :site, :action => :index, :mode => "1"}, {:class => carstyle} %></li>
-        <li><%= link_to 'Walking', {:controller => :site, :action => :index, :mode => "2"}, {:class => walkingstyle}  %></li>
-        <li><%= link_to 'Cycling', {:controller => :site, :action => :index, :mode => "3"}, {:class => cyclingstyle}  %></li>
-        <li><%= link_to 'Public Transport', {:controller => :site, :action => :index, :mode => "4"}, {:class => publicstyle}  %></li>
+        <li><%= link_to 'All', {:controller => :site, :action => controller.action_name}, {:class => allstyle} %></li>
+        <li><%= link_to 'Car', {:controller => :site, :action => controller.action_name, :mode => "1"}, {:class => carstyle} %></li>
+        <li><%= link_to 'Walking', {:controller => :site, :action => controller.action_name, :mode => "2"}, {:class => walkingstyle}  %></li>
+        <li><%= link_to 'Cycling', {:controller => :site, :action => controller.action_name, :mode => "3"}, {:class => cyclingstyle}  %></li>
+        <li><%= link_to 'Public Transport', {:controller => :site, :action => controller.action_name, :mode => "4"}, {:class => publicstyle}  %></li>
       </ul>

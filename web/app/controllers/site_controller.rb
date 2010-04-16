@@ -20,6 +20,9 @@ class SiteController < ApplicationController
       @trace = Trace.find(params[:trace])
       @showtrace = true if @trace
     end
+    if params[:mode]
+      @mode = params[:mode]
+    end
   end
   
   def about

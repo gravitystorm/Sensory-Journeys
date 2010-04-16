@@ -1,13 +1,7 @@
 <table>
   <tr>
     <td class="navtab">
-      <ul id="tabnav">
-        <li><a href="#" class="active">All</a></li>
-        <li><a href="#">Car</a></li>
-        <li><a href="#">Walking</a></li>
-        <li><a href="#">Cycling</a></li>
-        <li><a href="#">Public Transport</a></li>
-      </ul>
+      <%= render :partial => 'tabnav', :locals => {:mode => @mode} %>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
@@ -35,7 +29,11 @@
     <% end %>
     var traces = new OpenLayers.Layer.Vector("My GPS traces",
                     { protocol: new OpenLayers.Protocol.HTTP({
+    <% if @mode %>
+                                    url: "/trace/traces.kml?user=<%= @user.id %>&mode=<%= @mode %>",
+    <% else %>
                                     url: "/trace/traces.kml?user=<%= @user.id %>",
+    <% end %>
                                     format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true})
                                     }),
                       strategies: [new OpenLayers.Strategy.BBOX()],
