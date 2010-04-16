@@ -60,14 +60,13 @@
     
 
   }
+  
+  var printBox = new OpenLayers.Bounds();
+  var printBoxLayer = new OpenLayers.Layer.Vector("printbox", {projection: new OpenLayers.Projection("EPSG:4326")});
  
   function updatePrintLinks() {
     center = map.getCenter().clone();
     center.transform(map.getProjectionObject(), map.displayProjection);
-//     $('north').value = center.lat;
-//     $('south').value = center.lat;
-//     $('east').value = center.lon;
-//     $('west').value = center.lon;
     centerpx = map.getViewPortPxFromLonLat(map.getCenter());
     // These magic numbers are what Walking Paper uses to size the preview
     // when making the map, hardcoded for landscape a4. Who knows how it 
@@ -76,6 +75,10 @@
     br = new OpenLayers.Pixel(centerpx.x+240, centerpx.y+151);
     nw = map.getLonLatFromPixel(tl);
     se = map.getLonLatFromPixel(br);
+    printBox = new OpenLayers.Bounds(nw.lon, se.lat, se.lon, nw.lat);
+    printBoxBox = new OpenLayers.Feature.Vector(printBox.toGeometry());
+    printBoxLayer.destroyFeatures();
+    printBoxLayer.addFeatures(printBoxBox);
     nw.transform(map.getProjectionObject(), map.displayProjection);
     se.transform(map.getProjectionObject(), map.displayProjection);
     $('north').value = nw.lat;
@@ -95,6 +98,7 @@
   function showPrintDialog() {
     $('sidebar-menu').hide();
     $('sidebar-print').show();
+    map.addLayer(printBoxLayer);
   }
   
   function onMarkerSubmit() {
@@ -112,6 +116,9 @@
     window.location = "<% url_for :action => :edit %>";
   }
 
+  function onPrintCancel() {
+    window.location = "<% url_for :action => :edit %>";
+  }
   // -->
 </script>
 
@@ -146,7 +153,7 @@
     </div>
     
     <div id="sidebar-print" class="sidebarbox" style="display:none">
-      Print the section of the map you are looking at.
+      <p>Print the section of the map that's highlighted.</p>
       <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form'}) do %>
         <%= hidden_field_tag 'north', '51' %>
         <%= hidden_field_tag 'south', '51' %>
@@ -155,7 +162,7 @@
         <%= hidden_field_tag 'zoom', '16' %>
         <%= hidden_field_tag 'provider', 'http://tile.openstreetmap.org/{Z}/{X}/{Y}.png' %>
         <%= hidden_field_tag 'paper', 'landscape-a4' %>
-        <%= submit_tag 'Print' %>
+        <%= submit_tag 'Print' %><span style="float:right"><%= submit_tag 'Cancel', :id => :print_cancel, :onClick => 'onPrintCancel();return false;' %></span>
       <% end %>
     </div>
     
