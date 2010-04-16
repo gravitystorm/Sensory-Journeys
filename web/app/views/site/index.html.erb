@@ -20,6 +20,8 @@
       map.addLayer(getTraces());
     <% end %>
     map.addLayer(markers);
+    map.addControl(controls['selector']);
+    controls['selector'].activate();
     map.setCenter(map.getCenter());
   }
   //-->
