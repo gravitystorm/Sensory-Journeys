@@ -40,7 +40,7 @@ var markers = new OpenLayers.Layer.Vector("markers",
 var newmarkers = new OpenLayers.Layer.Vector("New Markers", 
                 { styleMap: new OpenLayers.StyleMap({
                     // Set the external graphic and background graphic images.
-                    externalGraphic: "/openlayers/img/marker-blue.png",
+                    externalGraphic: "/images/active.png",
                     backgroundGraphic: "/images/marker_shadow.png",
                     
                     // Makes sure the background graphic is placed correctly relative

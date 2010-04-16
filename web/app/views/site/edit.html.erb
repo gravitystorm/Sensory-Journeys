@@ -106,6 +106,12 @@
     $('trace_save').disable();
     $('trace_save').value = 'Uploading ...';
   }
+  
+  function onMarkerCancel() {
+    //this could rearrange the boxes, but addMarker() assumes no in-progress markers
+    window.location = "<% url_for :action => :edit %>";
+  }
+
   // -->
 </script>
 
@@ -127,13 +133,15 @@
         <%= hidden_field_tag 'lat' %>
         <%= hidden_field_tag 'lon' %>
         <p>1. How was the experience?</p>
-        <% ['happy','neutral','sad'].each do |emotion| %>
-          <%= radio_button_tag 'emotion', emotion, (emotion == 'neutral') %>
-          <%= label_tag "emotion_#{emotion}", emotion %><br />
+        <% [{:id =>'happy', :image=> 'positive.png', :text=> 'Postive'},
+            {:id => 'neutral', :image => 'neutral.png', :text => 'Neutral'},
+            {:id => 'sad', :image => 'negative.png', :text => 'Negative'}].each do |emotion| %>
+          <%= radio_button_tag 'emotion', emotion[:id], (emotion[:id] == 'neutral') %>
+          <%= label_tag "emotion_#{emotion[:id]}", image_tag(emotion[:image])+" "+emotion[:text] %><br />
         <% end %>
         <p>2. Enter a text description</p>
         <%= text_area_tag 'text' %>
-        <%= submit_tag 'Save', :id => :marker_save %><span style="float:right"><%= link_to 'Cancel', :action => :edit %></span>
+        <%= submit_tag 'Save', :id => :marker_save %><span style="float:right"><%= submit_tag 'Cancel', :id => :marker_cancel, :onClick => 'onMarkerCancel();return false;' %></span>
       <% end %>
     </div>
     
