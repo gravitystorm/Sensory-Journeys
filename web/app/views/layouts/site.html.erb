@@ -21,7 +21,7 @@
             zoom = cb[2];
             //var layers = cb[3];
           }
-          var map = createMap("map", centre, zoom);
+          var map = createMap("map", centre, Number(zoom));
           updateLocation();
           post_init();
         }   
