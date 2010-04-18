@@ -78,7 +78,7 @@ class TraceController < ApplicationController
       
       unless (hasPoints || hasWaypoints)
         t.delete
-        flash[:error] = "There were no points and no waypoints in that file. Are you sure it was a GPX file?"
+        flash[:error] = "There were no tracepoints and no waypoints in that file. Are you sure it was a GPX file?"
         redirect_to(:controller => :site, :action => :edit) and return
       end
       

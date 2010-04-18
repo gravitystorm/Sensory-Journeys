@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   
   def require_user
     unless @user
-      flash[:notice] = "You aren't logged in"
+      flash[:error] = "You aren't logged in"
       redirect_to :controller => :site, :action => :index
     end
   end

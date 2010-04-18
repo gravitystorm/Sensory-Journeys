@@ -43,12 +43,12 @@ class SiteController < ApplicationController
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
       else
-        flash[:notice] = "You supplied the wrong password, please try again."
+        flash[:error] = "You supplied the wrong password, please try again."
         # TODO keep password dialog open
         redirect_to(:action => :index)
       end
     else
-      flash[:notice] = "You need to supply a password."
+      flash[:error] = "You need to supply a password."
       redirect_to(:action => :index)
     end
   end
