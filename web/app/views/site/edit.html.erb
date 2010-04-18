@@ -131,8 +131,8 @@
     </div>
     
     <div id="sidebar-marker" class="sidebarbox" style="display:none">
-      <span id="tMap" style="">First, click on the map where you had the experience.</span>
-      <span id="tMarker" style="display:none">You can drag the marker around. Then answer the questions and press save.</span>
+      <span id="tMap" style="">Click on the map where you want to place a marker</span>
+      <span id="tMarker" style="display:none"></span>
       <% form_tag({:controller=> 'marker', :action => 'save'}, {:id => 'marker_form', :onsubmit => 'onMarkerSubmit();'}) do %>
         <%= hidden_field_tag 'lat' %>
         <%= hidden_field_tag 'lon' %>
