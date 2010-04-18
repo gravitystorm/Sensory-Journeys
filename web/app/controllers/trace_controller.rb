@@ -57,6 +57,9 @@ class TraceController < ApplicationController
 
       gpx = GPX::File.new(StringIO.new(params[:upload]['gpx'].read))
       
+      hasPoints = false
+      hasWaypoints = false
+      
       gpx.points do |trkpt|
         pt = TracePoint.new()
         pt.lat = trkpt.latitude.to_f
@@ -68,6 +71,15 @@ class TraceController < ApplicationController
         pt.timestamp = trkpt["timestamp"]
         pt.trace_id = t.id
         pt.save!
+        hasPoints = true
+      end
+      
+      #TODO do the same for waypoints
+      
+      unless (hasPoints || hasWaypoints)
+        t.delete
+        flash[:error] = "There were no points and no waypoints in that file. Are you sure it was a GPX file?"
+        redirect_to(:controller => :site, :action => :edit) and return
       end
       
       #TODO check number of trace points - if zero then don't commit

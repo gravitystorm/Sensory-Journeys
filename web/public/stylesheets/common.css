@@ -93,6 +93,13 @@ div.iconlink img
   padding: 0.4em;
 }
 
+.error
+{
+  background-color: #ffc7ad;
+  border: 1px solid #ff9564;
+  padding: 0.4em;
+}
+
 .sidebarbox
 {
   background-color: #fbfcbb;
