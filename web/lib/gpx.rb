@@ -44,6 +44,38 @@ module GPX
         end
       end
     end
+    
+    def waypoints
+      @possible_waypoints = 0
+      @actual_waypoints = 0
+      
+      @file.rewind
+      
+      reader = XML::Reader.io(@file)
+      
+      point = nil
+      
+      while reader.read #> 0
+        if reader.node_type == XML::Reader::TYPE_ELEMENT
+          if reader.name == "wpt"
+            point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
+            @possible_points += 1
+          elsif reader.name == "ele" and point
+            point.altitude = reader.read_string.to_f
+          elsif reader.name == "time" and point
+            point.timestamp = DateTime.parse(reader.read_string)
+          end
+        elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
+          if reader.name == "trkpt" and point and point.valid?
+            point.altitude ||= 0
+            yield point
+            @actual_points += 1
+          elsif reader.name == "trkseg"
+            @tracksegs += 1
+          end
+        end
+      end
+    end
 
     def picture(min_lat, min_lon, max_lat, max_lon, num_points)
       frames = 10

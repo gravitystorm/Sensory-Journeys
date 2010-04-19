@@ -3,6 +3,7 @@ class Trace < ActiveRecord::Base
   include XML
   
   has_many :trace_points
+  has_many :waypoints
   
   def to_kml
     output = XML::Document.new
@@ -41,22 +42,7 @@ class Trace < ActiveRecord::Base
     end
     coordinates = XML::Node.new('coordinates', coords)
     linestring << coordinates
-# 
-#     markers = doc.find('marker')
-#     markers.each do |marker|
-#       placemark = XML::Node.new('Placemark')
-#       output.root << placemark
-#       name = XML::Node.new('name', marker[:name])
-#       desc = XML::Node.new('description', '<p>'+marker[:length]+'</p>')
-#       styleurl = XML::Node.new('styleUrl', '#mtb_hard_normal')
-#       point = XML::Node.new('Point')
-#       placemark << name
-#       placemark << desc
-#       placemark << styleurl
-#       placemark << point
-#       coord = XML::Node.new('coordinates', marker[:lng]+','+marker[:lat]+',0')
-#       point << coord
-#     end
+
     
     return output
   end

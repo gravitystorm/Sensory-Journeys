@@ -13,5 +13,15 @@
       </LineString>
     </Placemark>
     <% end %>
+    <% @traces.each do |trace| %>
+      <% trace.waypoints.each do |wp| %>
+            <Placemark>
+            <name>Waypoint</name>
+            <Point>
+              <coordinates><%=h wp.lon %>,<%=h wp.lat %>,0</coordinates>
+            </Point>
+          </Placemark>
+      <% end %>
+    <% end %>
   </Document>
 </kml>

@@ -20,7 +20,9 @@ class TraceController < ApplicationController
   
   def kml
     # TODO use correct Content-type
-    send_data Trace.find(params[:id]).to_kml.to_s, :type => "text/plain", :disposition => 'inline'
+    #send_data Trace.find(params[:id]).to_kml.to_s, :type => "text/plain", :disposition => 'inline'
+    @traces = [Trace.find(params[:id])] # array of traces
+    render "traces.kml"
   end
   
   def traces
@@ -74,7 +76,21 @@ class TraceController < ApplicationController
         hasPoints = true
       end
       
-      #TODO do the same for waypoints
+      gpx.waypoints do |waypoint|
+        wp = Waypoint.new()
+        wp.lat = waypoint.latitude.to_f
+        wp.lon = waypoint.longitude.to_f
+        # not sure if this is a good idea, since some GPS units save all existing
+        # waypoints with every GPX file - could cover a large area 
+        t.min_lat = wp.lat if t.min_lat == nil || t.min_lat > wp.lat
+        t.max_lat = wp.lat if t.max_lat == nil || t.max_lat < wp.lat
+        t.min_lon = wp.lon if t.min_lon == nil || t.min_lon > wp.lon
+        t.max_lon = wp.lon if t.max_lon == nil || t.max_lon < wp.lon
+        wp.timestamp = waypoint["timestamp"]
+        wp.trace_id = t.id
+        wp.save!
+        hasWaypoints = true
+      end
       
       unless (hasPoints || hasWaypoints)
         t.delete
@@ -89,6 +105,7 @@ class TraceController < ApplicationController
       #flash[:notice] = "You went to #{params[:school]} and used #{params[:mode]} "
       #flash[:notice] = "#{t.min_lat} #{t.max_lat} #{t.min_lon} #{t.max_lon}"
       #redirect_to(:action => :view, :id => t.id)
+      #flash[:notice] = "Found #{waypointCount} waypoints"
       redirect_to(:controller => :site, :action => :edit, :trace => t.id)
     else
       flash[:notice] = "You need to fill in everything when uploading a trace"
