@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419095446) do
+ActiveRecord::Schema.define(:version => 20100419113202) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -20,6 +20,10 @@ ActiveRecord::Schema.define(:version => 20100419095446) do
     t.float    "lat"
     t.float    "lon"
   end
+
+  add_index "markers", ["lat"], :name => "index_markers_on_lat"
+  add_index "markers", ["lon"], :name => "index_markers_on_lon"
+  add_index "markers", ["user_id"], :name => "index_markers_on_user_id"
 
   create_table "modes", :force => true do |t|
     t.string   "name"
@@ -44,6 +48,8 @@ ActiveRecord::Schema.define(:version => 20100419095446) do
     t.datetime "updated_at"
   end
 
+  add_index "trace_points", ["trace_id"], :name => "index_trace_points_on_trace_id"
+
   create_table "traces", :force => true do |t|
     t.integer  "user_id"
     t.string   "file_name"
@@ -57,6 +63,13 @@ ActiveRecord::Schema.define(:version => 20100419095446) do
     t.float    "max_lon"
     t.integer  "school_id"
   end
+
+  add_index "traces", ["max_lat"], :name => "index_traces_on_max_lat"
+  add_index "traces", ["max_lon"], :name => "index_traces_on_max_lon"
+  add_index "traces", ["min_lat"], :name => "index_traces_on_min_lat"
+  add_index "traces", ["min_lon"], :name => "index_traces_on_min_lon"
+  add_index "traces", ["mode_id"], :name => "index_traces_on_mode_id"
+  add_index "traces", ["user_id"], :name => "index_traces_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "auth"
@@ -72,5 +85,7 @@ ActiveRecord::Schema.define(:version => 20100419095446) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "waypoints", ["trace_id"], :name => "index_waypoints_on_trace_id"
 
 end
