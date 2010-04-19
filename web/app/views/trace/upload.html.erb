@@ -14,7 +14,7 @@
 <% end %>
 <p>Please upload a GPX file from your GPS</p>
 
-<% form_tag ({:action => 'uploadFile'}, :multipart => true, :id => :trace_form, :onsubmit => 'onTraceSubmit();') do %>
+<% form_tag({:action => 'uploadFile'}, :multipart => true, :id => :trace_form, :onsubmit => 'onTraceSubmit();') do %>
   <p><label for="upload_file">Select File</label> : 
   <%= file_field 'upload', 'gpx' %></p>
 
