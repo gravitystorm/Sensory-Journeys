@@ -10,7 +10,6 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-WP_URL = 'http://localhost/' #with trailing slash
 HOME_LOCATION = {:lat => 51.45855, :lon => -2.58391, :zoom => 13}
 MAX_MARKERS = 50
 MAX_TRACES = 5
