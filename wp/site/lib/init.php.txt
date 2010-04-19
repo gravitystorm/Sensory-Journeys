@@ -24,5 +24,7 @@
     define('AWS_ACCESS_KEY', '*** http://aws.amazon.com/ ***');
     define('AWS_SECRET_KEY', '');
     define('S3_BUCKET_ID',   '');
+    
+    define('FINAL_DESTINATION', 'localhost:3000');
 
 ?>
