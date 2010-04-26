@@ -40,6 +40,11 @@
 
         // -->
       </script>
+    <% if @title %>
+    <title><%=h @title %></title>
+    <% else %>
+    <title>Sensory Journeys</title>
+    <% end %>
 </head>
 
 <body onload="init();">
