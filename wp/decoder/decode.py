@@ -129,7 +129,7 @@ def main(url, markers, apibase, message_id, password):
           for y in xrange(s[1]):
             r,g,b,a = m[x,y]
             # if the red is too dark, or if the others are as bright as red, remove 
-            if(r < 100 or r < (g+100) or r < (b+100)):
+            if(r < 100 or r < (g+50) or r < (b+50)):
               m[x,y] = 0,0,0,1
             else:
               m[x,y] = r,0,0,255
