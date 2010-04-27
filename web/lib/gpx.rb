@@ -66,7 +66,7 @@ module GPX
             point.timestamp = DateTime.parse(reader.read_string)
           end
         elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
-          if reader.name == "trkpt" and point and point.valid?
+          if reader.name == "wpt" and point and point.valid?
             point.altitude ||= 0
             yield point
             @actual_points += 1
