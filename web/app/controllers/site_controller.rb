@@ -9,6 +9,7 @@ class SiteController < ApplicationController
       #TODO validate
       @mode = params[:mode]
     end
+    @scans = Wpscan.find(:all, :conditions => {:last_step => 6})
   end
   
   def edit
