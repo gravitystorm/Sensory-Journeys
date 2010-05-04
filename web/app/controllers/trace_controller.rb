@@ -62,7 +62,18 @@ class TraceController < ApplicationController
       hasPoints = false
       hasWaypoints = false
       
-      gpx.points do |trkpt|
+      # simplify the gpx trace before inserting into the database
+      dp = DpSimplify::LineString.new
+
+      list = []
+      gpx.points do |point|
+        list << point
+      end
+      
+      simpleList = dp.simplify(list)
+      
+      # Add the simplified points to the db
+      simpleList.each do |trkpt|
         pt = TracePoint.new()
         pt.lat = trkpt.latitude.to_f
         pt.lon = trkpt.longitude.to_f
