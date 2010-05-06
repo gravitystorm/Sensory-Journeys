@@ -26,3 +26,11 @@ production:
 #  username: 
 #  password: 
   host: localhost
+
+paperwalking:
+  adapter: postgresql
+  encoding: utf8
+  database: paperwalking
+#  username: 
+#  password: 
+  host: localhost
