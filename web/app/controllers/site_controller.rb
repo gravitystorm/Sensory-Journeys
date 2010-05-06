@@ -5,14 +5,15 @@ class SiteController < ApplicationController
   
   def index
     @schools = School.find(:all)
+    @modes = Mode.find(:all, :order => :id)
     if params[:mode]
-      #TODO validate
-      @mode = params[:mode]
+      @mode = Mode.find_by_id(params[:mode])
     end
     @scans = Wpscan.find(:all, :conditions => {:last_step => 6}, :limit => MAX_SCANS)
   end
   
   def edit
+    @modes = Mode.find(:all, :order => :id)
     if params[:scan]
       # could validate the path here
       @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'

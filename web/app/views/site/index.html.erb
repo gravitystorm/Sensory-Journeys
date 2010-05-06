@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td class="navtab">
-      <%= render :partial => 'tabnav', :locals => {:mode => @mode} %>
+      <%= render :partial => 'tabnav', :locals => {:mode => @mode, :modes => @modes} %>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
@@ -24,7 +24,7 @@
       <% end %>
     <% end %>
     <% if @mode %>
-      map.addLayer(getTraces("<%=h @mode %>"));
+      map.addLayer(getTraces("<%=h @mode.id %>"));
     <% else %>
       map.addLayer(getTraces());
     <% end %>

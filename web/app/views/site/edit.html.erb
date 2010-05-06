@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td class="navtab">
-      <%= render :partial => 'tabnav', :locals => {:mode => @mode} %>
+      <%= render :partial => 'tabnav', :locals => {:mode => @mode, :modes => @modes} %>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
@@ -30,7 +30,7 @@
     var traces = new OpenLayers.Layer.Vector("My GPS traces",
                     { protocol: new OpenLayers.Protocol.HTTP({
     <% if @mode %>
-                                    url: "/trace/traces.kml?user=<%= @user.id %>&mode=<%= @mode %>",
+                                    url: "/trace/traces.kml?user=<%= @user.id %>&mode=<%= @mode.id %>",
     <% else %>
                                     url: "/trace/traces.kml?user=<%= @user.id %>",
     <% end %>
