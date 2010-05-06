@@ -19,8 +19,6 @@ class TraceController < ApplicationController
   end
   
   def kml
-    # TODO use correct Content-type
-    #send_data Trace.find(params[:id]).to_kml.to_s, :type => "text/plain", :disposition => 'inline'
     @traces = [Trace.find(params[:id])] # array of traces
     render "traces.kml"
   end
