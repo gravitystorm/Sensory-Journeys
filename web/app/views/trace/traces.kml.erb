@@ -6,7 +6,7 @@
       <name><%=h trace.file_name %></name>
       <LineString>
         <coordinates>
-        <% trace.trace_points.each do |point| %>
+        <% trace.trace_points.summary.each do |point| %>
           <%=h point.lon %>,<%=h point.lat -%>
         <% end %>
         </coordinates>
@@ -14,7 +14,7 @@
     </Placemark>
     <% end %>
     <% @traces.each do |trace| %>
-      <% trace.waypoints.each do |wp| %>
+      <% trace.waypoints.summary.each do |wp| %>
             <Placemark>
             <name>Waypoint</name>
             <Point>

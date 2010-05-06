@@ -13,6 +13,8 @@ require File.join(File.dirname(__FILE__), 'boot')
 HOME_LOCATION = {:lat => 51.45855, :lon => -2.58391, :zoom => 13}
 MAX_MARKERS = 50
 MAX_TRACES = 5
+MAX_TRACE_POINTS_SUMMARY = 100
+MAX_WAYPOINTS_SUMMARY = 50
 USER_PASSWORD = 'go'
 ADMIN_PASSWORD = '26inchMTB'
 
