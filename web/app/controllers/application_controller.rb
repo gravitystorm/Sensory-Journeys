@@ -15,7 +15,12 @@ class ApplicationController < ActionController::Base
   
   def authorize
     if session[:user]
-      @user = User.find(session[:user])
+      begin
+        @user = User.find(session[:user])
+      rescue ActiveRecord::RecordNotFound
+        @user = nil
+        session[:user] = nil
+      end
     else
       @user = nil
     end
