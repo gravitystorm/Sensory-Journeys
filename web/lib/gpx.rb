@@ -194,7 +194,8 @@ private
     def valid?
       self.latitude and self.longitude and
       self.latitude >= -90 and self.latitude <= 90 and
-      self.longitude >= -180 and self.longitude <= 180
+      self.longitude >= -180 and self.longitude <= 180 and
+      self.timestamp.hour > GPS_NOT_BEFORE and self.timestamp.hour < GPS_NOT_AFTER
     end
   end
 end
