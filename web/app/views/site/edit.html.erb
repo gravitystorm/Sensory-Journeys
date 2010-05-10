@@ -29,11 +29,7 @@
     <% end %>
     var traces = new OpenLayers.Layer.Vector("My GPS traces",
                     { protocol: new OpenLayers.Protocol.HTTP({
-    <% if @mode %>
-                                    url: "/trace/traces.kml?user=<%= @user.id %>&mode=<%= @mode.id %>",
-    <% else %>
-                                    url: "/trace/traces.kml?user=<%= @user.id %>",
-    <% end %>
+                                    url: "/trace/traces.kml?<%= @trace_url_params %>",
                                     format: new OpenLayers.Format.KML({extractStyles: false, extractAttributes: true})
                                     }),
                       strategies: [new OpenLayers.Strategy.BBOX()],
@@ -164,8 +160,17 @@
     </div>
     
     <div id="sidebar-stats" class="sidebarbox">
+      <% if session[:alias] -%>
+        <p>Welcome, <%=h session[:alias] %></p>
+      <% end -%>
       <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %> 
       and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces'%></p>
     </div>
+    
+    <div id="sidebar-alias" class="sidebarbox">
+      <p>Enter alias to load scans and traces:</p>
+      <% form_tag({:action => 'fetchalias'}, {:id => 'aliasform'}) do %>
+        <p><%= text_field_tag 'alias' %><%= submit_tag 'Go!', :id => :alias_go %></p>
+      <% end %>
   </div>
 </div>

@@ -25,6 +25,17 @@ class SiteController < ApplicationController
     if params[:mode]
       @mode = params[:mode]
     end
+    #setup url parameters for fetching traces
+    #todo needs urlencoding?
+    trace_params = []
+    if session[:alias]
+      trace_params << "alias=#{session[:alias]}"
+    end
+    if @mode
+      trace_params << "mode=#{@mode.id}"
+    end
+    trace_params << "user=#{@user.id}"
+    @trace_url_params = trace_params.join("&")
   end
   
   def about
@@ -59,5 +70,23 @@ class SiteController < ApplicationController
     session[:user] = nil
     flash[:notice] = "You are now logged out"
     redirect_to(:action => :index)
+  end
+  
+  def fetchalias
+    if params[:alias] && (params[:alias] != '')
+      scans = [] #shadow_scans.fetch blah blah
+      traces = Trace.find(:all, :conditions => {:alias => params[:alias]})
+      if traces.length == 0 && scans.length == 0
+        flash[:error] = "I found no traces or scans with the alias '#{params[:alias]}'"
+        session[:alias] = nil
+      else
+        flash[:notice] = "I found #{traces.length} traces and #{scans.length} scans with the alias '#{params[:alias]}'"
+        session[:alias] = params[:alias]
+      end
+    else
+      flash[:error] = "No alias entered"
+      session[:alias] = nil
+    end
+    redirect_to(:action => :edit)
   end
 end

@@ -28,17 +28,27 @@ class TraceController < ApplicationController
     
     conditions = []
     arguments = {}
+    
     if params[:bbox]
       arguments[:minlon], arguments[:minlat], arguments[:maxlon], arguments[:maxlat] = params[:bbox].split(",").collect{|i| i.to_f}
       conditions << bboxString
     end
+    
     if params[:mode]
       arguments[:mode] = params[:mode]
       conditions << "mode_id = :mode"
     end
-    if params[:user]
+    
+    if params[:user] && params[:alias]
+      arguments[:user] = params[:user]
+      arguments[:alias] = params[:alias]
+      conditions << "(user_id = :user OR alias = :alias)"
+    elsif params[:user]
       arguments[:user] = params[:user]
       conditions << "user_id = :user"
+    elsif params[:alias]
+      arguments[:alias] = params[:alias]
+      conditions << "alias = :alias"
     end
     
     all_conditions = conditions.join(' AND ')
@@ -52,6 +62,7 @@ class TraceController < ApplicationController
       t.file_name = params[:upload]['gpx'].original_filename
       t.mode_id = params[:mode]
       t.school_id = params[:school]
+      t.alias = params[:alias]
       t.user_id = @user.id
       t.save!
 

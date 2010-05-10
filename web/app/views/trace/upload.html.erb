@@ -31,6 +31,9 @@
       <%= label_tag "mode_#{mode.id}", mode.name %>
     </p>
   <% end %>
+  <p>(Optional) add an alias for this GPX file:</p>
+  <p><%= text_field_tag 'alias' %></p>
+
   <%= submit_tag "Upload", :id => 'trace_save' %>
 
 <% end %>
