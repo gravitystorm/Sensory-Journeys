@@ -20,7 +20,7 @@ class TraceController < ApplicationController
   
   def kml
     @traces = [Trace.find(params[:id])] # array of traces
-    render "traces.kml"
+    render "traces.kml", :layout => false
   end
   
   def traces
