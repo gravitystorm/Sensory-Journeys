@@ -19,6 +19,7 @@ class SiteController < ApplicationController
       if(!ShadowScan.find_by_scan_id(params[:scan]))
         redirect_to(:controller => :shadow_scan, :action => :claim, :id=> params[:scan]) and return
       end
+      # TODO skip this if it's going to be shown otherwise
       @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
     end
     if params[:trace]
@@ -26,7 +27,7 @@ class SiteController < ApplicationController
       @showtrace = true if @trace
     end
     if params[:mode]
-      @mode = params[:mode]
+      @mode = Mode.find_by_id(params[:mode])
     end
     #setup url parameters for fetching traces
     #todo needs urlencoding?
