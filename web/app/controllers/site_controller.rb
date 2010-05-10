@@ -40,6 +40,10 @@ class SiteController < ApplicationController
     end
     trace_params << "user=#{@user.id}"
     @trace_url_params = trace_params.join("&")
+    @scans = @user.shadow_scans # TODO needs limiting?
+    if session[:alias]
+      @alias_scans = ShadowScan.find_by_alias(session[:alias])
+    end
   end
   
   def about

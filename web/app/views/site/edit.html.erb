@@ -23,6 +23,24 @@
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
     <% end %>
+    <% if @scans %>
+      <% @scans.each do |scan| %>
+      var overlay = new OpenLayers.Layer.TMS("My Scans", 
+                                        ["<%= (WP_URL+'files/scans/'+scan.scan_id+'/') %>"],
+                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                          transitionEffect: 'resize', isBaseLayer: false});
+      map.addLayer(overlay);
+      <% end %>
+    <% end %>
+    <% if @alias_scans %>
+      <% @alias_scans.each do |scan| %>
+      var overlay = new OpenLayers.Layer.TMS("Alias Scans", 
+                                        ["<%= (WP_URL+'files/scans/'+scan.scan_id+'/') %>"],
+                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                          transitionEffect: 'resize', isBaseLayer: false});
+      map.addLayer(overlay);
+      <% end %>
+    <% end %>
     <% if @showtrace %>
       var bbox = new OpenLayers.Bounds(<%= @trace.min_lon %>, <%= @trace.min_lat %>, <%= @trace.max_lon %>, <%= @trace.max_lat %>);
       setMapExtent(bbox);
@@ -163,8 +181,9 @@
       <% if session[:alias] -%>
         <p>Welcome, <%=h session[:alias] %></p>
       <% end -%>
-      <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %> 
-      and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces'%></p>
+      <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %>,
+      <%= @user.shadow_scans.count %> <%= @user.shadow_scans.count == 1 ? 'scan' : 'scans' %>
+      and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces' %></p>
     </div>
     
     <div id="sidebar-alias" class="sidebarbox">
