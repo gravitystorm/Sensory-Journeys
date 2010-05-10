@@ -81,6 +81,7 @@ class TraceController < ApplicationController
         t.max_lon = pt.lon if t.max_lon == nil || t.max_lon < pt.lon
         pt.timestamp = trkpt["timestamp"]
         pt.trace_id = t.id
+        pt.segment = trkpt.segment
         pt.save!
         hasPoints = true
       end

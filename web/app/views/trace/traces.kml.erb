@@ -4,13 +4,24 @@
     <% @traces.each do |trace| %>
     <Placemark>
       <name><%=h trace.file_name %></name>
-      <LineString>
-        <coordinates>
-        <% trace.trace_points.summary.each do |point| %>
-          <%=h point.lon %>,<%=h point.lat -%>
-        <% end %>
-        </coordinates>
-      </LineString>
+      <MultiGeometry>
+        <LineString>
+          <% segment = nil -%>
+          <coordinates>
+          <% trace.trace_points.summary.each do |point| -%>
+            <% segment = point.segment unless segment -%>
+            <% if segment != point.segment -%>
+              <% segment = point.segment -%>
+          </coordinates>
+        </LineString>
+        <LineString>
+          <coordinates>
+            <% end -%>
+            <%=h point.lon %>,<%=h point.lat %>
+          <% end -%>
+          </coordinates>
+        </LineString>
+      </MultiGeometry>
     </Placemark>
     <% end %>
     <% @traces.each do |trace| %>

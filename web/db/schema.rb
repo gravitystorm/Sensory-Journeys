@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419113202) do
+ActiveRecord::Schema.define(:version => 20100510111529) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20100419113202) do
     t.integer  "trace_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "segment",    :default => 1
   end
 
   add_index "trace_points", ["trace_id"], :name => "index_trace_points_on_trace_id"
