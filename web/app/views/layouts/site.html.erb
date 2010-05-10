@@ -51,10 +51,10 @@
   <div class="banner"><%= image_tag "sensory_journeys.png", :alt => 'Sensory Journeys' %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
 
     <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
+      <div class="notice"><%=h flash[:notice] %></div>
     <% end %>
     <% if flash[:error] %>
-      <div class="error"><%= flash[:error] %></div>
+      <div class="error"><%=h flash[:error] %></div>
     <% end %>
   <%= @content_for_layout %>
   <div id="footer">A collaboration between the artist Christian Nold &amp; Sustrans the sustainable transport charity</div>
