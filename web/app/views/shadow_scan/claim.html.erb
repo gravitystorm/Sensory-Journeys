@@ -1,0 +1,21 @@
+<h2>Please fill in the scan details</h2>
+<% form_tag({:action => 'doClaim'}, {:id => 'aliasform'}) do %>
+  <%= hidden_field_tag 'scan', @wp.id %>
+  <% @schools.each do |school| %>
+    <p>
+      <%= radio_button_tag 'school', school.id, false %>
+      <%= label_tag "school_#{school.id}", school.name %>
+    </p>
+  <% end %>
+  <p>2 Which transport did you mainly use:</p>
+  <% @modes.each do |mode| %>
+    <p>
+      <%= radio_button_tag 'mode', mode.id, false %>
+      <%= label_tag "mode_#{mode.id}", mode.name %>
+    </p>
+  <% end %>
+  <p>(Optional) add an alias for this scan:</p>
+  <p><%= text_field_tag 'alias' %></p>
+
+  <%= submit_tag "Save", :id => 'trace_save' %>
+<% end %>

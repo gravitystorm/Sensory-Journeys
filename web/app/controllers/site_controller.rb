@@ -16,6 +16,9 @@ class SiteController < ApplicationController
     @modes = Mode.find(:all, :order => :id)
     if params[:scan]
       # could validate the path here
+      if(!ShadowScan.find_by_scan_id(params[:scan]))
+        redirect_to(:controller => :shadow_scan, :action => :claim, :id=> params[:scan]) and return
+      end
       @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
     end
     if params[:trace]
