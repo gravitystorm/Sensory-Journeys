@@ -34,6 +34,7 @@ class SiteController < ApplicationController
     trace_params = []
     if session[:alias]
       trace_params << "alias=#{session[:alias]}"
+      @alias_traces_count = Trace.find(:all, :conditions => {:alias => session[:alias]}).length
     end
     if @mode
       trace_params << "mode=#{@mode.id}"
@@ -42,7 +43,8 @@ class SiteController < ApplicationController
     @trace_url_params = trace_params.join("&")
     @scans = @user.shadow_scans # TODO needs limiting?
     if session[:alias]
-      @alias_scans = ShadowScan.find_by_alias(session[:alias])
+      @alias_scans = ShadowScan.find(:all, :conditions => {:alias => session[:alias]})
+      @alias_scans_count = @alias_scans.length
     end
   end
   
@@ -82,7 +84,7 @@ class SiteController < ApplicationController
   
   def fetchalias
     if params[:alias] && (params[:alias] != '')
-      scans = [] #shadow_scans.fetch blah blah
+      scans = ShadowScan.find(:all, :conditions => {:alias => params[:alias]})
       traces = Trace.find(:all, :conditions => {:alias => params[:alias]})
       if traces.length == 0 && scans.length == 0
         flash[:error] = "I found no traces or scans with the alias '#{params[:alias]}'"

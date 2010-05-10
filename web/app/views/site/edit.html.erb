@@ -178,13 +178,18 @@
     </div>
     
     <div id="sidebar-stats" class="sidebarbox">
-      <% if session[:alias] -%>
-        <p>Welcome, <%=h session[:alias] %></p>
-      <% end -%>
       <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %>,
       <%= @user.shadow_scans.count %> <%= @user.shadow_scans.count == 1 ? 'scan' : 'scans' %>
       and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces' %></p>
     </div>
+    
+    <% if session[:alias] -%>
+    <div id="sidebar-hello" class="sidebarbox">
+      <p>Welcome, <%=h session[:alias] %></p>
+      <p>You have already got <%= @alias_scans_count %> <%= @alias_scans_count == 1 ? 'scan' : 'scans' %>
+      and <%= @alias_traces_count %> GPS <%= @alias_traces_count == 1 ? 'trace' : 'traces' %>
+    </div>
+    <% end -%>
     
     <div id="sidebar-alias" class="sidebarbox">
       <p>Enter alias to load scans and traces:</p>
