@@ -90,7 +90,7 @@ class SiteController < ApplicationController
         flash[:error] = "I found no traces or scans with the alias '#{params[:alias]}'"
         session[:alias] = nil
       else
-        flash[:notice] = "I found #{traces.length} traces and #{scans.length} scans with the alias '#{params[:alias]}'"
+        flash[:notice] = "Welcome, #{params[:alias]}!"
         session[:alias] = params[:alias]
       end
     else
