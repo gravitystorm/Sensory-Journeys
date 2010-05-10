@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100510111529) do
+ActiveRecord::Schema.define(:version => 20100510152850) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(:version => 20100510111529) do
     t.datetime "updated_at"
   end
 
+  create_table "shadow_scans", :force => true do |t|
+    t.text     "scan_id"
+    t.integer  "school_id"
+    t.integer  "mode_id"
+    t.integer  "user_id"
+    t.text     "alias"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "trace_points", :force => true do |t|
     t.float    "lat"
     t.float    "lon"
@@ -63,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20100510111529) do
     t.float    "min_lon"
     t.float    "max_lon"
     t.integer  "school_id"
+    t.text     "alias"
   end
 
   add_index "traces", ["max_lat"], :name => "index_traces_on_max_lat"
