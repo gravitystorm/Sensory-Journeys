@@ -1,0 +1,9 @@
+[submodule "decoder/ModestMaps"]
+	path = wp/decoder/ModestMaps
+	url = http://github.com/migurski/modestmaps-py.git
+[submodule "site/lib/ModestMaps"]
+	path = wp/site/lib/ModestMaps
+	url = http://github.com/migurski/modestmaps-php.git
+[submodule "decoder/vlfeat"]
+	path = wp/decoder/vlfeat
+	url = http://github.com/migurski/vlfeat.git
