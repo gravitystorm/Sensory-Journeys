@@ -20,6 +20,7 @@ GPS_NOT_BEFORE = 7
 GPS_NOT_AFTER = 20
 USER_PASSWORD = 'go'
 ADMIN_PASSWORD = '26inchMTB'
+WP_URL = 'http://wp.sensoryjourneys.net/' #with trailing slash
 
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
