@@ -54,6 +54,8 @@ sudo -u postgres -i
 
 psql -U sensory -h localhost -f site/doc/create.postgres paperwalking
 
+cd wp
+git submodule init && git submodule update
 cd site && make
 cd decoder && make
 sudo nano /etc/php5/apache2/php.ini 
