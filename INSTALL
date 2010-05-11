@@ -24,6 +24,8 @@ sudo gem install pg
 cd config
 cp postgres.example.database.yml database.yml
 nano database.yml
+cp example.environment.rb environment.rb
+nano environment.rb
 
 rake db:migrate
 
