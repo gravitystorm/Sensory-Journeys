@@ -27,7 +27,6 @@ class MarkerController < ApplicationController
     else
       @markers = Marker.find(:all)
     end
-    # TODO use correct Content-type
   end
 
 end
