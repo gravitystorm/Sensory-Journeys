@@ -9,7 +9,7 @@ class SiteController < ApplicationController
     if params[:mode]
       @mode = Mode.find_by_id(params[:mode])
     end
-    @scans = Wpscan.find(:all, :conditions => {:last_step => 6}, :limit => MAX_SCANS)
+    @scans = ShadowScan.find(:all, :limit => MAX_SCANS)
   end
   
   def edit
