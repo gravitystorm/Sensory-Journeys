@@ -31,7 +31,7 @@ class AdminController < ApplicationController
     assert_method :post
     
     trace = Trace.find(params[:trace_id])
-    trace.delete
+    trace.destroy
     flash[:notice] = "Deleted trace #{trace.id}"
     redirect_to :action => :traces
   end
