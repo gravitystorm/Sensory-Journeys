@@ -79,7 +79,22 @@ class TraceController < ApplicationController
         list << point
       end
       
-      simpleList = dp.simplify(list)
+      #need to simplify trksegs individually, otherwise they can end up
+      #with only one point (not good for rendering a line)
+      seglist = []
+      simpleList = []
+      #build a list of segments containing their points
+      list.each do |point|
+        seglist[point.segment] = [] unless seglist[point.segment]
+        seglist[point.segment] << point
+      end
+      #simplify each segment, and add the remaining points to the overall
+      #points list
+      seglist.each do |seg|
+        dp.simplify(seg).each do |point|
+          simpleList << point
+        end
+      end
       
       # Add the simplified points to the db
       simpleList.each do |trkpt|
