@@ -6,7 +6,8 @@
 
 module DpSimplify
   class LineString
-  @@dp_threshold = 0.00001
+  #@@dp_threshold = 0.00001
+  @@dp_threshold = 0.0002
   
   def simplify( points )
   
