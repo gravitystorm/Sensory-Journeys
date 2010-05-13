@@ -66,6 +66,13 @@ class SiteController < ApplicationController
         session[:alias] = nil
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
+      elsif params[:password] == ADMIN_PASSWORD
+        user = User.new
+        user.save!
+        session[:user] = user.id
+        session[:admin] = true
+        flash[:notice] = "Welcome, administrator"
+        redirect_to(:controller => :admin, :action => :index)
       else
         flash[:error] = "You supplied the wrong password, please try again."
         # TODO keep password dialog open

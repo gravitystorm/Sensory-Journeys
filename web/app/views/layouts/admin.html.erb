@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+  <%= stylesheet_link_tag 'common' %>
+    <% if @title %>
+    <title><%=h @title %></title>
+    <% else %>
+    <title>Admin - Sensory Journeys</title>
+    <% end %>
+</head>
+
+<body>
+ <div class="banner"><%= image_tag "sensory_journeys.png", :alt => 'Sensory Journeys' %>
+    <h2>Communal Visualisation of people's experiences while travelling</h2>
+    <h2>ADMINISTRATION INTERFACE</h2>
+    <br clear="both"/>
+ </div>
+
+    <% if flash[:notice] %>
+      <div class="notice"><%=h flash[:notice] %></div>
+    <% end %>
+    <% if flash[:error] %>
+      <div class="error"><%=h flash[:error] %></div>
+    <% end %>
+  <%= @content_for_layout %>
+</body>
+</html>

@@ -32,4 +32,11 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => :site, :action => :index
     end
   end
+  
+  def require_admin
+    unless @user && session[:admin] == true
+      flash[:error] = "You can't access that page"
+      redirect_to :controller => :site, :action => :index
+    end
+  end
 end

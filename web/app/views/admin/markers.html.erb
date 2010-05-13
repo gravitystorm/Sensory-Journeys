@@ -1,0 +1,23 @@
+<% emotions = {'happy' => 'positive.png',
+                'neutral' => 'neutral.png',
+                'sad' => 'negative.png'} %>
+
+<h2>Markers</h2>
+<%= link_to 'Download all markers (kml)', {:controller => :marker, :action => :all, :format => :kml} %>
+<table>
+<% @markers.each do |marker| %>
+  <tr>
+    <td>
+      <% form_tag({:action => :marker_delete}) do %>
+        <%= hidden_field_tag 'marker_id', marker.id %>
+        <%= submit_tag 'Delete' %>
+      <% end %>
+    </td>
+    <td><%= marker.id %></td>
+    <td><%= image_tag emotions[marker.emotion] %>
+    <td><%= "%.2f" % marker.lat %></td>
+    <td><%= "%.2f" % marker.lon %></td>
+    <td><%= marker.text %></td>
+  </tr>
+<% end %>
+</ul>
