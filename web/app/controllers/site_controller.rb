@@ -63,6 +63,7 @@ class SiteController < ApplicationController
         user = User.new
         user.save!
         session[:user] = user.id
+        session[:alias] = nil
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
       else
