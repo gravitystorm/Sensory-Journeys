@@ -155,3 +155,10 @@ a.sidebarlink:hover
 {
   font-weight: bold;
 }
+
+table.admin td
+{
+  margin: 1px;
+  padding: 2px;
+  background-color: #f4f4ff
+}
