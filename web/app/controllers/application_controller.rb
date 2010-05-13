@@ -39,4 +39,19 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => :site, :action => :index
     end
   end
+  
+  def assert_method(method)
+    ok = request.send((method.to_s.downcase + "?").to_sym)
+    raise NotThatMethodError unless ok
+  end
+  
+  class NotThatMethodError < RuntimeError
+    def status
+      :method_not_allowed
+    end
+    
+    def to_s
+      "Oi! Stop poking around the website."
+    end
+  end
 end
