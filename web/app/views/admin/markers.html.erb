@@ -4,7 +4,18 @@
 
 <h2>Markers</h2>
 <%= link_to 'Download all markers (kml)', {:controller => :marker, :action => :all, :format => :kml} %>
-<table>
+
+<table class="admin">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id</th>
+      <th>emotion</th>
+      <th>lat</th>
+      <th>lon</th>
+      <th>text</th>
+    </tr>
+  </thead>
 <% @markers.each do |marker| %>
   <tr>
     <td>
