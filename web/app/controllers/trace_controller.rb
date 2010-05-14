@@ -91,7 +91,8 @@ class TraceController < ApplicationController
       #simplify each segment, and add the remaining points to the overall
       #points list
       seglist.each do |seg|
-        dp.simplify(seg).each do |point|
+        next if !seg || seg.length == 1 #some segments will be zero-length since all their points were invalid
+          dp.simplify(seg).each do |point|
           simpleList << point
         end
       end
