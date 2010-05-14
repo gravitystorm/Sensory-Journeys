@@ -48,6 +48,7 @@ module GPX
     def waypoints
       @possible_waypoints = 0
       @actual_waypoints = 0
+      @wptracksegs = 0
       
       @file.rewind
       
@@ -58,8 +59,8 @@ module GPX
       while reader.read #> 0
         if reader.node_type == XML::Reader::TYPE_ELEMENT
           if reader.name == "wpt"
-            point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
-            @possible_points += 1
+            point = WayPt.new(@wptracksegs, reader["lat"].to_f, reader["lon"].to_f)
+            @possible_waypoints += 1
           elsif reader.name == "ele" and point
             point.altitude = reader.read_string.to_f
           elsif reader.name == "time" and point
@@ -69,9 +70,9 @@ module GPX
           if reader.name == "wpt" and point and point.valid?
             point.altitude ||= 0
             yield point
-            @actual_points += 1
+            @actual_waypoints += 1
           elsif reader.name == "trkseg"
-            @tracksegs += 1
+            @wptracksegs += 1
           end
         end
       end
@@ -195,7 +196,16 @@ private
       self.latitude and self.longitude and
       self.latitude >= -90 and self.latitude <= 90 and
       self.longitude >= -180 and self.longitude <= 180 and
-      self.timestamp.hour > GPS_NOT_BEFORE and self.timestamp.hour < GPS_NOT_AFTER
+      self.timestamp.hour >= GPS_NOT_BEFORE and self.timestamp.hour < GPS_NOT_AFTER
+    end
+  end
+  
+  class WayPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp)
+    def valid?
+      self.latitude and self.longitude and 
+      self.latitude >= -90 and self.latitude <= 90 and
+      self.longitude >= -180 and self.longitude <= 180
+      # don't validate timestamps
     end
   end
 end
