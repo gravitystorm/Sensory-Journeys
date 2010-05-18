@@ -55,4 +55,8 @@ class AdminController < ApplicationController
     flash[:notice] = "Deleted details of scan #{scan.scan_id}, which will now appear in the unprocessed list"
     redirect_to :action => :scans
   end
+  
+  def schools
+    @schools = School.find(:all)
+  end
 end

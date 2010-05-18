@@ -1,0 +1,25 @@
+<h2>Schools</h2>
+<table class="admin">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Traces</th>
+      <th>Scans</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <% @schools.each do |school| %>
+  <tr>
+    <td><%= school.id %></td>
+    <td><%= school.name %></td>
+    <td><%= school.lat %></td>
+    <td><%= school.lon %></td>
+    <td><%= school.traces.count %></td>
+    <td><%= school.shadow_scans.count %></td>
+    <td><%= school.updated_at %></td>
+  </tr>
+  <% end %>
+</table>
