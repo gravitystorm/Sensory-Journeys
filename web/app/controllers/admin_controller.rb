@@ -35,4 +35,15 @@ class AdminController < ApplicationController
     flash[:notice] = "Deleted trace #{trace.id}"
     redirect_to :action => :traces
   end
+  
+  def scans
+    @shadow_scans = ShadowScan.find(:all, :order => :id)
+    @wp_scans = Wpscan.find(:all)
+    
+    @unclaimed_scans = []
+    # This is a horrid way to ensure the system grinds to an eventual halt
+    @wp_scans.each do |scan|
+      @unclaimed_scans << scan unless ShadowScan.find_by_scan_id(scan.id)
+    end
+  end
 end

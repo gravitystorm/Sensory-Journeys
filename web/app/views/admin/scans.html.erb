@@ -1,0 +1,50 @@
+<h2>Processed Scans (<%= @shadow_scans.count %>)</h2>
+<table class="admin">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Scan ID</th>
+      <th>School</th>
+      <th>Mode</th>
+      <th>User</th>
+      <th>Alias</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <% @shadow_scans.each do |scan| %>
+  <tr>
+    <td>Delete</td>
+    <td><%= scan.scan_id %></td>
+    <td><%= scan.school.name %></td>
+    <td><%= scan.mode.name %></td>
+    <td><%= scan.user_id %></td>
+    <td><%= scan.alias %></td>
+    <td><%= scan.updated_at %></td>
+  </tr>
+  <% end %>
+</table>
+
+<h2>Unprocessed Scans (<%= @unclaimed_scans.count %>)</h2>
+
+<table class="admin">
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Scan ID</th>
+      <th>Last Step</th>
+      <th>Description</th>
+      <th>Print ID</th>
+      <th>Uploaded</th>
+    </tr>
+  </thead>
+  <% @unclaimed_scans.each do |scan| %>
+  <tr>
+    <td><%= link_to 'Process Scan', :controller => :site, :action => :edit, :scan => scan.id if scan.last_step == 6 %>
+    <td><%= scan.id %></td>
+    <td><%= scan.last_step %></td>
+    <td><%= scan.status %></td>
+    <td><%= scan.print_id %></td>
+    <td><%= scan.created %></td>
+  </tr>
+  <% end %>
+</table>
