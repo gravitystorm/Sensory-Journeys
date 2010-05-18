@@ -1,0 +1,21 @@
+<h2>Modes</h2>
+<table class="admin">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Traces</th>
+      <th>Scans</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <% @modes.each do |mode| %>
+  <tr>
+    <td><%= mode.id %></td>
+    <td><%= mode.name %></td>
+    <td><%= mode.traces.count %></td>
+    <td><%= mode.shadow_scans.count %></td>
+    <td><%= mode.updated_at %></td>
+  </tr>
+  <% end %>
+</table>

@@ -8,6 +8,7 @@ class AdminController < ApplicationController
     @scans = ShadowScan.find(:all)
     @traces = Trace.find(:all)
     @schools = School.find(:all)
+    @modes = Mode.find(:all)
   end
   
   def markers
@@ -58,5 +59,9 @@ class AdminController < ApplicationController
   
   def schools
     @schools = School.find(:all)
+  end
+  
+  def modes
+    @modes = Mode.find(:all)
   end
 end
