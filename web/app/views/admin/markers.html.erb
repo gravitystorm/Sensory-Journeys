@@ -14,6 +14,8 @@
       <th>lat</th>
       <th>lon</th>
       <th>text</th>
+      <th>user</th>
+      <th>uploaded</th>
     </tr>
   </thead>
 <% @markers.each do |marker| %>
@@ -29,6 +31,8 @@
     <td><%= "%.2f" % marker.lat %></td>
     <td><%= "%.2f" % marker.lon %></td>
     <td><%= marker.text %></td>
+    <td><%= marker.user_id %></td>
+    <td><%= marker.created_at %></td>
   </tr>
 <% end %>
 </ul>

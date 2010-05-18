@@ -1,4 +1,4 @@
-
+<h2>Traces</h2>
 <table class="admin">
   <thead>
     <tr>
@@ -11,6 +11,7 @@
       <th>alias</th>
       <th>school</th>
       <th>mode</th>
+      <th>user</th>
       <th>uploaded</th>
     </tr>
   </thead>
@@ -29,6 +30,7 @@
     <td><%= trace.alias %></td>
     <td><%= trace.school.name if trace.school %></td>
     <td><%= trace.mode.name if trace.mode %></td>
+    <td><%= trace.user_id %></td>
     <td><%= trace.created_at %></td>
   </tr>
 <% end %>
