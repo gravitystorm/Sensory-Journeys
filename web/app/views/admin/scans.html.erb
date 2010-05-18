@@ -13,7 +13,11 @@
   </thead>
   <% @shadow_scans.each do |scan| %>
   <tr>
-    <td>Delete</td>
+    <td><% form_tag({:controller => :admin, :action => :scan_remove}) do %>
+          <%= hidden_field_tag 'scan_id', scan.id %>
+          <%= submit_tag 'Remove' %>
+        <% end %>
+    </td>
     <td><%= scan.scan_id %></td>
     <td><%= scan.school.name %></td>
     <td><%= scan.mode.name %></td>

@@ -38,12 +38,21 @@ class AdminController < ApplicationController
   
   def scans
     @shadow_scans = ShadowScan.find(:all, :order => :id)
-    @wp_scans = Wpscan.find(:all)
+    @wp_scans = Wpscan.find(:all, :order => :created)
     
     @unclaimed_scans = []
     # This is a horrid way to ensure the system grinds to an eventual halt
     @wp_scans.each do |scan|
       @unclaimed_scans << scan unless ShadowScan.find_by_scan_id(scan.id)
     end
+  end
+  
+  def scan_remove
+    assert_method :post
+    
+    scan = ShadowScan.find(params[:scan_id])
+    scan.destroy
+    flash[:notice] = "Deleted details of scan #{scan.scan_id}, which will now appear in the unprocessed list"
+    redirect_to :action => :scans
   end
 end
