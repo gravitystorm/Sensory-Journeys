@@ -14,15 +14,13 @@
 <script type="text/javascript">
   <!--
   function post_init() {
-    <% if @scans %>
-      <% @scans.each do |scan| %>
-      var overlay = new OpenLayers.Layer.TMS("Scan",
-                                        ["<%= (WP_URL+'files/scans/'+scan.scan_id+'/') %>"],
-                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
-                                          transitionEffect: 'resize', isBaseLayer: false});
-      map.addLayer(overlay);
-      <% end %>
-    <% end %>
+
+    var overlay = new OpenLayers.Layer.TMS("All Scans",
+                                      ["<%= (WP_URL+'files/scans/all/') %>"],
+                                      { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                        transitionEffect: 'resize', isBaseLayer: false});
+    map.addLayer(overlay);
+
     <% if @mode %>
       map.addLayer(getTraces("<%=h @mode.id %>"));
     <% else %>

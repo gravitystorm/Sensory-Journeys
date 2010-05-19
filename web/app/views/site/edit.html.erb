@@ -19,7 +19,7 @@
     <% if @overlay_url %>
       var overlay = new OpenLayers.Layer.TMS("Scan",
                                         ["<%= @overlay_url %>"],
-                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                        { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
     <% end %>
@@ -27,7 +27,7 @@
       <% @scans.each do |scan| %>
       var overlay = new OpenLayers.Layer.TMS("My Scans",
                                         ["<%= (WP_URL+'files/scans/'+scan.scan_id+'/') %>"],
-                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                        { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
       <% end %>
@@ -36,7 +36,7 @@
       <% @alias_scans.each do |scan| %>
       var overlay = new OpenLayers.Layer.TMS("Alias Scans",
                                         ["<%= (WP_URL+'files/scans/'+scan.scan_id+'/') %>"],
-                                        { type: 'jpg', getURL: getTileURL, displayOutsideMaxExtent: true,
+                                        { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
       <% end %>
