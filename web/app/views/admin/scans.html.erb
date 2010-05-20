@@ -19,8 +19,8 @@
         <% end %>
     </td>
     <td><%= scan.scan_id %></td>
-    <td><%= scan.school.name %></td>
-    <td><%= scan.mode.name %></td>
+    <td><%= if scan.school then scan.school.name else "(none)" end %></td>
+    <td><%= if scan.mode then scan.mode.name else "(none)" end %></td>
     <td><%= scan.user_id %></td>
     <td><%= scan.alias %></td>
     <td><%= scan.updated_at %></td>
