@@ -16,7 +16,7 @@
   function post_init() {
 
     var overlay = new OpenLayers.Layer.TMS("All Scans",
-                                      ["<%= (WP_URL+'files/scans/all/') %>"],
+                                      ["<%= (WP_URL+'files/scans/composite/'+ (@mode ? "mode_#{@mode.id}" : 'all') +'/') %>"],
                                       { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
                                         transitionEffect: 'resize', isBaseLayer: false});
     map.addLayer(overlay);
