@@ -33,8 +33,8 @@ for scan in os.listdir(base):
             if os.path.exists(os.path.join(base, all, zoom, x, y)): #blend the tiles together
               im = Image.open(os.path.join(base, all, zoom, x, y))
               im2 = Image.open(os.path.join(base, scan, zoom, x, y))
-              im3 = Image.composite(im, im2, im) #this transparency mask is a bit of a bodge, but seems to work for pngs
-              im3.save(os.path.join(base, all, zoom, x, y))
+              im.paste(im2, None, im2)
+              im.save(os.path.join(base, all, zoom, x, y))
               sys.stdout.write(".")
               sys.stdout.flush()
             else: #copy the file over as-is
