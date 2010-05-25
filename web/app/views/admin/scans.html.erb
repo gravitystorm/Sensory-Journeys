@@ -27,8 +27,16 @@
                           "{" + "collection: " + ActiveSupport::JSON.encode(@schools.map{|s| [s.id, s.name]}) + ", " +
                           "externalControl: 'edit_school_#{@scan.id}'" + "}" +
                           ");") %>
-</td>
-    <td><%= if @scan.mode then @scan.mode.name else "(none)" end %></td>
+    </td>
+    <td>
+      <a id="edit_mode_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_mode_<%= @scan.id %>_in_place_editor"><%= if @scan.mode then @scan.mode.name else "(none)" end %></span>
+      <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
+                          "'scan_mode_#{@scan.id}_in_place_editor', " +
+                          "'" + url_for({:controller => :shadow_scan, :action => :set_shadow_scan_mode_id, :id => @scan.id}) + "', " +
+                          "{" + "collection: " + ActiveSupport::JSON.encode(@modes.map{|s| [s.id, s.name]}) + ", " +
+                          "externalControl: 'edit_mode_#{@scan.id}'" + "}" +
+                          ");") %>
+    </td>
     <td><%= @scan.user_id %></td>
     <td><a id="edit_alias_<%= @scan.id %>" class="external_control">¤</a><%= in_place_editor_field :scan, :alias, {}, {:url => {:controller => :shadow_scan, :action => :set_shadow_scan_alias, :id => @scan.id}, :external_control=>"edit_alias_#{@scan.id}"} %></td>
     <td><%= @scan.updated_at %></td>

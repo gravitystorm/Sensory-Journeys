@@ -2,11 +2,11 @@ class ShadowScanController < ApplicationController
   
   before_filter :authorize
   before_filter :require_user
-  before_filter :require_admin, :only => [:set_scan_alias]
+  before_filter :require_admin, :only => [:set_shadow_scan_alias, :set_shadow_scan_school_id, :set_shadow_scan_mode_id]
   
   in_place_edit_for :shadow_scan, :alias
   
-  #in_place_edit_for :shadow_scan, :school_id
+  #in_place_edit_for :shadow_scan, :school_id  -- would return id instead of name when called
   def set_shadow_scan_school_id
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
@@ -15,6 +15,17 @@ class ShadowScanController < ApplicationController
     @scan.school_id = params[:value]
     @scan.save
     render :text => CGI::escapeHTML(@scan.school.name)
+  end
+  
+  #in_place_edit_for :shadow_scan, :mode_id
+  def set_shadow_scan_mode_id
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @scan = ShadowScan.find(params[:id])
+    @scan.mode_id = params[:value]
+    @scan.save
+    render :text => CGI::escapeHTML(@scan.mode.name)
   end
   
   def claim
