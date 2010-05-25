@@ -2,8 +2,11 @@ class MarkerController < ApplicationController
   require 'xml/libxml'
   include XML
   
+  in_place_edit_for :marker, :text
+  
   before_filter :authorize
   before_filter :require_user, :only => [:save]
+  before_filter :require_admin, :only => [:set_marker_text]
   
   def view
   end

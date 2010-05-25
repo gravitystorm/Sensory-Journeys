@@ -18,21 +18,21 @@
       <th>uploaded</th>
     </tr>
   </thead>
-<% @markers.each do |marker| %>
+<% @markers.each do |@marker| %>
   <tr>
     <td>
       <% form_tag({:action => :marker_delete}) do %>
-        <%= hidden_field_tag 'marker_id', marker.id %>
+        <%= hidden_field_tag 'marker_id', @marker.id %>
         <%= submit_tag 'Delete' %>
       <% end %>
     </td>
-    <td><%= marker.id %></td>
-    <td><%= image_tag emotions[marker.emotion] %>
-    <td><%= "%.2f" % marker.lat %></td>
-    <td><%= "%.2f" % marker.lon %></td>
-    <td><%= marker.text %></td>
-    <td><%= marker.user_id %></td>
-    <td><%= marker.created_at %></td>
+    <td><%= @marker.id %></td>
+    <td><%= image_tag emotions[@marker.emotion] %>
+    <td><%= "%.2f" % @marker.lat %></td>
+    <td><%= "%.2f" % @marker.lon %></td>
+    <td><%= in_place_editor_field :marker, :text, {}, :url => {:controller => :marker, :action => :set_marker_text, :id => @marker.id} %></td>
+    <td><%= @marker.user_id %></td>
+    <td><%= @marker.created_at %></td>
   </tr>
 <% end %>
 </ul>
