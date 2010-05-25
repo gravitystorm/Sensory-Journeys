@@ -6,6 +6,17 @@ class ShadowScanController < ApplicationController
   
   in_place_edit_for :shadow_scan, :alias
   
+  #in_place_edit_for :shadow_scan, :school_id
+  def set_shadow_scan_school_id
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @scan = ShadowScan.find(params[:id])
+    @scan.school_id = params[:value]
+    @scan.save
+    render :text => CGI::escapeHTML(@scan.school.name)
+  end
+  
   def claim
     #TODO - handle bogus claims
     #TODO - handle claims already made

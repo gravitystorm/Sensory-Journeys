@@ -46,6 +46,8 @@ class AdminController < ApplicationController
     @wp_scans.each do |scan|
       @unclaimed_scans << scan unless ShadowScan.find_by_scan_id(scan.id)
     end
+    @schools = School.find(:all)
+    @modes = Mode.find(:all)
   end
   
   def scan_remove
