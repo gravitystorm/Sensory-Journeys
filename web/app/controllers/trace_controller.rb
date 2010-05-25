@@ -8,6 +8,28 @@ class TraceController < ApplicationController
   
   in_place_edit_for :trace, :alias
   
+  #in_place_edit_for :trace, :school_id  -- would return id instead of name when called
+  def set_trace_school_id
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @trace = Trace.find(params[:id])
+    @trace.school_id = params[:value]
+    @trace.save
+    render :text => CGI::escapeHTML(@trace.school.name)
+  end
+  
+  #in_place_edit_for :trace, :mode_id
+  def set_trace_mode_id
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @trace = Trace.find(params[:id])
+    @trace.mode_id = params[:value]
+    @trace.save
+    render :text => CGI::escapeHTML(@trace.mode.name)
+  end
+  
   def index
     @traces = Trace.find(:all)
   end

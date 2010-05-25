@@ -26,6 +26,8 @@ class AdminController < ApplicationController
   
   def traces
     @traces = Trace.find(:all, :order => :id)
+    @schools = School.find(:all)
+    @modes = Mode.find(:all)
   end
   
   def trace_delete
