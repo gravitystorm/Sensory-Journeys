@@ -2,6 +2,9 @@ class ShadowScanController < ApplicationController
   
   before_filter :authorize
   before_filter :require_user
+  before_filter :require_admin, :only => [:set_scan_alias]
+  
+  in_place_edit_for :shadow_scan, :alias
   
   def claim
     #TODO - handle bogus claims

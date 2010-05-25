@@ -4,6 +4,9 @@ class TraceController < ApplicationController
   
   before_filter :authorize
   before_filter :require_user, :only => [:uploadFile]
+  before_filter :require_admin, :only => [:set_trace_alias]
+  
+  in_place_edit_for :trace, :alias
   
   def index
     @traces = Trace.find(:all)

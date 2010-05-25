@@ -15,23 +15,23 @@
       <th>uploaded</th>
     </tr>
   </thead>
-<% @traces.each do |trace| %>
+<% @traces.each do |@trace| %>
   <tr>
     <td><% form_tag({:controller => :admin, :action => :trace_delete}) do %>
-          <%= hidden_field_tag 'trace_id', trace.id %>
+          <%= hidden_field_tag 'trace_id', @trace.id %>
           <%= submit_tag 'Delete' %>
         <% end %>
     </td>
-    <td><%= trace.id %></td>
-    <td><%= link_to 'kml', :controller => :trace, :action => :kml, :id => trace.id, :format => :kml %>
-    <td><%=h trace.file_name %></td>
-    <td><%= trace.trace_points.count %></td>
-    <td><%= trace.waypoints.count %></td>
-    <td><%= trace.alias %></td>
-    <td><%= trace.school.name if trace.school %></td>
-    <td><%= trace.mode.name if trace.mode %></td>
-    <td><%= trace.user_id %></td>
-    <td><%= trace.created_at %></td>
+    <td><%= @trace.id %></td>
+    <td><%= link_to 'kml', :controller => :trace, :action => :kml, :id => @trace.id, :format => :kml %>
+    <td><%=h @trace.file_name %></td>
+    <td><%= @trace.trace_points.count %></td>
+    <td><%= @trace.waypoints.count %></td>
+    <td><a id="edit_alias_<%= @trace.id %>" class="external_control">¤</a><%= in_place_editor_field :trace, :alias, {}, {:url => {:controller => :trace, :action => :set_trace_alias, :id => @trace.id}, :external_control=>"edit_alias_#{@trace.id}"} %></td>
+    <td><%= @trace.school.name if @trace.school %></td>
+    <td><%= @trace.mode.name if @trace.mode %></td>
+    <td><%= @trace.user_id %></td>
+    <td><%= @trace.created_at %></td>
   </tr>
 <% end %>
 </table>

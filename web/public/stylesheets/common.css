@@ -162,3 +162,8 @@ table.admin td
   padding: 2px;
   background-color: #f4f4ff
 }
+
+.external_control
+{
+  color: #dddddd;
+}
