@@ -1,17 +1,19 @@
 body
 {
   width: 1000px;
+  line-height: 1.6; 
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 8pt;
 }
 
 td.navtab
 {
-  width: 740px;
+  width: 810px;
   vertical-align: bottom;
 }
 
 div.iconlink
 {
-  padding: 0.5em;
   font-size: 0.8em;
   vertical-align: center;
 }
@@ -24,12 +26,8 @@ div.iconlink img
 
 #tabnav
 {
-  height: 20px;
   margin: 0px;
   margin-bottom: 1em;
-  padding-left: 215px;
-  padding-top: 5px;
-  background: url('../images/tab_bottom.gif') repeat-x bottom;
 }
 #tabnav li
 {
@@ -42,9 +40,7 @@ div.iconlink img
 {
   float: left;
   background: #f3f3f3;
-  font-size: 13px;
   line-height: 14px;
-  font-weight: bold;
   padding: 2px 10px;
   margin-right: 4px;
   border: 1px solid #ccc;
@@ -64,8 +60,8 @@ div.iconlink img
 
 #map
 {
-  width: 740px;
-  height: 600px;
+  width: 810px;
+  height: 500px;
   border: 1px solid black;
   float: left;
   display: inline;
@@ -76,7 +72,7 @@ div.iconlink img
   padding-left: 1em;
   float: right;
   display: inline;
-  width: 240px;
+  width: 160px;
 }
 
 #footer
