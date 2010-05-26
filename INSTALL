@@ -65,3 +65,12 @@ nano init.php (change dsn and final_destination)
 sudo nano /etc/php5/apache2/php.ini 
   ; Maximum allowed size for uploaded files.
   upload_max_filesize = 25M
+  *also max post size*
+  
+========= scans-compile.py ==========
+
+sudo apt-get install python-psycopg2
+cd wp
+cp example.dbconnect.py dbconnect.py
+nano dbconnect.py
+
