@@ -9,7 +9,7 @@ class SiteController < ApplicationController
     if params[:mode]
       @mode = Mode.find_by_id(params[:mode])
     end
-    @scans = ShadowScan.find(:all, :limit => MAX_SCANS)
+    @scans = ShadowScan.find(:all, :limit => Settings.max_scans)
   end
   
   def edit
@@ -59,14 +59,14 @@ class SiteController < ApplicationController
   def login
     # TODO admin mode
     if params[:password]
-      if params[:password] == USER_PASSWORD
+      if params[:password] == Settings.user_password
         user = User.new
         user.save!
         session[:user] = user.id
         session[:alias] = nil
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
-      elsif params[:password] == ADMIN_PASSWORD
+      elsif params[:password] == Settings.admin_password
         user = User.new
         user.save!
         session[:user] = user.id

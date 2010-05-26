@@ -196,7 +196,7 @@ private
       self.latitude and self.longitude and
       self.latitude >= -90 and self.latitude <= 90 and
       self.longitude >= -180 and self.longitude <= 180 and
-      self.timestamp.hour >= GPS_NOT_BEFORE and self.timestamp.hour < GPS_NOT_AFTER
+      self.timestamp.hour >= Settings.gps_not_before and self.timestamp.hour < Settings.gps_not_after
     end
   end
   

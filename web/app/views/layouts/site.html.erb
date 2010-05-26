@@ -14,8 +14,8 @@
         <!--
         
         function init(){
-          var centre = lonLatToMercator( new OpenLayers.LonLat(<%= HOME_LOCATION[:lon] %>, <%= HOME_LOCATION[:lat] %>));
-          var zoom = <%= HOME_LOCATION[:zoom] %>;
+          var centre = lonLatToMercator( new OpenLayers.LonLat(<%= Settings.home_location_lon %>, <%= Settings.home_location_lat %>));
+          var zoom = <%= Settings.home_location_zoom %>;
           var cookietext = readCookie('_osm_location');
           if (cookietext) {
             var cb = cookietext.split('|');
