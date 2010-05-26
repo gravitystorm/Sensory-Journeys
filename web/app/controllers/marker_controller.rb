@@ -26,7 +26,7 @@ class MarkerController < ApplicationController
     if params[:bbox]
       minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
       @markers = Marker.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
-                             :limit => MAX_MARKERS, :order => "created_at DESC")
+                             :limit => Settings.max_markers, :order => "created_at DESC")
     else
       @markers = Marker.find(:all)
     end

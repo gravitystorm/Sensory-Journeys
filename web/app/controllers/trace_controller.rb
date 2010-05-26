@@ -78,7 +78,7 @@ class TraceController < ApplicationController
     
     all_conditions = conditions.join(' AND ')
     
-    @traces = Trace.find(:all, :conditions => [all_conditions, arguments], :limit => MAX_TRACES, :order => "created_at DESC")
+    @traces = Trace.find(:all, :conditions => [all_conditions, arguments], :limit => Settings.max_traces, :order => "created_at DESC")
   end
   
   def uploadFile
