@@ -247,7 +247,7 @@
         $pdf->image($map_filename, 36, 72, $pdf->w - 72, $pdf->h - 108, 'jpg');
         
         $pdf->setFont('Helvetica', 'B', 24);
-        $pdf->text(62.61, 68.49, 'Walking Papers');
+        $pdf->text(62.61, 68.49, 'Sensory Journeys');
         
         $pdf->setFillColor(0xFF);
         $pdf->rect(35, $pdf->h - 63, 200, 28, 'F');
@@ -256,9 +256,9 @@
         $pdf->image($ccbysa_filename, 30, $pdf->h - 60, 67, 30);
 
         $pdf->setFont('Helvetica', '', 9);
-        $pdf->text($pdf->w - 358, 57.74, 'Help improve OpenStreetMap by drawing on this map, then visit');
-        $pdf->text($pdf->w - 358, 68.74, $print_url);
-        $pdf->text(99, $pdf->h - 47.5, 'Map data ©2009 CC-BY-SA');
+        $pdf->text($pdf->w - 358, 57.74, 'Make your drawings on this map. Don\'t draw on the corners!');
+        #$pdf->text($pdf->w - 358, 68.74, $print_url);
+        $pdf->text(99, $pdf->h - 47.5, 'Map data '.iconv("UTF-8", "ISO-8859-1", "Â©").'2009 CC-BY-SA');
         $pdf->text(99, $pdf->h - 36.5, 'OpenStreetMap.org contributors');
 
         $size = 64;
