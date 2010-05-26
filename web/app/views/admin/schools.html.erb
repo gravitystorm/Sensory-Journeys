@@ -11,15 +11,15 @@
       <th>Updated</th>
     </tr>
   </thead>
-  <% @schools.each do |school| %>
+  <% @schools.each do |@school| %>
   <tr>
-    <td><%= school.id %></td>
-    <td><%= school.name %></td>
-    <td><%= school.lat %></td>
-    <td><%= school.lon %></td>
-    <td><%= school.traces.count %></td>
-    <td><%= school.shadow_scans.count %></td>
-    <td><%= school.updated_at %></td>
+    <td><%= @school.id %></td>
+    <td><a id="edit_name_<%= @school.id %>" class="external_control">¤</a><%= in_place_editor_field :school, :name, {}, {:url => {:controller => :school, :action => :set_school_name, :id => @school.id}, :external_control => "edit_name_#{@school.id}"} %></td>
+    <td><a id="edit_lat_<%= @school.id %>" class="external_control">¤</a><%= in_place_editor_field :school, :lat, {}, {:url => {:controller => :school, :action => :set_school_lat, :id => @school.id}, :external_control => "edit_lat_#{@school.id}"} %></td>
+    <td><a id="edit_lon_<%= @school.id %>" class="external_control">¤</a><%= in_place_editor_field :school, :lon, {}, {:url => {:controller => :school, :action => :set_school_lon, :id => @school.id}, :external_control => "edit_lon_#{@school.id}"} %></td>
+    <td><%= @school.traces.count %></td>
+    <td><%= @school.shadow_scans.count %></td>
+    <td><%= @school.updated_at %></td>
   </tr>
   <% end %>
 </table>

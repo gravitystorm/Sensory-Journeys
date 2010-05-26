@@ -5,7 +5,7 @@ class SiteController < ApplicationController
   
   def index
     @schools = School.find(:all)
-    @modes = Mode.find(:all, :order => :id)
+    @modes = Mode.find(:all)
     if params[:mode]
       @mode = Mode.find_by_id(params[:mode])
     end

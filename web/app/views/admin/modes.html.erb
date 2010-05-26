@@ -9,13 +9,13 @@
       <th>Updated</th>
     </tr>
   </thead>
-  <% @modes.each do |mode| %>
+  <% @modes.each do |@mode| %>
   <tr>
-    <td><%= mode.id %></td>
-    <td><%= mode.name %></td>
-    <td><%= mode.traces.count %></td>
-    <td><%= mode.shadow_scans.count %></td>
-    <td><%= mode.updated_at %></td>
+    <td><%= @mode.id %></td>
+    <td><a id="edit_name_<%= @mode.id %>" class="external_control">¤</a><%= in_place_editor_field :mode, :name, {}, {:url => {:controller => :mode, :action => :set_mode_name, :id => @mode.id}, :external_control => "edit_name_#{@mode.id}"} %></td>
+    <td><%= @mode.traces.count %></td>
+    <td><%= @mode.shadow_scans.count %></td>
+    <td><%= @mode.updated_at %></td>
   </tr>
   <% end %>
 </table>
