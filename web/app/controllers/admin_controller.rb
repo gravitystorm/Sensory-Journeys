@@ -68,4 +68,7 @@ class AdminController < ApplicationController
   def modes
     @modes = Mode.find(:all)
   end
+  
+  def settings
+  end
 end
