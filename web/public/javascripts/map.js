@@ -37,11 +37,22 @@ function createMap(divName, centre, zoom) {
                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize'});
    map.addLayer(cycle);
+   
+   var blank = new OpenLayers.Layer.TMS("No Map", 
+                                         '',
+                                        { type: 'png', getURL: getBlankURL, displayOutsideMaxExtent: true,
+                                          transitionEffect: 'resize'});
+                                         
+   map.addLayer(blank);
 
    if (!map.getCenter()) map.setCenter(centre, zoom);
    map.events.register("moveend", map, updateLocation);
    map.events.register("changelayer", map, updateLocation);
    return map;
+}
+
+function getBlankURL(bounds) {
+  return 'images/white.png';
 }
 
 function getTileURL(bounds) {
