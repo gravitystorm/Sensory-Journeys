@@ -7,7 +7,7 @@
       </LabelStyle>
       <IconStyle>
         <Icon>
-          <href>/openlayers/img/marker-green.png</href>
+          <href><%= request.protocol+request.host_with_port+image_path('positive.png') %></href>
         </Icon>
       </IconStyle>
     </Style>
@@ -16,9 +16,8 @@
         <color>00ffffff</color>
       </LabelStyle>
       <IconStyle>
-        <scale>0.5</scale>
         <Icon>
-          <href>/openlayers/img/marker-gold.png</href>
+          <href><%= request.protocol+request.host_with_port+image_path('neutral.png') %></href>
         </Icon>
       </IconStyle>
     </Style>
@@ -28,7 +27,7 @@
       </LabelStyle>
       <IconStyle>
         <Icon>
-          <href>/openlayers/img/marker.png</href>
+          <href><%= request.protocol+request.host_with_port+image_path('negative.png') %></href>
         </Icon>
       </IconStyle>
     </Style>
