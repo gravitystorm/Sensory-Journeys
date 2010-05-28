@@ -1,0 +1,27 @@
+<h2>Aliases</h2>
+
+<p>Note: Pressing use leaves you logged in as an admin.</p>
+<p>The following aliases are already in use:</p>
+
+<table class="admin">
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Alias</th>
+      <th>Scans</th>
+      <th>Traces</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @aliases.each do |a| %>
+    <tr>
+      <td><% form_tag({:controller => :site, :action => 'fetchalias'}, {:id => 'aliasform'}) do %>
+         <%= hidden_field_tag 'alias', a %><%= submit_tag 'Use', :id => :alias_use %>
+      <% end %></td>
+      <td><%= a %></td>
+      <td><%= @scans[a] ? @scans[a] : '0' %></td>
+      <td><%= @traces[a] ? @traces[a] : '0' %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

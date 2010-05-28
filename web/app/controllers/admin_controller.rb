@@ -71,4 +71,20 @@ class AdminController < ApplicationController
   
   def settings
   end
+  
+  def aliases
+    #TODO rewrite aliases as proper objects, and use them throughout all the rest of the code
+    @aliases = []
+    @scans = {}
+    @traces = {}
+    ShadowScan.find(:all, :select => 'count(*) as scans, alias', :group => 'alias').each do |a|
+      @aliases << a.alias
+      @scans[a.alias] = a.scans
+    end
+    Trace.find(:all, :select => 'count(*) as traces, alias', :group => 'alias', :conditions => "alias is not null and alias != ''").each do |a|
+      @aliases << a.alias
+      @traces[a.alias] = a.traces
+    end
+    @aliases.uniq!
+  end
 end
