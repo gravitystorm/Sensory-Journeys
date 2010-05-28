@@ -20,6 +20,8 @@ class SiteController < ApplicationController
       end
       # TODO skip this if it's going to be shown otherwise
       @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
+      @wpscan = Wpscan.find_by_id(params[:scan])
+      @wpprint = Wpprint.find_by_id(@wpscan.print_id) if @wpscan
     end
     if params[:trace]
       @trace = Trace.find(params[:trace])

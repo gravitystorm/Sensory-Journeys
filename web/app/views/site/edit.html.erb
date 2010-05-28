@@ -23,6 +23,10 @@
                                           transitionEffect: 'resize', isBaseLayer: false});
       map.addLayer(overlay);
     <% end %>
+    <% if @wpprint %>
+      var bbox = new OpenLayers.Bounds(<%= @wpprint.west %>, <%= @wpprint.south %>, <%= @wpprint.east %>, <%= @wpprint.north %>);
+      setMapExtent(bbox);
+    <% end %>
     <% if @scans %>
       <% @scans.each do |scan| %>
       var overlay = new OpenLayers.Layer.TMS("My Scans",
