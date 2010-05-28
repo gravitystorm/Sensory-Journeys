@@ -247,19 +247,20 @@
         $pdf->image($map_filename, 36, 72, $pdf->w - 72, $pdf->h - 108, 'jpg');
         
         $pdf->setFont('Helvetica', 'B', 24);
-        $pdf->text(62.61, 68.49, 'Sensory Journeys');
+        $pdf->text(62.61, 64.49, 'Sensory Journeys');
         
         $pdf->setFillColor(0xFF);
-        $pdf->rect(35, $pdf->h - 63, 200, 28, 'F');
+        $pdf->rect(35, $pdf->h - 63, 150, 28, 'F');
         
         $ccbysa_filename = realpath(dirname(__FILE__).'/../lib/print/CCBYSA.png');
         $pdf->image($ccbysa_filename, 30, $pdf->h - 60, 67, 30);
 
         $pdf->setFont('Helvetica', '', 9);
-        $pdf->text($pdf->w - 358, 57.74, 'Make your drawings on this map. Don\'t draw on the corners!');
-        #$pdf->text($pdf->w - 358, 68.74, $print_url);
-        $pdf->text(99, $pdf->h - 47.5, 'Map data '.iconv("UTF-8", "ISO-8859-1", "©").'2009 CC-BY-SA');
-        $pdf->text(99, $pdf->h - 36.5, 'OpenStreetMap.org contributors');
+        $pdf->text($pdf->w - 358, 57.74, 'Use the red pen to draw on this map.');
+        $pdf->text($pdf->w - 358, 68.74, 'Don\'t draw on the corner pictures!');
+        #$pdf->text(99, $pdf->h - 47.5, 'Map data'.iconv("UTF-8", "ISO-8859-1", "©").'2009 CC-BY-SA');
+        $pdf->text(99, $pdf->h - 47.5, 'Map data from');
+        $pdf->text(99, $pdf->h - 36.5, 'OpenStreetMap.org');
 
         $size = 64;
         $pad = 8;
