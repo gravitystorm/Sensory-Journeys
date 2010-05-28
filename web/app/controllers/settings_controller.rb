@@ -85,6 +85,14 @@ class SettingsController < ApplicationController
     render :text => CGI::escapeHTML(Settings.gps_not_after)
   end
   
+  def set_dp_threshold
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    Settings.dp_threshold = params[:value]
+    render :text => CGI::escapeHTML(Settings.dp_threshold)
+  end
+  
   def set_user_password
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)

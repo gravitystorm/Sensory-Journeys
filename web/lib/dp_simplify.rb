@@ -7,7 +7,7 @@
 module DpSimplify
   class LineString
   #@@dp_threshold = 0.00001
-  @@dp_threshold = 0.0002
+  @@dp_threshold = Settings.dp_threshold.to_f
   
   def simplify( points )
   
