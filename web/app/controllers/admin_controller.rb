@@ -12,7 +12,7 @@ class AdminController < ApplicationController
   end
   
   def markers
-    @markers = Marker.find(:all, :order => :id)
+    @markers = Marker.find(:all, :order => "id DESC")
   end
   
   def marker_delete
@@ -25,9 +25,9 @@ class AdminController < ApplicationController
   end
   
   def traces
-    @traces = Trace.find(:all, :order => :id)
-    @schools = School.find(:all)
-    @modes = Mode.find(:all)
+    @traces = Trace.find(:all, :order => "id DESC")
+    @schools = School.find(:all, :order => "id DESC")
+    @modes = Mode.find(:all, :order => "id DESC")
   end
   
   def trace_delete
@@ -40,8 +40,8 @@ class AdminController < ApplicationController
   end
   
   def scans
-    @shadow_scans = ShadowScan.find(:all, :order => :id)
-    @wp_scans = Wpscan.find(:all, :order => :created)
+    @shadow_scans = ShadowScan.find(:all, :order => "id DESC")
+    @wp_scans = Wpscan.find(:all, :order => "created DESC")
     
     @unclaimed_scans = []
     # This is a horrid way to ensure the system grinds to an eventual halt
