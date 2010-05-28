@@ -45,14 +45,6 @@ class SettingsController < ApplicationController
     render :text => CGI::escapeHTML(Settings.max_traces)
   end
   
-  def set_max_scans
-    unless [:post, :put].include?(request.method) then
-      return render(:text => 'Method not allowed', :status => 405)
-    end
-    Settings.max_scans = params[:value]
-    render :text => CGI::escapeHTML(Settings.max_scans)
-  end
-  
   def set_max_trace_point_summary
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
