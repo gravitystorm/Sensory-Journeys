@@ -1,6 +1,6 @@
 <h2> Stats </h2>
 
-There are:
+<p>There are:</p>
 <ul>
   <li><%= @markers.count %> <%= link_to 'markers', :action => :markers %></li>
   <li><%= @traces.count %> <%= link_to 'traces', :action => :traces %></li>
@@ -9,4 +9,8 @@ There are:
   <li><%= @modes.count %> <%= link_to 'modes', :action => :modes %></li>
 </ul>
 
-<%= link_to 'Change Settings', :action => :settings %>
+<h2>Other admin tasks</h2>
+<ul>
+  <li><%= link_to 'List aliases', :action => :aliases %></li>
+  <li><%= link_to 'Change Settings', :action => :settings %></li>
+</ul>
