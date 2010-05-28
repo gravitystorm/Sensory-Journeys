@@ -18,7 +18,7 @@
       <td><% form_tag({:controller => :site, :action => 'fetchalias'}, {:id => 'aliasform'}) do %>
          <%= hidden_field_tag 'alias', a %><%= submit_tag 'Use', :id => :alias_use %>
       <% end %></td>
-      <td><%= a %></td>
+      <td><%=h a %></td>
       <td><%= @scans[a] ? @scans[a] : '0' %></td>
       <td><%= @traces[a] ? @traces[a] : '0' %></td>
     </tr>
