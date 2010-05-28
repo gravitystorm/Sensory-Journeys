@@ -7,13 +7,13 @@ class Trace < ActiveRecord::Base
   
   has_many :trace_points, :dependent => :destroy, :order => :timestamp do
     def summary
-      find(:all, :limit => Settings.max_trace_points_summary)
+      find(:all, :limit => Settings.max_trace_points_summary.to_i)
     end
   end
 
   has_many :waypoints, :dependent => :destroy, :order => :timestamp do
     def summary
-      find(:all, :limit => Settings.max_waypoints_summary)
+      find(:all, :limit => Settings.max_waypoints_summary.to_i)
     end
   end
   
