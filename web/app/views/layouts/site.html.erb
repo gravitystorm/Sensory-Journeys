@@ -37,12 +37,14 @@
           }
           return null;
         }
+        <% if flash[:notice] %>
         function fadeNotice() {
           Effect.Fade('flash_notice', {duration: 3.0});
         }
         document.observe("dom:loaded", function() {
         setTimeout(fadeNotice, 4000);
         });
+        <% end %>
         // -->
       </script>
     <% if @title %>
