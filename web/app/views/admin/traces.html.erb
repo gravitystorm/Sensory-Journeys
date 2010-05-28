@@ -2,7 +2,8 @@
 <table class="admin">
   <thead>
     <tr>
-      <th></th>
+      <th>Delete</th>
+      <th>Show</th>
       <th>id</th>
       <th>KML</th>
       <th>filename</th>
@@ -22,6 +23,7 @@
           <%= submit_tag 'Delete' %>
         <% end %>
     </td>
+    <td><%= link_to 'show', :controller => :site, :action => :edit, :trace => @trace.id %></td>
     <td><%= @trace.id %></td>
     <td><%= link_to 'kml', :controller => :trace, :action => :kml, :id => @trace.id, :format => :kml %>
     <td><%=h @trace.file_name %></td>
