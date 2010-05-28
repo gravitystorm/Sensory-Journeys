@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <th>Action</th>
+      <th>Show</th>
       <th>Preview</th>
       <th>Scan ID</th>
       <th>School</th>
@@ -19,6 +20,7 @@
           <%= submit_tag 'Remove' %>
         <% end %>
     </td>
+    <td><%= link_to 'Show', :controller => :site, :action => :edit, :scan => @scan.scan_id %></td>
     <td><%= link_to 'Preview', WP_URL+ 'files/scans/' + @scan.scan_id + '/large.png', :rel => :facebox %></td>
     <td><%= @scan.scan_id %></td>
     <td>
