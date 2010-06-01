@@ -138,11 +138,11 @@
   
   function onMarkerCancel() {
     //this could rearrange the boxes, but addMarker() assumes no in-progress markers
-    window.location = "<% url_for :action => :edit %>";
+    window.location.assign("<%= url_for :action => :edit, :only_path => false %>");
   }
 
   function onPrintCancel() {
-    window.location = "<% url_for :action => :edit %>";
+    window.location.assign("<%= url_for :action => :edit, :only_path => false %>");
   }
   // -->
 </script>
