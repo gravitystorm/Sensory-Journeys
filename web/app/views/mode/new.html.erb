@@ -1,0 +1,7 @@
+<h2>Add a mode:</h2>
+<% form_tag({:action => 'add'}, {:id => 'modeform'}) do %>
+<ul>
+  <li><%= label_tag "name", 'Name : ' %><%= text_field_tag 'name' %></li>
+</ul>
+  <%= submit_tag "Save", :id => 'mode_save' %>
+<% end %>

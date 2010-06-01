@@ -9,6 +9,7 @@
       <th>Traces</th>
       <th>Scans</th>
       <th>Updated</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <% @schools.each do |@school| %>
@@ -20,6 +21,15 @@
     <td><%= @school.traces.count %></td>
     <td><%= @school.shadow_scans.count %></td>
     <td><%= @school.updated_at %></td>
+    <td><% if @school.traces.count == 0 && @school.shadow_scans.count == 0 %>
+          <% form_tag({:controller => :school, :action=> :delete}) do %>
+            <%= hidden_field_tag 'school_id', @school.id %>
+            <%= submit_tag 'Delete' %>
+          <% end %>
+        <% end %>
+    </td>
   </tr>
   <% end %>
 </table>
+
+<p><%= link_to 'Add new school', {:controller => :school, :action => :new}, :rel => :facebox %></p>

@@ -1,0 +1,9 @@
+<h2>Add a school:</h2>
+<% form_tag({:action => 'add'}, {:id => 'schoolform'}) do %>
+<ul>
+  <li><%= label_tag "name", 'Name : ' %><%= text_field_tag 'name' %></li>
+  <li><%= label_tag "lat", 'Latitude : ' %><%= text_field_tag 'lat' %></li>
+  <li><%= label_tag "lon", 'Longitude : ' %><%= text_field_tag 'lon' %></li>
+</ul>
+  <%= submit_tag "Save", :id => 'school_save' %>
+<% end %>

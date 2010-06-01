@@ -7,6 +7,7 @@
       <th>Traces</th>
       <th>Scans</th>
       <th>Updated</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <% @modes.each do |@mode| %>
@@ -16,6 +17,15 @@
     <td><%= @mode.traces.count %></td>
     <td><%= @mode.shadow_scans.count %></td>
     <td><%= @mode.updated_at %></td>
+    <td><% if @mode.traces.count == 0 && @mode.shadow_scans.count == 0 %>
+          <% form_tag({:controller => :mode, :action=> :delete}) do %>
+            <%= hidden_field_tag 'mode_id', @mode.id %>
+            <%= submit_tag 'Delete' %>
+          <% end %>
+        <% end %>
+    </td>
   </tr>
   <% end %>
 </table>
+
+<p><%= link_to 'Add new mode', {:controller => :mode, :action => :new}, :rel => :facebox %></p>
