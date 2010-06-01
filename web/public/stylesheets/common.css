@@ -163,3 +163,8 @@ table.admin td
 {
   color: #dddddd;
 }
+
+
+table.markers form.inplaceeditor-form input[type="text"] { /* Input box */
+  width: 600px;
+}
