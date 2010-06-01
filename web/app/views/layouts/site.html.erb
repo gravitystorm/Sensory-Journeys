@@ -21,7 +21,7 @@
             var cb = cookietext.split('|');
             centre = lonLatToMercator( new OpenLayers.LonLat(cb[0], cb[1]));
             zoom = cb[2];
-            //var layers = cb[3];
+            layers = cb[3];
           }
           var map = createMap("map", centre, Number(zoom));
           updateLocation();

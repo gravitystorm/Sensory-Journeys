@@ -29,6 +29,9 @@
     map.addLayer(markers);
     map.addControl(controls['selector']);
     controls['selector'].activate();
+    if (layers) {
+      setMapLayers(layers);
+    }
     map.setCenter(map.getCenter());
   }
   //-->
