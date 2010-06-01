@@ -172,7 +172,7 @@
           <%= label_tag "emotion_#{emotion[:id]}", image_tag(emotion[:image])+" "+emotion[:text] %><br />
         <% end %>
         <p>2. Enter a text description</p>
-        <%= text_area_tag 'text' %>
+        <%= text_area_tag 'text', nil, :rows => 8 %>
         <%= submit_tag 'Save', :id => :marker_save %><span style="float:right"><%= submit_tag 'Cancel', :id => :marker_cancel, :onClick => 'onMarkerCancel();return false;' %></span>
       <% end %>
     </div>
