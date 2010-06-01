@@ -1,7 +1,7 @@
 body
 {
   width: 1000px;
-  line-height: 1.6; 
+  line-height: 1.7; 
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 8pt;
 }
@@ -14,7 +14,7 @@ td.navtab
 
 div.iconlink
 {
-  font-size: 0.8em;
+  font-size: 0.9em;
   vertical-align: center;
 }
 
@@ -61,7 +61,7 @@ div.iconlink img
 #map
 {
   width: 810px;
-  height: 500px;
+  height: 525px;
   border: 1px solid black;
   float: left;
   display: inline;
@@ -72,7 +72,7 @@ div.iconlink img
   padding-left: 1em;
   float: right;
   display: inline;
-  width: 160px;
+  width: 176px;
 }
 
 #footer
@@ -98,8 +98,8 @@ div.iconlink img
 
 .sidebarbox
 {
-  background-color: #fbfcbb;
-  border: 1px solid #efefb2;
+/*  background-color: #fbfcbb; */
+ /* border: 1px solid #000000; */
   padding: 0.2em;
   margin-bottom: 2em;
 }
@@ -114,9 +114,9 @@ div.iconlink img
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   text-align: right;
-  background-color: #f3f3f3;
+  background-color: #F5FAFF;
   padding: 0em 1em;
-  margin: 1em 0em;
+  /*margin: 1em 0em;*/
 }
 
 .banner img
@@ -157,9 +157,4 @@ table.admin td
   margin: 1px;
   padding: 2px;
   background-color: #f4f4ff
-}
-
-.external_control
-{
-  color: #dddddd;
 }
