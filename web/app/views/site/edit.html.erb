@@ -152,10 +152,10 @@
   <div id="sidebar">
   
     <div id="sidebar-menu" class="sidebarbox">
-      <a href="#" onclick="showMarkerDialog()" class="sidebarlink"><%= image_tag 'marker.png' %>Add Experience Marker</a><br />
+      <a href="#" onclick="showMarkerDialog()" class="sidebarlink"><%= image_tag 'marker.png' %>Add Marker</a><br />
       <%= link_to (image_tag 'gps.png')+'Upload GPS Track', {:controller => :trace, :action => :upload}, :rel => :facebox, :class => :sidebarlink %><br />
-      <%= link_to (image_tag 'sketchupload.png')+'Upload Sketch Map Scan', WP_URL + 'upload.php', :class => :sidebarlink %><br />
-      <a href="#" onclick="showPrintDialog()" class="sidebarlink"><%= image_tag 'print.png' %>Print Map For Sketching</a><br />
+      <%= link_to (image_tag 'sketchupload.png')+'Upload Sketch Map', WP_URL + 'upload.php', :class => :sidebarlink %><br />
+      <a href="#" onclick="showPrintDialog()" class="sidebarlink"><%= image_tag 'print.png' %>Print Map</a><br />
     </div>
     
     <div id="sidebar-marker" class="sidebarbox" style="display:none">
@@ -192,7 +192,7 @@
     </div>
     
     <div id="sidebar-stats" class="sidebarbox">
-      <p>You've saved <%= @user.markers.count %> experience <%= @user.markers.count == 1 ? 'marker' : 'markers' %>,
+      <p>You've saved <%= @user.markers.count %> <%= @user.markers.count == 1 ? 'marker' : 'markers' %>,
       <%= @user.shadow_scans.count %> <%= @user.shadow_scans.count == 1 ? 'scan' : 'scans' %>
       and <%= @user.traces.count %> GPS <%= @user.traces.count == 1 ? 'trace' : 'traces' %></p>
     </div>
@@ -206,7 +206,7 @@
     <% end -%>
     
     <div id="sidebar-alias" class="sidebarbox">
-      <p>Enter alias to load scans and traces:</p>
+      <p>Enter alias to load scans and tracks:</p>
       <% form_tag({:action => 'fetchalias'}, {:id => 'aliasform'}) do %>
         <p><%= text_field_tag 'alias' %><%= submit_tag 'Go!', :id => :alias_go %></p>
       <% end %>
