@@ -154,6 +154,24 @@ def main(url, markers, apibase, message_id, password):
         large_bytes = large_bytes.getvalue()
         appendScanFile(scan_id, large_name, large_bytes, apibase, password)
         
+        geopng = extractGeopng(image, markers)
+        
+        # make a full sized image
+        full_name = scan_id+'.png'
+        full_bytes = StringIO.StringIO()
+        full_image = geopng.copy()
+        full_image.save(full_bytes, 'PNG')
+        full_bytes = full_bytes.getvalue()
+        appendScanFile(scan_id, full_name, full_bytes, apibase, password)
+        
+        #still need to account for margins
+        tl_x, tl_y = LatLonToMeters(north, west)
+        br_x, br_y = LatLonToMeters(south, east)
+        mpix = (br_x-tl_x)/3600 #match dimensions with geopng
+        mpiy = (br_y-tl_y)/3600
+        pgw = "%.9f\n0.0\n0.0\n%.9f\n%.9f\n%.9f\n" % (mpix,mpiy,(tl_x-(200*mpix)),(tl_y-(200*mpiy)))
+        appendScanFile(scan_id, scan_id+'.pgw', pgw, apibase, password)
+        
         min_zoom, max_zoom = 20, 0
         
         for zoom in range(20, 0, -1):
@@ -558,6 +576,60 @@ def extractCode(image, markers):
     #qrcode = qrcode.convert('L').filter(PIL.ImageFilter.BLUR).point(lut)
     #
     #return qrcode
+    
+def extractGeopng(image, markers):
+    """
+    """
+    # blatant copy+paste of extractCode - even to the extent I haven't changed the variable names
+    # produces a 4000 pixel square image as the map @3600 pixels + margin to take in most of scan area
+    # With more maths, it should figure out the actual size of the map within scan, and output the right size.
+    
+    distance_across = math.hypot(markers['Hand'].anchor.x - markers['Header'].anchor.x, markers['Hand'].anchor.y - markers['Header'].anchor.y)
+    distance_down = math.hypot(markers['CCBYSA'].anchor.x - markers['Header'].anchor.x, markers['CCBYSA'].anchor.y - markers['Header'].anchor.y)
+    aspect = distance_across / distance_down
+    paper_size, orientation = guessPaper(aspect)
+    
+    print >> sys.stderr, 'aspect:', aspect, 'paper:', paper_size, orientation
+    
+    right, bottom = {'letter': (540, 720), 'a4': (523.3, 769.9), 'a3': (769.9, 1118.6)}.get(paper_size)
+    
+    if orientation == 'landscape':
+        # flip them around
+        right, bottom = bottom, right
+    
+    ax, bx, cx = linearSolution(0,      0, markers['Header'].anchor.x,
+                                right,  0, markers['Hand'].anchor.x,
+                                0, bottom, markers['CCBYSA'].anchor.x)
+    
+    ay, by, cy = linearSolution(0,      0, markers['Header'].anchor.y,
+                                right,  0, markers['Hand'].anchor.y,
+                                0, bottom, markers['CCBYSA'].anchor.y)
+    
+    # candidate location of the geopng on the printed image:
+    # top-left, top-right, bottom-left corner of the geopng.
+    xys = [(0, 0), (right, 0), (0, bottom)]
+
+    corners = [Point(ax * x + bx * y + cx, ay * x + by * y + cy)
+               for (x, y) in xys]
+
+    # projection from extracted QR code image space to source image space
+    
+    ax, bx, cx = linearSolution(200,  200, corners[0].x,
+                                3800, 200, corners[1].x,
+                                200, 3800, corners[2].x)
+    
+    ay, by, cy = linearSolution(200,  200, corners[0].y,
+                                3800, 200, corners[1].y,
+                                200, 3800, corners[2].y)
+
+    # extract the code part
+    justcode = image.convert('RGBA').transform((4000, 4000), PIL.Image.AFFINE, (ax, bx, cx, ay, by, cy), PIL.Image.BICUBIC)
+    
+    # paste it to an output image
+    qrcode = PIL.Image.new('RGBA', justcode.size)
+    qrcode.paste(justcode, (0, 0), justcode)
+    
+    return qrcode
 
 def readCode(image):
     """
@@ -598,6 +670,16 @@ def readCode(image):
         #image.show()
 
         raise CodeReadException('Attempt to read QR code failed')
+
+def LatLonToMeters(lat, lon ):
+    #Converts given lat/lon in WGS84 Datum to XY in Spherical Mercator EPSG:900913
+    originShift = 2 * math.pi * 6378137 / 2.0
+
+    mx = lon * originShift / 180.0
+    my = math.log( math.tan((90 + lat) * math.pi / 360.0 )) / (math.pi / 180.0)
+
+    my = my * originShift / 180.0
+    return mx, my
 
 if __name__ == '__main__':
     url = sys.argv[1]
