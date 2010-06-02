@@ -154,6 +154,15 @@ def main(url, markers, apibase, message_id, password):
         large_bytes = large_bytes.getvalue()
         appendScanFile(scan_id, large_name, large_bytes, apibase, password)
         
+        # make a full sized image
+        full_name = scan_id+'.png'
+        full_bytes = StringIO.StringIO()
+        full_image = image.copy()
+        full_image.save(full_bytes, 'PNG')
+        full_bytes = full_bytes.getvalue()
+        appendScanFile(scan_id, full_name, full_bytes, apibase, password)
+        
+        exit()
         min_zoom, max_zoom = 20, 0
         
         for zoom in range(20, 0, -1):
