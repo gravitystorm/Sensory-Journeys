@@ -167,13 +167,13 @@ def main(url, markers, apibase, message_id, password):
         #still need to account for margins
         tl_x, tl_y = LatLonToMeters(north, west)
         br_x, br_y = LatLonToMeters(south, east)
-        mpix = (br_x-tl_x)/4000 #match dimensions with geopng
-        mpiy = (br_y-tl_y)/4000
-        pgw = "%.9f\n0.0\n0.0\n%.9f\n%.9f\n%.9f\n" % (mpix,mpiy,tl_x,tl_y)
+        mpix = (br_x-tl_x)/3600 #match dimensions with geopng
+        mpiy = (br_y-tl_y)/3600
+        pgw = "%.9f\n0.0\n0.0\n%.9f\n%.9f\n%.9f\n" % (mpix,mpiy,(tl_x-(200*mpix)),(tl_y-(200*mpiy)))
         appendScanFile(scan_id, scan_id+'.pgw', pgw, apibase, password)
         
         min_zoom, max_zoom = 20, 0
-       
+        
         #for zoom in range(20, 0, -1):
             #localTopLeft = topleft.zoomTo(zoom)
             #localBottomRight = bottomright.zoomTo(zoom)
@@ -613,13 +613,13 @@ def extractGeopng(image, markers):
 
     # projection from extracted QR code image space to source image space
     
-    ax, bx, cx = linearSolution(0,  0, corners[0].x,
-                                4000, 0, corners[1].x,
-                                0, 4000, corners[2].x)
+    ax, bx, cx = linearSolution(200,  200, corners[0].x,
+                                3800, 200, corners[1].x,
+                                200, 3800, corners[2].x)
     
-    ay, by, cy = linearSolution(0,  0, corners[0].y,
-                                4000, 0, corners[1].y,
-                                0, 4000, corners[2].y)
+    ay, by, cy = linearSolution(200,  200, corners[0].y,
+                                3800, 200, corners[1].y,
+                                200, 3800, corners[2].y)
 
     # extract the code part
     justcode = image.convert('RGBA').transform((4000, 4000), PIL.Image.AFFINE, (ax, bx, cx, ay, by, cy), PIL.Image.BICUBIC)
