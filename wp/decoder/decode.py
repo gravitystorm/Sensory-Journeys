@@ -125,14 +125,14 @@ def main(url, markers, apibase, message_id, password):
         s = image.size
         
         # iterate through x and y (every pixel) 
-        for x in xrange(s[0]):
-          for y in xrange(s[1]):
-            r,g,b,a = m[x,y]
-            # if the red is too dark, or if the others are as bright as red, remove 
-            if(r < (g+25) or r < (b+25)):
-              m[x,y] = 0,0,0,1
-            else:
-              m[x,y] = r,g,b,255
+        #for x in xrange(s[0]):
+          #for y in xrange(s[1]):
+            #r,g,b,a = m[x,y]
+            ## if the red is too dark, or if the others are as bright as red, remove 
+            #if(r < (g+25) or r < (b+25)):
+              #m[x,y] = 0,0,0,1
+            #else:
+              #m[x,y] = r,g,b,255
 
         renders = {}
         
@@ -154,37 +154,46 @@ def main(url, markers, apibase, message_id, password):
         large_bytes = large_bytes.getvalue()
         appendScanFile(scan_id, large_name, large_bytes, apibase, password)
         
+        geopng = extractGeopng(image, markers)
+        
         # make a full sized image
         full_name = scan_id+'.png'
         full_bytes = StringIO.StringIO()
-        full_image = image.copy()
+        full_image = geopng.copy()
         full_image.save(full_bytes, 'PNG')
         full_bytes = full_bytes.getvalue()
         appendScanFile(scan_id, full_name, full_bytes, apibase, password)
         
-        exit()
-        min_zoom, max_zoom = 20, 0
+        #still need to account for margins
+        tl_x, tl_y = LatLonToMeters(north, west)
+        br_x, br_y = LatLonToMeters(south, east)
+        mpix = (br_x-tl_x)/4000 #match dimensions with geopng
+        mpiy = (br_y-tl_y)/4000
+        pgw = "%.9f\n0.0\n0.0\n%.9f\n%.9f\n%.9f\n" % (mpix,mpiy,tl_x,tl_y)
+        appendScanFile(scan_id, scan_id+'.pgw', pgw, apibase, password)
         
-        for zoom in range(20, 0, -1):
-            localTopLeft = topleft.zoomTo(zoom)
-            localBottomRight = bottomright.zoomTo(zoom)
+        min_zoom, max_zoom = 20, 0
+       
+        #for zoom in range(20, 0, -1):
+            #localTopLeft = topleft.zoomTo(zoom)
+            #localBottomRight = bottomright.zoomTo(zoom)
 
-            zoom_renders = tileZoomLevel(image, localTopLeft, localBottomRight, markers, renders)
+            #zoom_renders = tileZoomLevel(image, localTopLeft, localBottomRight, markers, renders)
             
-            for (coord, tile_image) in zoom_renders:
-                x, y, z = coord.column, coord.row, coord.zoom
-                tile_name = '%(z)d/%(x)d/%(y)d.png' % locals()
+            #for (coord, tile_image) in zoom_renders:
+                #x, y, z = coord.column, coord.row, coord.zoom
+                #tile_name = '%(z)d/%(x)d/%(y)d.png' % locals()
                 
-                tile_bytes = StringIO.StringIO()
-                tile_image.save(tile_bytes, 'PNG')
-                tile_bytes = tile_bytes.getvalue()
+                #tile_bytes = StringIO.StringIO()
+                #tile_image.save(tile_bytes, 'PNG')
+                #tile_bytes = tile_bytes.getvalue()
 
-                appendScanFile(scan_id, tile_name, tile_bytes, apibase, password)
+                #appendScanFile(scan_id, tile_name, tile_bytes, apibase, password)
             
-                renders[str(coord)] = tile_image
+                #renders[str(coord)] = tile_image
                 
-                min_zoom = min(coord.zoom, min_zoom)
-                max_zoom = max(coord.zoom, max_zoom)
+                #min_zoom = min(coord.zoom, min_zoom)
+                #max_zoom = max(coord.zoom, max_zoom)
         
         print 'min:', topleft.zoomTo(min_zoom)
         print 'max:', bottomright.zoomTo(max_zoom)
@@ -567,6 +576,59 @@ def extractCode(image, markers):
     #qrcode = qrcode.convert('L').filter(PIL.ImageFilter.BLUR).point(lut)
     #
     #return qrcode
+    
+def extractGeopng(image, markers):
+    """
+    """
+    # transformation from ideal space to printed image space.
+    # markers are positioned with Header at upper left, Hand at upper right, and CCBYSA at lower left
+    
+    distance_across = math.hypot(markers['Hand'].anchor.x - markers['Header'].anchor.x, markers['Hand'].anchor.y - markers['Header'].anchor.y)
+    distance_down = math.hypot(markers['CCBYSA'].anchor.x - markers['Header'].anchor.x, markers['CCBYSA'].anchor.y - markers['Header'].anchor.y)
+    aspect = distance_across / distance_down
+    paper_size, orientation = guessPaper(aspect)
+    
+    print >> sys.stderr, 'aspect:', aspect, 'paper:', paper_size, orientation
+    
+    right, bottom = {'letter': (540, 720), 'a4': (523.3, 769.9), 'a3': (769.9, 1118.6)}.get(paper_size)
+    
+    if orientation == 'landscape':
+        # flip them around
+        right, bottom = bottom, right
+    
+    ax, bx, cx = linearSolution(0,      0, markers['Header'].anchor.x,
+                                right,  0, markers['Hand'].anchor.x,
+                                0, bottom, markers['CCBYSA'].anchor.x)
+    
+    ay, by, cy = linearSolution(0,      0, markers['Header'].anchor.y,
+                                right,  0, markers['Hand'].anchor.y,
+                                0, bottom, markers['CCBYSA'].anchor.y)
+    
+    # candidate location of the geopng on the printed image:
+    # top-left, top-right, bottom-left corner of the geopng.
+    xys = [(0, 0), (right, 0), (0, bottom)]
+
+    corners = [Point(ax * x + bx * y + cx, ay * x + by * y + cy)
+               for (x, y) in xys]
+
+    # projection from extracted QR code image space to source image space
+    
+    ax, bx, cx = linearSolution(0,  0, corners[0].x,
+                                4000, 0, corners[1].x,
+                                0, 4000, corners[2].x)
+    
+    ay, by, cy = linearSolution(0,  0, corners[0].y,
+                                4000, 0, corners[1].y,
+                                0, 4000, corners[2].y)
+
+    # extract the code part
+    justcode = image.convert('RGBA').transform((4000, 4000), PIL.Image.AFFINE, (ax, bx, cx, ay, by, cy), PIL.Image.BICUBIC)
+    
+    # paste it to an output image
+    qrcode = PIL.Image.new('RGBA', justcode.size)
+    qrcode.paste(justcode, (0, 0), justcode)
+    
+    return qrcode
 
 def readCode(image):
     """
@@ -607,6 +669,16 @@ def readCode(image):
         #image.show()
 
         raise CodeReadException('Attempt to read QR code failed')
+
+def LatLonToMeters(lat, lon ):
+    #Converts given lat/lon in WGS84 Datum to XY in Spherical Mercator EPSG:900913
+    originShift = 2 * math.pi * 6378137 / 2.0
+
+    mx = lon * originShift / 180.0
+    my = math.log( math.tan((90 + lat) * math.pi / 360.0 )) / (math.pi / 180.0)
+
+    my = my * originShift / 180.0
+    return mx, my
 
 if __name__ == '__main__':
     url = sys.argv[1]
