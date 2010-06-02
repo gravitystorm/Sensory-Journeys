@@ -5,6 +5,7 @@
       <th>Action</th>
       <th>Show</th>
       <th>Preview</th>
+      <th>Download</th>
       <th>Scan ID</th>
       <th>School</th>
       <th>Mode</th>
@@ -21,7 +22,8 @@
         <% end %>
     </td>
     <td><%= link_to 'Show', :controller => :site, :action => :edit, :scan => @scan.scan_id %></td>
-    <td><%= link_to 'Preview', WP_URL+ 'files/scans/' + @scan.scan_id + '/large.png', :rel => :facebox %></td>
+    <td><%= link_to 'Preview', WP_URL + 'files/scans/' + @scan.scan_id + '/large.png', :rel => :facebox %></td>
+    <td><%= link_to 'PNG' , WP_URL + 'files/scans/' + @scan.scan_id + '/' + @scan.scan_id + '.png' %>,<%= link_to 'PGW' , WP_URL + 'files/scans/' + @scan.scan_id + '/' + @scan.scan_id + '.pgw' %></td>
     <td><%= @scan.scan_id %></td>
     <td>
       <a id="edit_school_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_school_<%= @scan.id %>_in_place_editor"><%= if @scan.school then @scan.school.name else "(none)" end %></span>
