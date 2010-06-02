@@ -125,14 +125,14 @@ def main(url, markers, apibase, message_id, password):
         s = image.size
         
         # iterate through x and y (every pixel) 
-        #for x in xrange(s[0]):
-          #for y in xrange(s[1]):
-            #r,g,b,a = m[x,y]
-            ## if the red is too dark, or if the others are as bright as red, remove 
-            #if(r < (g+25) or r < (b+25)):
-              #m[x,y] = 0,0,0,1
-            #else:
-              #m[x,y] = r,g,b,255
+        for x in xrange(s[0]):
+          for y in xrange(s[1]):
+            r,g,b,a = m[x,y]
+            # if the red is too dark, or if the others are as bright as red, remove 
+            if(r < (g+25) or r < (b+25)):
+              m[x,y] = 0,0,0,1
+            else:
+              m[x,y] = r,g,b,255
 
         renders = {}
         
@@ -174,26 +174,26 @@ def main(url, markers, apibase, message_id, password):
         
         min_zoom, max_zoom = 20, 0
         
-        #for zoom in range(20, 0, -1):
-            #localTopLeft = topleft.zoomTo(zoom)
-            #localBottomRight = bottomright.zoomTo(zoom)
+        for zoom in range(20, 0, -1):
+            localTopLeft = topleft.zoomTo(zoom)
+            localBottomRight = bottomright.zoomTo(zoom)
 
-            #zoom_renders = tileZoomLevel(image, localTopLeft, localBottomRight, markers, renders)
+            zoom_renders = tileZoomLevel(image, localTopLeft, localBottomRight, markers, renders)
             
-            #for (coord, tile_image) in zoom_renders:
-                #x, y, z = coord.column, coord.row, coord.zoom
-                #tile_name = '%(z)d/%(x)d/%(y)d.png' % locals()
+            for (coord, tile_image) in zoom_renders:
+                x, y, z = coord.column, coord.row, coord.zoom
+                tile_name = '%(z)d/%(x)d/%(y)d.png' % locals()
                 
-                #tile_bytes = StringIO.StringIO()
-                #tile_image.save(tile_bytes, 'PNG')
-                #tile_bytes = tile_bytes.getvalue()
+                tile_bytes = StringIO.StringIO()
+                tile_image.save(tile_bytes, 'PNG')
+                tile_bytes = tile_bytes.getvalue()
 
-                #appendScanFile(scan_id, tile_name, tile_bytes, apibase, password)
+                appendScanFile(scan_id, tile_name, tile_bytes, apibase, password)
             
-                #renders[str(coord)] = tile_image
+                renders[str(coord)] = tile_image
                 
-                #min_zoom = min(coord.zoom, min_zoom)
-                #max_zoom = max(coord.zoom, max_zoom)
+                min_zoom = min(coord.zoom, min_zoom)
+                max_zoom = max(coord.zoom, max_zoom)
         
         print 'min:', topleft.zoomTo(min_zoom)
         print 'max:', bottomright.zoomTo(max_zoom)
@@ -580,8 +580,9 @@ def extractCode(image, markers):
 def extractGeopng(image, markers):
     """
     """
-    # transformation from ideal space to printed image space.
-    # markers are positioned with Header at upper left, Hand at upper right, and CCBYSA at lower left
+    # blatant copy+paste of extractCode - even to the extent I haven't changed the variable names
+    # produces a 4000 pixel square image as the map @3600 pixels + margin to take in most of scan area
+    # With more maths, it should figure out the actual size of the map within scan, and output the right size.
     
     distance_across = math.hypot(markers['Hand'].anchor.x - markers['Header'].anchor.x, markers['Hand'].anchor.y - markers['Header'].anchor.y)
     distance_down = math.hypot(markers['CCBYSA'].anchor.x - markers['Header'].anchor.x, markers['CCBYSA'].anchor.y - markers['Header'].anchor.y)
