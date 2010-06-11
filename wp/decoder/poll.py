@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 import time
 import math
@@ -52,15 +53,13 @@ if __name__ == '__main__':
             # success means we drop back to zero
             poll_failures = 0
             
-            try:
-                message_id, url = res.read().split()
-                message_id = int(message_id)
-            except ValueError:
-                # probably no queue message
-                pass
+            message_id, nil, url = res.read().strip().partition(" ") #split on first space in message, there may be spaces in the filename
+            if (message_id == '' or url == ''):
+              pass
             else:
-                print >> sys.stderr, datetime.datetime.now(), 'Decoding message id', message_id, '-', url
-                decode.main(url, getMarkers(), options.apibase, message_id, options.password)
+              message_id = int(message_id)
+              print >> sys.stderr, datetime.datetime.now(), 'Decoding message id', message_id, '-', url
+              decode.main(url, getMarkers(), options.apibase, message_id, options.password)
 
         except KeyboardInterrupt:
             raise

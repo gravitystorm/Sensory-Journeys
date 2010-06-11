@@ -624,7 +624,7 @@ def extractGeopng(image, markers, margin):
     # Todo - use full size and downscale if bytes is too large
     
     finalwidth = 4000
-    finalheight = round((finalwidth - (2 * margin)) * bottom/right) + (2 * margin)
+    finalheight = int(round((finalwidth - (2 * margin)) * bottom/right) + (2 * margin))
     
     ax, bx, cx = linearSolution(margin, margin, corners[0].x,
                                 (finalwidth-margin), margin, corners[1].x,
