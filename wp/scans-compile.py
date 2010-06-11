@@ -10,7 +10,7 @@ import psycopg2
 
 import dbconnect
 
-base = os.path.join(os.getcwd(), "site", "www", "files", "scans")
+base = os.path.join(os.path.dirname(__file__) , "site", "www", "files", "scans")
 #base = "/home/andy/src/sustrans/wp/site/www/files/scans/"
 #base = "/home/andy/temp/sustrans/scans/"
 #path, scans, = os.walk(path)
