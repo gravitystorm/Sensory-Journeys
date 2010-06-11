@@ -18,7 +18,11 @@ class MarkerController < ApplicationController
     m.text = params[:text]
     m.emotion = params[:emotion]
     m.user_id = @user.id
-    m.save!
+    if m.lat == '' or m.lat == nil or m.lon == '' or m.lon == nil # TODO do this properly
+      flash[:error] = "You can't add a marker without coordinates. How did you manage that in the first place?" #someone did during a workshop
+    else
+      m.save!
+    end
     redirect_to(:controller => :site, :action=> :edit)
   end
   
