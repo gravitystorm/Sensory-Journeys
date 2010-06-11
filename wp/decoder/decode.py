@@ -154,7 +154,8 @@ def main(url, markers, apibase, message_id, password):
         large_bytes = large_bytes.getvalue()
         appendScanFile(scan_id, large_name, large_bytes, apibase, password)
         
-        geopng = extractGeopng(image, markers)
+        margin = 200
+        geopng = extractGeopng(image, markers, margin)
         
         # make a full sized image
         full_name = scan_id+'.png'
@@ -167,8 +168,8 @@ def main(url, markers, apibase, message_id, password):
         #still need to account for margins
         tl_x, tl_y = LatLonToMeters(north, west)
         br_x, br_y = LatLonToMeters(south, east)
-        mpix = (br_x-tl_x)/3600 #match dimensions with geopng
-        mpiy = (br_y-tl_y)/3600
+        mpix = (br_x-tl_x)/(geopng.size[0]-2*margin) #match dimensions with geopng
+        mpiy = (br_y-tl_y)/(geopng.size[1]-2*margin)
         pgw = "%.9f\n0.0\n0.0\n%.9f\n%.9f\n%.9f\n" % (mpix,mpiy,(tl_x-(200*mpix)),(tl_y-(200*mpiy)))
         appendScanFile(scan_id, scan_id+'.pgw', pgw, apibase, password)
         
@@ -577,7 +578,7 @@ def extractCode(image, markers):
     #
     #return qrcode
     
-def extractGeopng(image, markers):
+def extractGeopng(image, markers, margin):
     """
     """
     # blatant copy+paste of extractCode - even to the extent I haven't changed the variable names
@@ -613,23 +614,34 @@ def extractGeopng(image, markers):
                for (x, y) in xys]
 
     # projection from extracted QR code image space to source image space
+    # calculate the position based on a margin, and then the final image will 
+    # have a margin all around it.
     
-    ax, bx, cx = linearSolution(200,  200, corners[0].x,
-                                3800, 200, corners[1].x,
-                                200, 3800, corners[2].x)
+    # Limit the width, since the size of scan in jpeg could be smaller than PHP upload limit
+    # with the png being much larger.
+    # Todo - the longest dimension should be 4000, not just this assumption that it
+    # is in landscape mode
+    # Todo - use full size and downscale if bytes is too large
     
-    ay, by, cy = linearSolution(200,  200, corners[0].y,
-                                3800, 200, corners[1].y,
-                                200, 3800, corners[2].y)
+    finalwidth = 4000
+    finalheight = round((finalwidth - (2 * margin)) * bottom/right) + (2 * margin)
+    
+    ax, bx, cx = linearSolution(margin, margin, corners[0].x,
+                                (finalwidth-margin), margin, corners[1].x,
+                                margin, (finalwidth-margin), corners[2].x)
+    
+    ay, by, cy = linearSolution(margin,  margin, corners[0].y,
+                                (finalheight-margin), margin, corners[1].y,
+                                margin, (finalheight-margin), corners[2].y)
 
     # extract the code part
-    justcode = image.convert('RGBA').transform((4000, 4000), PIL.Image.AFFINE, (ax, bx, cx, ay, by, cy), PIL.Image.BICUBIC)
+    justcode = image.convert('RGBA').transform((finalwidth, finalheight), PIL.Image.AFFINE, (ax, bx, cx, ay, by, cy), PIL.Image.BICUBIC)
     
     # paste it to an output image
-    qrcode = PIL.Image.new('RGBA', justcode.size)
-    qrcode.paste(justcode, (0, 0), justcode)
+    geopng = PIL.Image.new('RGBA', justcode.size)
+    geopng.paste(justcode, (0, 0), justcode)
     
-    return qrcode
+    return geopng
 
 def readCode(image):
     """
