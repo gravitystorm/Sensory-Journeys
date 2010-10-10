@@ -1,0 +1,13 @@
+== Sensory Journeys
+
+This is a project combining various open-source projects in order to
+support sensory and emotial mapping workshops. The initial development was
+for a specific schools project in Bristol, and the code is slowly becoming
+less hard-coded to the needs of that particular project.
+
+There is a rough guide to how to install the project documented in INSTALL.
+Further work includes pushing patches (especially to Walking Papers) upstream,
+and as already mentioned, making the whole thing easier to reuse and customise.
+
+Different parts of the project are based on various other projects. For licensing
+each component is under it's original license; new code is GPLv2 (copy at wp/LICENSE).
