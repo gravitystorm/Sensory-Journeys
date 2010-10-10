@@ -247,7 +247,7 @@
         $pdf->image($map_filename, 36, 72, $pdf->w - 72, $pdf->h - 108, 'jpg');
         
         $pdf->setFont('Helvetica', 'B', 24);
-        $pdf->text(62.61, 64.49, 'Sensory Journeys');
+        $pdf->text(62.61, 64.49, 'Walking Papers');
         
         $pdf->setFillColor(0xFF);
         $pdf->rect(35, $pdf->h - 63, 150, 28, 'F');
