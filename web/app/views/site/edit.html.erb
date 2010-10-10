@@ -1,7 +1,9 @@
 <table>
   <tr>
     <td class="navtab">
-      <%= render :partial => 'tabnav', :locals => {:mode => @mode, :modes => @modes} %>
+      <% unless @modes.length == 0 %>
+        <%= render :partial => 'tabnav', :locals => {:mode => @mode, :modes => @modes} %>
+      <% end %>
     </td>
     <td>
       <div class="iconlink"><%= link_to image_tag("about.png", :alt => 'About')+'About this project', {:controller => :site, :action => :about}, :rel => :facebox %></div>
