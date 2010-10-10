@@ -57,12 +57,14 @@ for scan in scans:
 cur.execute("Select distinct mode_id from shadow_scans")
 modes = cur.fetchall()
 for mode in modes:
-  mode_path = "composite/mode_%i" % mode
+  if mode[0] is None: # if there are no scans with modes, there will be one result of (None,)
+    continue
+  mode_path = "composite/mode_%i" % mode[0]
   try:
     shutil.rmtree(os.path.join(base, mode_path))
   except:
     pass
-  cur.execute("select scan_id from shadow_scans where mode_id = %s" % mode)
+  cur.execute("select scan_id from shadow_scans where mode_id = %s" % mode[0])
   scans = cur.fetchall()
   for scan in scans:
     composite(base, scan[0], mode_path)
