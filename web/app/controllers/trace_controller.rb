@@ -48,6 +48,11 @@ class TraceController < ApplicationController
     render "traces.kml", :layout => false
   end
   
+  def special
+    @traces = Trace.find(:all, :conditions => ["school_id = ? AND mode_id = ?", params[:school], params[:mode]])
+    render "traces.kml", :layout => false
+  end
+
   def traces
     bboxString = "(min_lat+max_lat)/2 > :minlat AND (min_lon+max_lon)/2  > :minlon AND (min_lat+max_lat)/2 < :maxlat AND (min_lon+max_lon)/2  < :maxlon"
     
