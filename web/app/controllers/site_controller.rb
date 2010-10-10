@@ -56,6 +56,9 @@ class SiteController < ApplicationController
   def logindialog
     render :layout => false
   end
+
+  def splash
+  end
   
   def login
     # TODO admin mode
