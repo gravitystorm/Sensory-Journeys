@@ -58,6 +58,7 @@ class SiteController < ApplicationController
   end
 
   def splash
+    render :layout => 'plain'
   end
   
   def login
