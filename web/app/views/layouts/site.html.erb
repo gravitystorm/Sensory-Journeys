@@ -51,12 +51,12 @@
     <% if @title %>
     <title><%=h @title %></title>
     <% else %>
-    <title>Sensory Journeys by Christian Nold</title>
+    <title><%=h Settings.project_name %></title>
     <% end %>
 </head>
 
 <body onload="init();">
-  <div class="banner"><%= image_tag "sensory_journeys.png", :alt => 'Sensory Journeys' %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
+  <div class="banner"><%= image_tag "sensory_journeys.png", :alt => Settings.project_name %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
 
     <% if flash[:notice] %>
       <div class="notice" id="flash_notice"><%=h flash[:notice] %></div>

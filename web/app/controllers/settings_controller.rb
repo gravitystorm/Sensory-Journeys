@@ -108,6 +108,14 @@ class SettingsController < ApplicationController
     Settings.location_text = params[:value]
     render :text => CGI::escapeHTML(Settings.location_text)
   end
+
+  def set_project_name
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    Settings.project_name = params[:value]
+    render :text => CGI::escapeHTML(Settings.project_name)
+  end
   
   
 end

@@ -13,3 +13,4 @@ Settings.defaults[:user_password] = 'go'
 Settings.defaults[:admin_password] = '26inchMTB'
 Settings.defaults[:dp_threshold] = 0.0002
 Settings.defaults[:location_text] = 'location'
+Settings.defaults[:project_name] = 'Emotion Mapping'
