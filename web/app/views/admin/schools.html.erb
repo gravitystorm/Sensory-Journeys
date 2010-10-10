@@ -1,4 +1,4 @@
-<h2>Schools</h2>
+<h2><%= Settings.location_text.capitalize.pluralize %></h2>
 <table class="admin">
   <thead>
     <tr>
@@ -32,4 +32,4 @@
   <% end %>
 </table>
 
-<p><%= link_to 'Add new school', {:controller => :school, :action => :new}, :rel => :facebox %></p>
+<p><%= link_to 'Add new '+Settings.location_text, {:controller => :school, :action => :new}, :rel => :facebox %></p>

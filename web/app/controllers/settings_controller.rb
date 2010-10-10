@@ -100,6 +100,14 @@ class SettingsController < ApplicationController
     Settings.admin_password = params[:value]
     render :text => CGI::escapeHTML(Settings.admin_password)
   end
+
+  def set_location_text
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    Settings.location_text = params[:value]
+    render :text => CGI::escapeHTML(Settings.location_text)
+  end
   
   
 end

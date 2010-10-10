@@ -12,3 +12,4 @@ Settings.defaults[:gps_not_after] = 20
 Settings.defaults[:user_password] = 'go'
 Settings.defaults[:admin_password] = '26inchMTB'
 Settings.defaults[:dp_threshold] = 0.0002
+Settings.defaults[:location_text] = 'location'

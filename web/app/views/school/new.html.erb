@@ -1,4 +1,4 @@
-<h2>Add a school:</h2>
+<h2>Add a <%=h Settings.location_text %>:</h2>
 <% form_tag({:action => 'add'}, {:id => 'schoolform'}) do %>
 <ul>
   <li><%= label_tag "name", 'Name : ' %><%= text_field_tag 'name' %></li>
