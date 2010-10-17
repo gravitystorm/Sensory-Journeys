@@ -2,6 +2,10 @@ class ShadowScan < ActiveRecord::Base
   belongs_to :school
   belongs_to :mode
   belongs_to :user
+  belongs_to :project
+
+  validates_presence_of :project_id
+  validates_associated :project
   
   # The shadow scans track the wpscans, but allow us to set
   # attributes without messing up walking papers. So each time the

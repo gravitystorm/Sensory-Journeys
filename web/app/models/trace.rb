@@ -4,6 +4,11 @@ class Trace < ActiveRecord::Base
   
   belongs_to :school
   belongs_to :mode
+
+  belongs_to :project
+
+  validates_presence_of :project_id
+  validates_associated :project
   
   has_many :trace_points, :dependent => :destroy, :order => :timestamp do
     def summary
