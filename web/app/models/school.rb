@@ -7,7 +7,7 @@ class School < ActiveRecord::Base
   validates_presence_of :lat, :lon
   
   validates_presence_of :project_id
-  #validates_associated :project
+  validates_associated :project
 
   default_scope :order => :id
   
