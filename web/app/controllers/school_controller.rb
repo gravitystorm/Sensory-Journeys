@@ -8,7 +8,7 @@ class SchoolController < ApplicationController
   in_place_edit_for :school, :lon
 
   def add
-    s = School.new
+    s = @current_project.schools.new
     s.name = params[:name]
     s.lat = params[:lat]
     s.lon = params[:lon]
@@ -19,7 +19,7 @@ class SchoolController < ApplicationController
   end
   
   def delete
-    s = School.find_by_id(params[:school_id])
+    s = @current_project.schools.find_by_id(params[:school_id])
     if s.traces.count == 0 && s.shadow_scans.count == 0
       s.destroy
       flash[:notice] = CGI::escapeHTML(Settings.location_text.capitalize)+" deleted"

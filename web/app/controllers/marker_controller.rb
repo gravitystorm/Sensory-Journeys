@@ -12,7 +12,7 @@ class MarkerController < ApplicationController
   end
   
   def save
-    m = Marker.new()
+    m = @current_project.markers.new()
     m.lat = params[:lat]
     m.lon = params[:lon]
     m.text = params[:text]
@@ -29,10 +29,10 @@ class MarkerController < ApplicationController
   def all
     if params[:bbox]
       minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
-      @markers = Marker.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
+      @markers = @current_project.markers.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
                              :limit => Settings.max_markers.to_i, :order => "created_at DESC")
     else
-      @markers = Marker.find(:all)
+      @markers = @current_project.markers.find(:all)
     end
   end
 

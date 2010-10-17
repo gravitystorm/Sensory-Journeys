@@ -11,7 +11,7 @@ class ShadowScanController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @scan = ShadowScan.find(params[:id])
+    @scan = @current_project.shadow_scans.find(params[:id])
     @scan.school_id = params[:value]
     @scan.save
     render :text => CGI::escapeHTML(@scan.school.name)
@@ -22,7 +22,7 @@ class ShadowScanController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @scan = ShadowScan.find(params[:id])
+    @scan = @current_project.shadow_scans.find(params[:id])
     @scan.mode_id = params[:value]
     @scan.save
     render :text => CGI::escapeHTML(@scan.mode.name)
@@ -32,12 +32,12 @@ class ShadowScanController < ApplicationController
     #TODO - handle bogus claims
     #TODO - handle claims already made
     @wp = Wpscan.find_by_id(params[:id])
-    @schools = School.find(:all)
-    @modes = Mode.find(:all)
+    @schools = @current_project.schools.find(:all)
+    @modes = @current_project.modes.find(:all)
   end
   
   def doClaim
-    s = ShadowScan.new
+    s = @current_project.shadow_scans.new
     s.user_id = @user.id
     s.scan_id = params[:scan] # validate?
     s.alias = params[:alias]

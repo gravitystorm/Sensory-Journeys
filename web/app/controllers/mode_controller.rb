@@ -6,9 +6,8 @@ class ModeController < ApplicationController
   in_place_edit_for :mode, :name
   
   def add
-    m = Mode.new
+    m = @current_project.modes.new
     m.name = params[:name]
-    m.project = @current_project
     m.save!
     
     flash[:notice] = "Added new mode"

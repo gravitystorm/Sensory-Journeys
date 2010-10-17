@@ -13,7 +13,7 @@ class TraceController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @trace = Trace.find(params[:id])
+    @trace = @current_project.trace.find(params[:id])
     @trace.school_id = params[:value]
     @trace.save
     render :text => CGI::escapeHTML(@trace.school.name)
@@ -24,32 +24,32 @@ class TraceController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @trace = Trace.find(params[:id])
+    @trace = @current_project.traces.find(params[:id])
     @trace.mode_id = params[:value]
     @trace.save
     render :text => CGI::escapeHTML(@trace.mode.name)
   end
   
   def index
-    @traces = Trace.find(:all)
+    @traces = @current_project.traces.find(:all)
   end
   
   def upload
-    @schools = School.find(:all)
-    @modes = Mode.find(:all)
+    @schools = @current_project.schools.find(:all)
+    @modes = @current_project.modes.find(:all)
   end
   
   def view
-    @trace = Trace.find(params[:id])
+    @trace = @current_project.traces.find(params[:id])
   end
   
   def kml
-    @traces = [Trace.find(params[:id])] # array of traces
+    @traces = [@current_project.traces.find(params[:id])] # array of traces
     render "traces.kml", :layout => false
   end
   
   def special
-    @traces = Trace.find(:all, :conditions => ["school_id = ? AND mode_id = ?", params[:school], params[:mode]])
+    @traces = @current_project.traces.find(:all, :conditions => ["school_id = ? AND mode_id = ?", params[:school], params[:mode]])
     render "traces.kml", :layout => false
   end
 
@@ -83,12 +83,12 @@ class TraceController < ApplicationController
     
     all_conditions = conditions.join(' AND ')
     
-    @traces = Trace.find(:all, :conditions => [all_conditions, arguments], :limit => Settings.max_traces.to_i, :order => "created_at DESC")
+    @traces = @current_project.traces.find(:all, :conditions => [all_conditions, arguments], :limit => Settings.max_traces.to_i, :order => "created_at DESC")
   end
   
   def uploadFile
     if params[:upload] && params[:mode] && params[:school]
-      t = Trace.new()
+      t = @current_project.traces.new()
       t.file_name = params[:upload]['gpx'].original_filename
       t.mode_id = params[:mode]
       t.school_id = params[:school]
