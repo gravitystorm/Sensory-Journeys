@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100526125744) do
+ActiveRecord::Schema.define(:version => 20101017133935) do
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20100526125744) do
     t.text     "text"
     t.float    "lat"
     t.float    "lon"
+    t.integer  "project_id"
   end
 
   add_index "markers", ["lat"], :name => "index_markers_on_lat"
@@ -29,6 +30,13 @@ ActiveRecord::Schema.define(:version => 20100526125744) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  create_table "projects", :force => true do |t|
+    t.string   "subdomain"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "schools", :force => true do |t|
@@ -37,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20100526125744) do
     t.float    "lon"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   create_table "settings", :force => true do |t|
@@ -56,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20100526125744) do
     t.text     "alias"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   create_table "trace_points", :force => true do |t|
@@ -83,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20100526125744) do
     t.float    "max_lon"
     t.integer  "school_id"
     t.text     "alias"
+    t.integer  "project_id"
   end
 
   add_index "traces", ["max_lat"], :name => "index_traces_on_max_lat"

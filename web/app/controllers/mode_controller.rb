@@ -8,6 +8,7 @@ class ModeController < ApplicationController
   def add
     m = Mode.new
     m.name = params[:name]
+    m.project = @current_project
     m.save!
     
     flash[:notice] = "Added new mode"
@@ -15,7 +16,7 @@ class ModeController < ApplicationController
   end
   
   def delete
-    m = Mode.find_by_id(params[:mode_id])
+    m = @current_project.modes.find_by_id(params[:mode_id])
     if m.traces.count == 0 && m.shadow_scans.count == 0
       m.destroy
       flash[:notice] = "Mode deleted"

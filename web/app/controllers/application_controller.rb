@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  before_filter :set_current_project
   helper :all # include all helpers, all the time
 
   # See ActionController::RequestForgeryProtection for details
@@ -44,6 +45,13 @@ class ApplicationController < ActionController::Base
     ok = request.send((method.to_s.downcase + "?").to_sym)
     raise NotThatMethodError unless ok
   end
+
+  private
+    def set_current_project
+      # make this really work
+      # @current_account = Account.find_by_subdomain(request.subdomains.last)
+      @current_project = Project.find(5)
+    end
   
   class NotThatMethodError < RuntimeError
     def status
