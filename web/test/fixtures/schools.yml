@@ -4,8 +4,10 @@ one:
   name: MyString
   lat: 1.5
   lon: 1.5
+  project_id: 1
 
 two:
   name: MyString
   lat: 1.5
   lon: 1.5
+  project_id: 1
