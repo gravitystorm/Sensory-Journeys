@@ -1,13 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
+another1:
+  name: First School
   lat: 1.5
   lon: 1.5
-  project_id: 1
+  project: :another
 
-two:
-  name: MyString
+this1:
+  name: School from this project
   lat: 1.5
   lon: 1.5
-  project_id: 1
+  project_id: 5
+
+this2:
+  name: School 2 from this project
+  lat: 25
+  lon: 34
+  project: :this

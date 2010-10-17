@@ -20,13 +20,16 @@ class SchoolController < ApplicationController
   
   def delete
     s = @current_project.schools.find_by_id(params[:school_id])
-    if s.traces.count == 0 && s.shadow_scans.count == 0
-      s.destroy
-      flash[:notice] = CGI::escapeHTML(Settings.location_text.capitalize)+" deleted"
+    if s
+      if s.traces.count == 0 && s.shadow_scans.count == 0
+        s.destroy
+        flash[:notice] = CGI::escapeHTML(Settings.location_text.capitalize)+" deleted"
+      else
+        flash[:error] = CGI::escapeHTML(Settings.location_text.capitalize)+" has either traces or scans, so not deleted"
+      end
+      redirect_to(:controller => :admin, :action => :schools)
     else
-      flash[:error] = CGI::escapeHTML(Settings.location_text.capitalize)+" has either traces or scans, so not deleted"
+      render :nothing => true, :status => :not_found
     end
-    
-    redirect_to(:controller => :admin, :action => :schools)
   end
 end

@@ -2,3 +2,10 @@
 
 one:
   subdomain: Foo
+
+this:
+  id: 5
+  subdomain: pass
+
+another:
+  subdomain: Bar
