@@ -36,4 +36,9 @@ class MarkerController < ApplicationController
     end
   end
 
+  def special
+    @markers = Marker.find(:all, :conditions => ["emotion = ?", params[:emotion]])
+    render "all.kml"
+  end
+
 end
