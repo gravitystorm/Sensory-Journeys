@@ -41,4 +41,16 @@ class MarkerController < ApplicationController
     render "all.kml"
   end
 
+  def set_marker_emotion
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @marker = Marker.find(params[:id])
+    if ['happy', 'sad', 'neutral'].include?(params[:value])
+      @marker.emotion = params[:value]
+      @marker.save
+    end
+    render :text => CGI::escapeHTML(@marker.emotion)
+  end
+
 end
