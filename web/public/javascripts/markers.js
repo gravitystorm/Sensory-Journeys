@@ -1,9 +1,3 @@
-var emotionIcons = {
-  "happy": {externalGraphic: "/images/positive.png"},
-  "neutral": {externalGraphic: "/images/neutral.png"},
-  "sad": {externalGraphic: "/images/negative.png"}
-};
-
 var SHADOW_Z_INDEX = 9;
 var MARKER_Z_INDEX = 10;
 
