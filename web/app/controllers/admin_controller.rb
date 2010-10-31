@@ -4,43 +4,43 @@ class AdminController < ApplicationController
   before_filter :require_admin
   
   def index
-    @markers = Marker.find(:all)
-    @scans = ShadowScan.find(:all)
-    @traces = Trace.find(:all)
-    @schools = School.find(:all)
-    @modes = Mode.find(:all)
+    @markers = @current_project.markers.find(:all)
+    @scans = @current_project.shadow_scans.find(:all)
+    @traces = @current_project.traces.find(:all)
+    @schools = @current_project.schools.find(:all)
+    @modes = @current_project.modes.find(:all)
   end
   
   def markers
-    @markers = Marker.find(:all, :order => "id DESC")
+    @markers = @current_project.markers.find(:all, :order => "id DESC")
   end
   
   def marker_delete
     assert_method :post
     
-    marker = Marker.find(params[:marker_id])
+    marker = @current_project.markers.find(params[:marker_id])
     marker.delete
     flash[:notice] = "Deleted marker #{marker.id}"
     redirect_to :action => :markers
   end
   
   def traces
-    @traces = Trace.find(:all, :order => "id DESC")
-    @schools = School.find(:all, :order => "id DESC")
-    @modes = Mode.find(:all, :order => "id DESC")
+    @traces = @current_project.traces.find(:all, :order => "id DESC")
+    @schools = @current_project.schools.find(:all, :order => "id DESC")
+    @modes = @current_project.modes.find(:all, :order => "id DESC")
   end
   
   def trace_delete
     assert_method :post
     
-    trace = Trace.find(params[:trace_id])
+    trace = @current_project.trace.find(params[:trace_id])
     trace.destroy
     flash[:notice] = "Deleted trace #{trace.id}"
     redirect_to :action => :traces
   end
   
   def scans
-    @shadow_scans = ShadowScan.find(:all, :order => "id DESC")
+    @shadow_scans = @current_project.shadow_scans.find(:all, :order => "id DESC")
     @wp_scans = Wpscan.find(:all, :order => "created DESC")
     
     @unclaimed_scans = []
@@ -55,14 +55,14 @@ class AdminController < ApplicationController
   def scan_remove
     assert_method :post
     
-    scan = ShadowScan.find(params[:scan_id])
+    scan = @current_projects.shadow_scans.find(params[:scan_id])
     scan.destroy
     flash[:notice] = "Deleted details of scan #{scan.scan_id}, which will now appear in the unprocessed list"
     redirect_to :action => :scans
   end
   
   def schools
-    @schools = School.find(:all)
+    @schools = @current_project.school.find(:all)
   end
   
   def modes
