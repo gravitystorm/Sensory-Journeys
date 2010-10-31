@@ -62,7 +62,7 @@ class AdminController < ApplicationController
   end
   
   def schools
-    @schools = @current_project.school.find(:all)
+    @schools = @current_project.schools.find(:all)
   end
   
   def modes
