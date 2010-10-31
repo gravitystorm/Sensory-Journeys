@@ -6,6 +6,7 @@ class SiteController < ApplicationController
   def index
     @schools = @current_project.schools.find(:all)
     @modes = @current_project.modes.find(:all)
+    @emotions = @current_project.emotions.find(:all)
     if params[:mode]
       @mode = @current_project.modes.find_by_id(params[:mode])
     end
