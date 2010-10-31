@@ -5,4 +5,12 @@ class Marker < ActiveRecord::Base
   validates_associated :project
 
   validates_presence_of :lat, :lon
+
+  belongs_to :emotion
+
+  default_scope :order => :id
+
+  def emotion_text
+    emotion.text
+  end
 end

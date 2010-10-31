@@ -9,17 +9,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101017133935) do
+ActiveRecord::Schema.define(:version => 20101031123941) do
+
+  create_table "emotions", :force => true do |t|
+    t.string   "text"
+    t.string   "icon"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "markers", :force => true do |t|
     t.integer  "user_id"
-    t.string   "emotion"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "text"
     t.float    "lat"
     t.float    "lon"
     t.integer  "project_id"
+    t.integer  "emotion_id"
   end
 
   add_index "markers", ["lat"], :name => "index_markers_on_lat"

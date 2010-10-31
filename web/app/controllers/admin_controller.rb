@@ -9,10 +9,12 @@ class AdminController < ApplicationController
     @traces = @current_project.traces.find(:all)
     @schools = @current_project.schools.find(:all)
     @modes = @current_project.modes.find(:all)
+    @emotions = @current_project.emotions.find(:all)
   end
   
   def markers
     @markers = @current_project.markers.find(:all, :order => "id DESC")
+    @emotions = @current_project.emotions.find(:all)
   end
   
   def marker_delete
@@ -86,5 +88,9 @@ class AdminController < ApplicationController
       @traces[a.alias] = a.traces
     end
     @aliases.uniq!
+  end
+
+  def emotions
+    @emotions = @current_project.emotions.find(:all)
   end
 end

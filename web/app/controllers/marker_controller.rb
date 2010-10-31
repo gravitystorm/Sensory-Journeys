@@ -16,7 +16,7 @@ class MarkerController < ApplicationController
     m.lat = params[:lat]
     m.lon = params[:lon]
     m.text = params[:text]
-    m.emotion = params[:emotion]
+    m.emotion = @current_project.emotions.find(params[:emotion])
     m.user_id = @user.id
     if m.lat == '' or m.lat == nil or m.lon == '' or m.lon == nil # TODO do this properly
       flash[:error] = "You can't add a marker without coordinates. How did you manage that in the first place?" #someone did during a workshop
@@ -27,6 +27,7 @@ class MarkerController < ApplicationController
   end
   
   def all
+    @emotions = @current_project.emotions.find(:all)
     if params[:bbox]
       minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
       @markers = @current_project.markers.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
@@ -37,6 +38,7 @@ class MarkerController < ApplicationController
   end
 
   def special
+    @emotions = @current_project.emotions.find(:all)
     @markers = Marker.find(:all, :conditions => ["emotion = ?", params[:emotion]])
     render "all.kml"
   end
@@ -45,12 +47,13 @@ class MarkerController < ApplicationController
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)
     end
-    @marker = Marker.find(params[:id])
-    if ['happy', 'sad', 'neutral'].include?(params[:value])
-      @marker.emotion = params[:value]
+    @marker = @current_project.markers.find(params[:id])
+    emotion = @current_project.emotions.find(params[:value])
+    if (@marker && emotion)
+      @marker.emotion = emotion
       @marker.save
     end
-    render :text => CGI::escapeHTML(@marker.emotion)
+    render :text => CGI::escapeHTML(@marker.emotion_text)
   end
 
 end

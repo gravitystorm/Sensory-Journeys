@@ -1,7 +1,3 @@
-<% emotions = {'happy' => 'positive.png',
-                'neutral' => 'neutral.png',
-                'sad' => 'negative.png'} %>
-
 <h2>Markers</h2>
 <%= link_to 'Download all markers (kml)', {:controller => :marker, :action => :all, :format => :kml} %>
 
@@ -11,7 +7,7 @@
       <th></th>
       <th>id</th>
       <th>emotion</th>
-      <th>postition</th>
+      <th>position</th>
       <th>text</th>
       <th>user</th>
       <th>uploaded</th>
@@ -26,7 +22,7 @@
       <% end %>
     </td>
     <td><%= @marker.id %></td>
-    <td><%= in_place_collection_editor_field :marker, :emotion, [['hip hip happy', 'happy'], ['meh', 'neutral'], ['boo', 'sad']], {}, :url => {:controller => :marker, :action => :set_marker_emotion, :id => @marker.id} %>
+    <td><%= in_place_collection_editor_field :marker, :emotion_text, @emotions.collect{|e| [e.text,e.id]}, {}, :url => {:controller => :marker, :action => :set_marker_emotion, :id => @marker.id} %>
     <td><%= link_to ("%.2f,&nbsp;%.2f" % [@marker.lat, @marker.lon]), {:controller => :site, :action => :index, :lat => @marker.lat, :lon => @marker.lon, :zoom => 16} %></td>
     <td><%= in_place_editor_field :marker, :text, {}, :url => {:controller => :marker, :action => :set_marker_text, :id => @marker.id} %></td>
     <td><%= @marker.user_id %></td>

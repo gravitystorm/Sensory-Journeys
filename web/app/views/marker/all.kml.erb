@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <Style id="happy">
+    <% @emotions.each do |emotion| %>
+    <Style id="emotion_<%= emotion.id %>">
       <LabelStyle>
         <color>00ffffff</color>
       </LabelStyle>
       <IconStyle>
         <Icon>
-          <href><%= request.protocol+request.host_with_port+image_path('positive.png') %></href>
+          <href><%= request.protocol+request.host_with_port+image_path(emotion.icon) %></href>
         </Icon>
       </IconStyle>
     </Style>
-    <Style id="neutral">
-      <LabelStyle>
-        <color>00ffffff</color>
-      </LabelStyle>
-      <IconStyle>
-        <Icon>
-          <href><%= request.protocol+request.host_with_port+image_path('neutral.png') %></href>
-        </Icon>
-      </IconStyle>
-    </Style>
-    <Style id="sad">
-      <LabelStyle>
-        <color>00ffffff</color>
-      </LabelStyle>
-      <IconStyle>
-        <Icon>
-          <href><%= request.protocol+request.host_with_port+image_path('negative.png') %></href>
-        </Icon>
-      </IconStyle>
-    </Style>
+    <% end -%>
     <% @markers.each do |marker| %>
     <Placemark>
-      <name><%=h marker.emotion %></name>
+      <name><%=h marker.emotion.text %></name>
       <description><% if marker.text != '' %><%=h marker.text %><% else %> <% end %></description>
-      <styleUrl>#<%=h marker.emotion %></styleUrl>
+      <styleUrl>#emotion_<%=h marker.emotion.id %></styleUrl>
       <Point>
         <coordinates><%=h marker.lon %>,<%=h marker.lat %>,0</coordinates>
       </Point>

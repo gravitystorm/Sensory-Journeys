@@ -12,7 +12,8 @@ class SiteController < ApplicationController
   end
   
   def edit
-    @modes = @current_project.modes.find(:all, :order => :id)
+    @modes = @current_project.modes.find(:all)
+    @emotions = @current_project.emotions.find(:all)
     if params[:scan]
       # could validate the path here
       if(!@current_project.shadow_scans.find_by_scan_id(params[:scan]))

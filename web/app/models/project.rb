@@ -5,4 +5,5 @@ class Project < ActiveRecord::Base
   has_many :schools
   has_many :shadow_scans
   has_many :traces
+  has_many :emotions
 end

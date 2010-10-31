@@ -167,11 +167,9 @@
         <%= hidden_field_tag 'lat' %>
         <%= hidden_field_tag 'lon' %>
         <p>1. How was the experience?</p>
-        <% [{:id =>'happy', :image=> 'positive.png', :text=> 'Postive'},
-            {:id => 'neutral', :image => 'neutral.png', :text => 'Neutral'},
-            {:id => 'sad', :image => 'negative.png', :text => 'Negative'}].each do |emotion| %>
-          <%= radio_button_tag 'emotion', emotion[:id], (emotion[:id] == 'neutral') %>
-          <%= label_tag "emotion_#{emotion[:id]}", image_tag(emotion[:image])+" "+emotion[:text] %><br />
+        <% @emotions.each do |emotion| %>
+          <%= radio_button_tag 'emotion', emotion.id %>
+          <%= label_tag "emotion_#{emotion.id}", image_tag(emotion.icon)+" "+emotion.text %><br />
         <% end %>
         <p>2. Enter a text description</p>
         <%= text_area_tag 'text', nil, :rows => 8 %>

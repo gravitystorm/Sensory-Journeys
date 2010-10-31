@@ -1,0 +1,27 @@
+<h2>Emotions</h2>
+
+<table class="admin markers">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id</th>
+      <th>text</th>
+      <th>icon</th>
+      <th>updated</th>
+    </tr>
+  </thead>
+<% @emotions.each do |@emotion| %>
+  <tr>
+    <td>
+      <% form_tag({:action => :emotion_delete}) do %>
+        <%= hidden_field_tag 'emotion_id', @emotion.id %>
+        <%= submit_tag 'Delete' %>
+      <% end %>
+    </td>
+    <td><%= @emotion.id %></td>
+    <td><%= in_place_editor_field :emotion, :text, {}, :url => {:controller => :emotion, :action => :set_emotion_text, :id => @emotion.id} %></td>
+    <td><%= in_place_editor_field :emotion, :icon, {}, :url => {:controller => :emotion, :action => :set_emotion_icon, :id => @emotion.id} %></td>
+    <td><%= @emotion.updated_at %></td>
+  </tr>
+<% end %>
+</ul>
