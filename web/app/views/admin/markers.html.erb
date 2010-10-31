@@ -26,7 +26,7 @@
       <% end %>
     </td>
     <td><%= @marker.id %></td>
-    <td><%= image_tag emotions[@marker.emotion] %><%= in_place_editor_field :marker, :emotion, {}, :url => {:controller => :marker, :action => :set_marker_emotion, :id => @marker.id} %>
+    <td><%= in_place_collection_editor_field :marker, :emotion, [['hip hip happy', 'happy'], ['meh', 'neutral'], ['boo', 'sad']], {}, :url => {:controller => :marker, :action => :set_marker_emotion, :id => @marker.id} %>
     <td><%= link_to ("%.2f,&nbsp;%.2f" % [@marker.lat, @marker.lon]), {:controller => :site, :action => :index, :lat => @marker.lat, :lon => @marker.lon, :zoom => 16} %></td>
     <td><%= in_place_editor_field :marker, :text, {}, :url => {:controller => :marker, :action => :set_marker_text, :id => @marker.id} %></td>
     <td><%= @marker.user_id %></td>

@@ -77,4 +77,21 @@ module InPlaceMacrosHelper
     tag = content_tag(tag_options.delete(:tag), h(instance_tag.value(instance_tag.object)),tag_options)
     return tag + in_place_editor(tag_options[:id], in_place_editor_options)
   end
+
+  # Todo - give this the js_options etc that the in_place_editor_field has (see above).
+  def in_place_collection_editor_field(object, method, container, tag_options={}, in_place_editor_options = {})
+    tag = ::ActionView::Helpers::InstanceTag.new(object, method, self)
+    tag_options = { :tag => "span",
+                    :id => "#{object}_#{method}_#{tag.object.id}_in_place_editor",
+                    :class => "in_place_editor_field" }.merge!(tag_options)
+    in_place_editor_options[:url] = in_place_editor_options[:url] || url_for({ :action => "set_#{object}_#{method}", :id => tag.object.id })
+    collection = container.inject([]) do |options, element|
+      options << "[ '#{escape_javascript(element.last.to_s)}', '#{escape_javascript(element.first.to_s)}']"
+    end
+    function =  "new Ajax.InPlaceCollectionEditor("
+    function << "'#{object}_#{method}_#{tag.object.id}_in_place_editor',"
+    function << "'#{url_for(in_place_editor_options[:url])}',"
+    function << "{collection: [#{collection.join(',')}], id: '#{object}_#{method}'});"
+    tag.to_content_tag(tag_options.delete(:tag), tag_options) + javascript_tag(function)
+  end
 end
