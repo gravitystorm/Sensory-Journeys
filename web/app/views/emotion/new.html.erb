@@ -1,0 +1,8 @@
+<h2>Add an emotion:</h2>
+<% form_tag({:action => 'add'}, {:id => 'emotionform'}) do %>
+<ul>
+  <li><%= label_tag "text", 'Text : ' %><%= text_field_tag 'text' %></li>
+  <li><%= label_tag "icon", 'Icon : ' %><%= text_field_tag 'icon' %></li>
+</ul>
+  <%= submit_tag "Save", :id => 'emotion_save' %>
+<% end %>

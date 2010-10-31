@@ -7,4 +7,6 @@ class Emotion < ActiveRecord::Base
   validates_presence_of :text, :icon
 
   default_scope :order => :id
+
+  has_many :markers
 end
