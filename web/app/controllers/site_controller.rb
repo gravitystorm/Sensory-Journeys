@@ -4,18 +4,18 @@ class SiteController < ApplicationController
   before_filter :require_user, :only => [:edit]
   
   def index
-    @schools = School.find(:all)
-    @modes = Mode.find(:all)
+    @schools = @current_project.schools.find(:all)
+    @modes = @current_project.modes.find(:all)
     if params[:mode]
-      @mode = Mode.find_by_id(params[:mode])
+      @mode = @current_project.modes.find_by_id(params[:mode])
     end
   end
   
   def edit
-    @modes = Mode.find(:all, :order => :id)
+    @modes = @current_project.modes.find(:all, :order => :id)
     if params[:scan]
       # could validate the path here
-      if(!ShadowScan.find_by_scan_id(params[:scan]))
+      if(!@current_project.shadow_scans.find_by_scan_id(params[:scan]))
         redirect_to(:controller => :shadow_scan, :action => :claim, :id=> params[:scan]) and return
       end
       # TODO skip this if it's going to be shown otherwise
@@ -24,18 +24,18 @@ class SiteController < ApplicationController
       @wpprint = Wpprint.find_by_id(@wpscan.print_id) if @wpscan
     end
     if params[:trace]
-      @trace = Trace.find(params[:trace])
+      @trace = @current_project.traces.find(params[:trace])
       @showtrace = true if @trace
     end
     if params[:mode]
-      @mode = Mode.find_by_id(params[:mode])
+      @mode = @current_project.modes.find_by_id(params[:mode])
     end
     #setup url parameters for fetching traces
     #todo needs urlencoding?
     trace_params = []
     if session[:alias]
       trace_params << "alias=#{session[:alias]}"
-      @alias_traces_count = Trace.find(:all, :conditions => {:alias => session[:alias]}).length
+      @alias_traces_count = @current_project.traces.find(:all, :conditions => {:alias => session[:alias]}).length
     end
     if @mode
       trace_params << "mode=#{@mode.id}"
@@ -44,7 +44,7 @@ class SiteController < ApplicationController
     @trace_url_params = trace_params.join("&")
     @scans = @user.shadow_scans # TODO needs limiting?
     if session[:alias]
-      @alias_scans = ShadowScan.find(:all, :conditions => {:alias => session[:alias]})
+      @alias_scans = @current_project.shadow_scans.find(:all, :conditions => {:alias => session[:alias]})
       @alias_scans_count = @alias_scans.length
     end
   end
@@ -97,8 +97,8 @@ class SiteController < ApplicationController
   
   def fetchalias
     if params[:alias] && (params[:alias] != '')
-      scans = ShadowScan.find(:all, :conditions => {:alias => params[:alias]})
-      traces = Trace.find(:all, :conditions => {:alias => params[:alias]})
+      scans = @current_project.shadow_scans.find(:all, :conditions => {:alias => params[:alias]})
+      traces = @current_project.traces.find(:all, :conditions => {:alias => params[:alias]})
       if traces.length == 0 && scans.length == 0
         flash[:error] = "I found no traces or scans with the alias '#{params[:alias]}'"
         session[:alias] = nil
