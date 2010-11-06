@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101031123941) do
+ActiveRecord::Schema.define(:version => 20101106100153) do
 
   create_table "emotions", :force => true do |t|
     t.string   "text"
@@ -45,6 +45,20 @@ ActiveRecord::Schema.define(:version => 20101031123941) do
     t.string   "subdomain"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "home_location_lat"
+    t.float    "home_location_lon"
+    t.integer  "home_location_zoom"
+    t.integer  "max_markers"
+    t.integer  "max_traces"
+    t.integer  "max_trace_points_summary"
+    t.integer  "max_waypoints_summary"
+    t.integer  "gps_not_before"
+    t.integer  "gps_not_after"
+    t.string   "user_password"
+    t.string   "admin_password"
+    t.float    "dp_threshold"
+    t.string   "location_text"
+    t.string   "project_name"
   end
 
   create_table "schools", :force => true do |t|
@@ -61,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20101031123941) do
     t.text     "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   add_index "settings", ["var"], :name => "index_settings_on_var"

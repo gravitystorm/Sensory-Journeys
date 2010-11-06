@@ -7,7 +7,7 @@
     <% if @title %>
     <title><%=h @title %></title>
     <% else %>
-    <title><%=h Settings.project_name %></title>
+    <title><%=h @current_project.project_name %></title>
     <% end %>
 </head>
 

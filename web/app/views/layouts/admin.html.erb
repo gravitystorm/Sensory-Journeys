@@ -9,12 +9,12 @@
     <% if @title %>
     <title><%=h @title %></title>
     <% else %>
-    <title>Admin - <%=h Settings.project_name %></title>
+    <title>Admin - <%=h @current_project.project_name %></title>
     <% end %>
 </head>
 
 <body>
- <div class="banner"><%= image_tag "sensory_journeys.png", :alt => Settings.project_name %>
+ <div class="banner"><%= image_tag "sensory_journeys.png", :alt => @current_project.project_name %>
     <h2>Communal Visualisation of people's experiences while travelling</h2>
     <h2><%= link_to 'ADMINISTRATION INTERFACE', :controller => :admin, :action => :index %></h2>
     <br clear="both"/>

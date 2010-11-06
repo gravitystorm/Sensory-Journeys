@@ -42,7 +42,7 @@
 <div>
   <div id="map"></div>
   <div id="sidebar">
-    <p>Zoom to a <%=h Settings.location_text %>:</p>
+    <p>Zoom to a <%=h @current_project.location_text %>:</p>
     <ul>
       <% @schools.each do |school| %>
         <li><a href="#" onclick="map.setCenter(lonLatToMercator(new OpenLayers.LonLat(<%= school.lon %>,<%= school.lat %>)));map.zoomTo(17);"><%= school.name %></a></li>

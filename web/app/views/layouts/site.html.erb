@@ -22,8 +22,8 @@
         
         function init(){
           layers = false;
-          var centre = lonLatToMercator( new OpenLayers.LonLat(<%= Settings.home_location_lon %>, <%= Settings.home_location_lat %>));
-          var zoom = <%= Settings.home_location_zoom %>;
+          var centre = lonLatToMercator( new OpenLayers.LonLat(<%= @current_project.home_location_lon %>, <%= @current_project.home_location_lat %>));
+          var zoom = <%= @current_project.home_location_zoom %>;
           var cookietext = readCookie('_osm_location');
           if (cookietext) {
             var cb = cookietext.split('|');
@@ -58,12 +58,12 @@
     <% if @title %>
     <title><%=h @title %></title>
     <% else %>
-    <title><%=h Settings.project_name %></title>
+    <title><%=h @current_project.project_name %></title>
     <% end %>
 </head>
 
 <body onload="init();">
-  <div class="banner"><%= image_tag "sensory_journeys.png", :alt => Settings.project_name %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
+  <div class="banner"><%= image_tag "sensory_journeys.png", :alt => @current_project.project_name %><h2>Communal Visualisation of people's experiences while travelling</h2><br clear="both"/></div>
 
     <% if flash[:notice] %>
       <div class="notice" id="flash_notice"><%=h flash[:notice] %></div>

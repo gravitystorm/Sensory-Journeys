@@ -66,14 +66,14 @@ class SiteController < ApplicationController
   def login
     # TODO admin mode
     if params[:password]
-      if params[:password] == Settings.user_password
+      if params[:password] == @current_project.user_password
         user = User.new
         user.save!
         session[:user] = user.id
         session[:alias] = nil
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
-      elsif params[:password] == Settings.admin_password
+      elsif params[:password] == @current_project.admin_password
         user = User.new
         user.save!
         session[:user] = user.id

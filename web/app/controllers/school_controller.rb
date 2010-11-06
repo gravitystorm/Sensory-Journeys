@@ -14,7 +14,7 @@ class SchoolController < ApplicationController
     s.lon = params[:lon]
     s.save!
     
-    flash[:notice] = "Added new " + CGI::escapeHTML(Settings.location_text)
+    flash[:notice] = "Added new " + CGI::escapeHTML(@current_project.location_text)
     redirect_to(:controller => :admin, :action => :schools)
   end
   
@@ -23,9 +23,9 @@ class SchoolController < ApplicationController
     if s
       if s.traces.count == 0 && s.shadow_scans.count == 0
         s.destroy
-        flash[:notice] = CGI::escapeHTML(Settings.location_text.capitalize)+" deleted"
+        flash[:notice] = CGI::escapeHTML(@current_project.location_text.capitalize)+" deleted"
       else
-        flash[:error] = CGI::escapeHTML(Settings.location_text.capitalize)+" has either traces or scans, so not deleted"
+        flash[:error] = CGI::escapeHTML(@current_project.location_text.capitalize)+" has either traces or scans, so not deleted"
       end
       redirect_to(:controller => :admin, :action => :schools)
     else
