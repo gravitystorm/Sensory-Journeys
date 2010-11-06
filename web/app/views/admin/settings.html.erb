@@ -1,8 +1,6 @@
 <h2>Settings</h2>
 <p>Please be very careful when changing these. It's quite easy to leave the site completely non-functional!</p>
 
-<% @settings = Settings %>
-
 <table class="admin">
   <thead>
     <tr>
@@ -12,25 +10,25 @@
     </tr>
   </thead>
   <tbody>
-    <% [{:id => :home_location_lat, :name => "Home Location Latitude"},
-        {:id => :home_location_lon, :name => "Home Location Longitude"},
-        {:id => :home_location_zoom, :name => "Home Location Zoom"},
-        {:id => :max_markers, :name => "Max number of markers shown"},
-        {:id => :max_traces, :name => "Max number of traces shown"},
-        {:id => :max_trace_points_summary, :name => "Max number of points shown in a trace"},
-        {:id => :max_waypoints_summary, :name => "Max number of waypoints shown in a trace"},
-        {:id => :gps_not_before, :name => "Don't store trace points before the hour of:"},
-        {:id => :gps_not_after, :name => "Don't store trace points after the hour of:"},
-        {:id => :dp_threshold, :name => "Simplify traces to this many degrees:"},
-        {:id => :user_password, :name => "User password"},
-        {:id => :admin_password, :name => "Admin password"},
-        {:id => :location_text, :name => "Refer to locations as (e.g. 'school')"},
-        {:id => :project_name, :name => "Name of the project"}
+    <% [{:id => :home_location_lat, :name => "Home Location Latitude", :default => '51.45855'},
+        {:id => :home_location_lon, :name => "Home Location Longitude", :default => '-2.58391'},
+        {:id => :home_location_zoom, :name => "Home Location Zoom", :default => '13'},
+        {:id => :max_markers, :name => "Max number of markers shown", :default => '40'},
+        {:id => :max_traces, :name => "Max number of traces shown", :default => '5'},
+        {:id => :max_trace_points_summary, :name => "Max number of points shown in a trace", :default => '500'},
+        {:id => :max_waypoints_summary, :name => "Max number of waypoints shown in a trace", :default => '25'},
+        {:id => :gps_not_before, :name => "Don't store trace points before the hour of:", :default => '7'},
+        {:id => :gps_not_after, :name => "Don't store trace points after the hour of:", :default => '20'},
+        {:id => :dp_threshold, :name => "Simplify traces to this many degrees:", :default => '0.002'},
+        {:id => :user_password, :name => "User password", :default => 'go'},
+        {:id => :admin_password, :name => "Admin password", :default => '26inchMTB'},
+        {:id => :location_text, :name => "Refer to locations as (e.g. 'school')", :default => 'location'},
+        {:id => :project_name, :name => "Name of the project", :default => 'Emotion Mapping'}
         ].each do |entry| %>
     <tr>
       <td><%= entry[:name] %></td>
-      <td><%=h Settings.defaults[entry[:id]] %></td>
-      <td><a id="edit_setting_<%= entry[:id] %>" class="external_control">¤</a><%= in_place_editor_field :settings, entry[:id], {},  {:url => {:controller => :settings, :action => "set_#{entry[:id]}"}, :external_control => "edit_setting_#{entry[:id]}"} %></td>
+      <td><%= entry[:default] %></td>
+      <td><a id="edit_setting_<%= entry[:id] %>" class="external_control">¤</a><%= in_place_editor_field :project, entry[:id], {}, {:url => {:controller => :project, :action => "set_#{entry[:id]}"}, :external_control => "edit_setting_#{entry[:id]}"} %></td>
     </tr>
     <% end %>
   </tbody>

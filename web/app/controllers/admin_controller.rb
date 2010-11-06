@@ -72,6 +72,7 @@ class AdminController < ApplicationController
   end
   
   def settings
+    @project = @current_project
   end
   
   def aliases
