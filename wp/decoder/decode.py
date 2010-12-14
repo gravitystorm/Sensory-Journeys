@@ -597,7 +597,10 @@ def extractGeopng(image, markers, margin):
     if orientation == 'landscape':
         # flip them around
         right, bottom = bottom, right
-    
+
+    finalwidth = 4000
+    finalheight = int(round((finalwidth - (2 * margin)) * bottom/right) + (2 * margin))
+
     ax, bx, cx = linearSolution(0,      0, markers['Header'].anchor.x,
                                 right,  0, markers['Hand'].anchor.x,
                                 0, bottom, markers['CCBYSA'].anchor.x)
@@ -605,9 +608,16 @@ def extractGeopng(image, markers, margin):
     ay, by, cy = linearSolution(0,      0, markers['Header'].anchor.y,
                                 right,  0, markers['Hand'].anchor.y,
                                 0, bottom, markers['CCBYSA'].anchor.y)
-    
+
+    print >> sys.stderr, markers['Header'].anchor.x,markers['Hand'].anchor.x,markers['CCBYSA'].anchor.x,markers['Header'].anchor.y,markers['Hand'].anchor.y,markers['CCBYSA'].anchor.y
+    #exit()
     # candidate location of the geopng on the printed image:
     # top-left, top-right, bottom-left corner of the geopng.
+
+    #bodge bodge bodge it back again
+    if ((abs(markers['Header'].anchor.x - markers['Hand'].anchor.x) - abs(markers['Header'].anchor.y - markers['Hand'].anchor.y)) < 0):
+        right, bottom = bottom, right
+    
     xys = [(0, 0), (right, 0), (0, bottom)]
 
     corners = [Point(ax * x + bx * y + cx, ay * x + by * y + cy)
@@ -623,8 +633,7 @@ def extractGeopng(image, markers, margin):
     # is in landscape mode
     # Todo - use full size and downscale if bytes is too large
     
-    finalwidth = 4000
-    finalheight = int(round((finalwidth - (2 * margin)) * bottom/right) + (2 * margin))
+
     
     ax, bx, cx = linearSolution(margin, margin, corners[0].x,
                                 (finalwidth-margin), margin, corners[1].x,
