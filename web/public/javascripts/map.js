@@ -31,9 +31,9 @@ function createMap(divName, centre, zoom) {
    map.addLayer(mapnik);
 
    var cycle = new OpenLayers.Layer.OSM("OpenCycleMap",
-                                        ["http://a.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png",
-                                         "http://b.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png",
-                                         "http://c.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png"],
+                                        ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                                         "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+                                         "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"],
                                         { displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize'});
    map.addLayer(cycle);
