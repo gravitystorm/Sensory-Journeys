@@ -1,1 +1,13 @@
-<h1>This page intentionally left blank</h1>
+<% content_for :header do %>
+<meta http-equiv="refresh" content="5" />
+<% end %>
+
+<h1>Processing your scanned image</h1>
+
+<ol class="steps">
+  <% (0..6).each do |step| %>
+    <li class="<%= 'on' if step == @wpscan.last_step -%>"><%= get_step_description(step) -%></li>
+  <% end %>
+</ol>
+
+<p>This may take a little while, generally a few minutes. You don’t need to keep this browser window open—you can bookmark this page and come back later. </p>

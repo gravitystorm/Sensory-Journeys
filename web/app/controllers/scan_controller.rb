@@ -45,7 +45,7 @@ class ScanController < ApplicationController
       wpscan.will_edit = 'yes'
       wpscan.save
 
-      set_step(wpscan,0)
+      set_step(wpscan,1)
 
       content = WP_URL+'files/scans/'+scan_id+'/'+filename
       add_message(content)
@@ -58,6 +58,7 @@ class ScanController < ApplicationController
   end
 
   def scan
+    @wpscan = Wpscan.find(params[:scan_id])
   end
 
   def generate_id

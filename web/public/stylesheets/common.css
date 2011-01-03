@@ -162,3 +162,6 @@ table.admin td
 table.markers form.inplaceeditor-form input[type="text"] { /* Input box */
   width: 600px;
 }
+
+ol.steps li { color: silver; }
+ol.steps li.on { color: black; }
