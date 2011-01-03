@@ -5,6 +5,11 @@
   <%= stylesheet_link_tag 'common' %>
   <%= javascript_include_tag :defaults %>
   <%= yield :header %>
+  <% if @title %>
+  <title><%=h @title %></title>
+  <% else %>
+  <title><%=h @current_project.project_name %></title>
+  <% end %>
 </head>
 
 <body>
