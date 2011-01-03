@@ -156,7 +156,7 @@
     <div id="sidebar-menu" class="sidebarbox">
       <a href="#" onclick="showMarkerDialog()" class="sidebarlink"><%= image_tag 'marker.png' %>Add Marker</a><br />
       <%= link_to (image_tag 'gps.png')+'Upload GPS Track', {:controller => :trace, :action => :upload}, :rel => :facebox, :class => :sidebarlink %><br />
-      <%= link_to (image_tag 'sketchupload.png')+'Upload Sketch Map', WP_URL + 'upload.php', :class => :sidebarlink %><br />
+      <%= link_to (image_tag 'sketchupload.png')+'Upload Sketch Map', {:controller => :scan, :action => :upload}, :class => :sidebarlink %><br />
       <a href="#" onclick="showPrintDialog()" class="sidebarlink"><%= image_tag 'print.png' %>Print Map</a><br />
     </div>
     
