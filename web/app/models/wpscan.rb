@@ -19,4 +19,21 @@ class Wpscan < ActiveRecord::Base
     else "Unknown Status"
     end
   end
+
+  def bbox
+    if self.print_id
+      print = Wpprint.find(self.print_id)
+      if print
+        [print.west,print.south,print.east,print.north].join(",")
+      end
+    end
+  end
+
+  def large_png_url
+    return WP_URL+'files/scans/'+self.id+'/large.png'
+  end
+
+  def preview_png_url
+    return WP_URL+'files/scans/'+self.id+'/preview.png'
+  end
 end

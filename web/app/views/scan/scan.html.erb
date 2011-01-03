@@ -1,15 +1,33 @@
-<% content_for :header do %>
-<meta http-equiv="refresh" content="5" />
+<% unless [6,100,101].include?(@wpscan.last_step) %>
+  <% content_for :header do %>
+  <meta http-equiv="refresh" content="5" />
+  <% end %>
 <% end %>
 
 <% @title = "Scanned Map ##{@wpscan.id}" %>
 
-<h1>Processing your scanned image</h1>
 
-<ol class="steps">
-  <% (0..6).each do |step| %>
-    <li class="<%= 'on' if step == @wpscan.last_step -%>"><%= get_step_description(step) -%></li>
+<% if @wpscan.last_step == 6 %>
+  <h1>Scan Complete!</h1>
+
+  <p>
+      <%= link_to image_tag(@wpscan.preview_png_url), @wpscan.large_png_url %>
+  </p>
+  <p><%= link_to 'Now give some more details about the map', :controller => :site, :action => :edit, :scan => @wpscan.id, :bbox => @wpscan.bbox %>
+<% else %>
+  <h1>Processing your scanned image</h1>
+
+  <ol class="steps">
+    <% (0..6).each do |step| %>
+      <li class="<%= 'on' if step == @wpscan.last_step -%>"><%= get_step_description(step) -%></li>
+    <% end %>
+  </ol>
+
+  <% if @wpscan.last_step < 7 %>
+    <p>This may take a little while, generally a few minutes. You don’t need to keep this browser window open—you can bookmark this page and come back later. </p>
+  <% elsif [98,99].include?(@wpscan.laststep) %>
+    <p>There's been an error, but we'll try again in a few moments</p>
+  <% else %>
+    <p>Something went badly wrong. Try rescanning your map with different settings, and check that the corner images are clearly visible.</p>
   <% end %>
-</ol>
-
-<p>This may take a little while, generally a few minutes. You don’t need to keep this browser window open—you can bookmark this page and come back later. </p>
+<% end %>
