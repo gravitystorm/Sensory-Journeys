@@ -22,19 +22,19 @@ function createMap(divName, centre, zoom) {
                               ],
                               displayProjection:  new OpenLayers.Projection("EPSG:4326") });
 
-   var mapnik = new OpenLayers.Layer.TMS("OpenStreetMap",
-                                         ["http://a.tile.openstreetmap.org/",
-                                          "http://b.tile.openstreetmap.org/",
-                                          "http://c.tile.openstreetmap.org/"],
-                                         { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
+   var mapnik = new OpenLayers.Layer.OSM("OpenStreetMap",
+                                         ["http://a.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                                          "http://b.tile.openstreetmap.org/${z}/${x}/${y}.png",
+                                          "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"],
+                                         { displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize'});
    map.addLayer(mapnik);
 
-   var cycle = new OpenLayers.Layer.TMS("OpenCycleMap", 
-                                        ["http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
-                                         "http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
-                                         "http://c.andy.sandbox.cloudmade.com/tiles/cycle/"],
-                                        { type: 'png', getURL: getTileURL, displayOutsideMaxExtent: true,
+   var cycle = new OpenLayers.Layer.OSM("OpenCycleMap",
+                                        ["http://a.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png",
+                                         "http://b.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png",
+                                         "http://c.andy.sandbox.cloudmade.com/tiles/cycle/${z}/${x}/${y}.png"],
+                                        { displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize'});
    map.addLayer(cycle);
    

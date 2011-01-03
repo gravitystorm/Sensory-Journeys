@@ -21,7 +21,7 @@ class SiteController < ApplicationController
         redirect_to(:controller => :shadow_scan, :action => :claim, :id=> params[:scan]) and return
       end
       # TODO skip this if it's going to be shown otherwise
-      @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/'
+      @overlay_url = WP_URL + 'files/scans/' + params[:scan] + '/${z}/${x}/${y}.png'
       @wpscan = Wpscan.find_by_id(params[:scan])
       @wpprint = Wpprint.find_by_id(@wpscan.print_id) if @wpscan
     end
