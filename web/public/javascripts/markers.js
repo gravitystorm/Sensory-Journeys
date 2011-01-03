@@ -28,7 +28,8 @@ var markers = new OpenLayers.Layer.Vector("All Markers",
                   strategies: [new OpenLayers.Strategy.BBOX()],
                   projection: new OpenLayers.Projection("EPSG:4326"),
                   styleMap: markerStyle,
-                  minScale: 100000
+                  minScale: 100000,
+                  rendererOptions: {yOrdering: true}
                 });
 
 var newmarkers = new OpenLayers.Layer.Vector("New Markers", 
