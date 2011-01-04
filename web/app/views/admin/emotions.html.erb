@@ -14,12 +14,17 @@
 <% @emotions.each do |@emotion| %>
   <tr>
     <td><%= @emotion.id %></td>
-    <td><%= in_place_editor_field :emotion, :text, {}, :url => {:controller => :emotion, :action => :set_emotion_text, :id => @emotion.id} %></td>
-    <td><%= in_place_editor_field :emotion, :icon, {}, :url => {:controller => :emotion, :action => :set_emotion_icon, :id => @emotion.id} %></td>
+    <% if is_admin %>
+      <td><%= in_place_editor_field :emotion, :text, {}, :url => {:controller => :emotion, :action => :set_emotion_text, :id => @emotion.id} %></td>
+      <td><%= in_place_editor_field :emotion, :icon, {}, :url => {:controller => :emotion, :action => :set_emotion_icon, :id => @emotion.id} %></td>
+    <% else %>
+      <td><%= @emotion.text %></td>
+      <td><%= @emotion.icon %></td>
+    <% end %>
     <td><%= @emotion.markers.count %>
     <td><%= @emotion.updated_at %></td>
     <td>
-      <% if @emotion.markers.count == 0 %>
+      <% if @emotion.markers.count == 0 && is_admin %>
           <% form_tag({:controller => :emotion, :action=> :delete}) do %>
             <%= hidden_field_tag 'emotion_id', @emotion.id %>
             <%= submit_tag 'Delete' %>
@@ -30,4 +35,6 @@
 <% end %>
 </table>
 
+<% if is_admin %>
 <p><%= link_to 'Add new emotion', {:controller => :emotion, :action => :new}, :rel => :facebox %></p>
+<% end %>

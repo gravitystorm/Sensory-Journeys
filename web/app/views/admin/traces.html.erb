@@ -18,10 +18,13 @@
   </thead>
 <% @traces.each do |@trace| %>
   <tr>
-    <td><% form_tag({:controller => :admin, :action => :trace_delete}) do %>
+    <td>
+      <%if is_admin %>
+        <% form_tag({:controller => :admin, :action => :trace_delete}) do %>
           <%= hidden_field_tag 'trace_id', @trace.id %>
           <%= submit_tag 'Delete' %>
         <% end %>
+      <% end %>
     </td>
     <td><%= link_to 'show', :controller => :site, :action => :edit, :trace => @trace.id %></td>
     <td><%= @trace.id %></td>
@@ -29,25 +32,31 @@
     <td><%=h @trace.file_name %></td>
     <td><%= @trace.trace_points.count %></td>
     <td><%= @trace.waypoints.count %></td>
-    <td><a id="edit_alias_<%= @trace.id %>" class="external_control">¤</a><%= in_place_editor_field :trace, :alias, {}, {:url => {:controller => :trace, :action => :set_trace_alias, :id => @trace.id}, :external_control=>"edit_alias_#{@trace.id}"} %></td>
-    <td>
-      <a id="edit_school_<%= @trace.id %>" class="external_control">¤</a><span class="in_place_select_field" id="trace_school_<%= @trace.id %>_in_place_editor"><%= if @trace.school then @trace.school.name else "(none)" end %></span>
-      <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
-                          "'trace_school_#{@trace.id}_in_place_editor', " +
-                          "'" + url_for({:controller => :trace, :action => :set_trace_school_id, :id => @trace.id}) + "', " +
-                          "{" + "collection: " + ActiveSupport::JSON.encode(@schools.map{|s| [s.id, s.name]}) + ", " +
-                          "externalControl: 'edit_school_#{@trace.id}'" + "}" +
-                          ");") %>
-    </td>
-    <td>
-      <a id="edit_mode_<%= @trace.id %>" class="external_control">¤</a><span class="in_place_select_field" id="trace_mode_<%= @trace.id %>_in_place_editor"><%= if @trace.mode then @trace.mode.name else "(none)" end %></span>
-      <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
-                          "'trace_mode_#{@trace.id}_in_place_editor', " +
-                          "'" + url_for({:controller => :trace, :action => :set_trace_mode_id, :id => @trace.id}) + "', " +
-                          "{" + "collection: " + ActiveSupport::JSON.encode(@modes.map{|s| [s.id, s.name]}) + ", " +
-                          "externalControl: 'edit_mode_#{@trace.id}'" + "}" +
-                          ");") %>
-    </td>
+    <% if is_admin %>
+      <td><a id="edit_alias_<%= @trace.id %>" class="external_control">¤</a><%= in_place_editor_field :trace, :alias, {}, {:url => {:controller => :trace, :action => :set_trace_alias, :id => @trace.id}, :external_control=>"edit_alias_#{@trace.id}"} %></td>
+      <td>
+        <a id="edit_school_<%= @trace.id %>" class="external_control">¤</a><span class="in_place_select_field" id="trace_school_<%= @trace.id %>_in_place_editor"><%= if @trace.school then @trace.school.name else "(none)" end %></span>
+        <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
+                            "'trace_school_#{@trace.id}_in_place_editor', " +
+                            "'" + url_for({:controller => :trace, :action => :set_trace_school_id, :id => @trace.id}) + "', " +
+                            "{" + "collection: " + ActiveSupport::JSON.encode(@schools.map{|s| [s.id, s.name]}) + ", " +
+                            "externalControl: 'edit_school_#{@trace.id}'" + "}" +
+                            ");") %>
+      </td>
+      <td>
+        <a id="edit_mode_<%= @trace.id %>" class="external_control">¤</a><span class="in_place_select_field" id="trace_mode_<%= @trace.id %>_in_place_editor"><%= if @trace.mode then @trace.mode.name else "(none)" end %></span>
+        <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
+                            "'trace_mode_#{@trace.id}_in_place_editor', " +
+                            "'" + url_for({:controller => :trace, :action => :set_trace_mode_id, :id => @trace.id}) + "', " +
+                            "{" + "collection: " + ActiveSupport::JSON.encode(@modes.map{|s| [s.id, s.name]}) + ", " +
+                            "externalControl: 'edit_mode_#{@trace.id}'" + "}" +
+                            ");") %>
+      </td>
+    <% else %>
+      <td><%= @trace.alias %></td>
+      <td><%= if @trace.school then @trace.school.name else "(none)" end %></td>
+      <td><%= if @trace.mode then @trace.mode.name else "(none)" end %></td>
+    <% end %>
     <td><%= @trace.user_id %></td>
     <td><%= @trace.created_at %></td>
   </tr>

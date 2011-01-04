@@ -1,7 +1,8 @@
 class AdminController < ApplicationController
   
   before_filter :authorize
-  before_filter :require_admin
+  before_filter :require_reviewer, :except => [:marker_delete, :trace_delete, :scan_remove]
+  before_filter :require_admin, :only => [:marker_delete, :trace_delete, :scan_remove]
   
   def index
     @markers = @current_project.markers.find(:all)

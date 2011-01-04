@@ -17,35 +17,45 @@
   </thead>
   <% @shadow_scans.each do |@scan| %>
   <tr>
-    <td><% form_tag({:controller => :admin, :action => :scan_remove}) do %>
+    <td>
+      <% if is_admin %>
+        <% form_tag({:controller => :admin, :action => :scan_remove}) do %>
           <%= hidden_field_tag 'scan_id', @scan.id %>
           <%= submit_tag 'Remove' %>
         <% end %>
+      <% end %>
     </td>
     <td><%= link_to 'Show', :controller => :site, :action => :edit, :scan => @scan.scan_id %></td>
     <td><%= link_to 'Preview', WP_URL + 'files/scans/' + @scan.scan_id + '/large.png', :rel => :facebox %></td>
     <td><%= link_to 'PNG' , WP_URL + 'files/scans/' + @scan.scan_id + '/' + @scan.scan_id + '.png' %>,<%= link_to 'PGW' , WP_URL + 'files/scans/' + @scan.scan_id + '/' + @scan.scan_id + '.pgw' %></td>
     <td><%= @scan.scan_id %></td>
-    <td>
-      <a id="edit_school_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_school_<%= @scan.id %>_in_place_editor"><%= if @scan.school then @scan.school.name else "(none)" end %></span>
-      <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
-                          "'scan_school_#{@scan.id}_in_place_editor', " +
-                          "'" + url_for({:controller => :shadow_scan, :action => :set_shadow_scan_school_id, :id => @scan.id}) + "', " +
-                          "{" + "collection: " + ActiveSupport::JSON.encode(@schools.map{|s| [s.id, s.name]}) + ", " +
-                          "externalControl: 'edit_school_#{@scan.id}'" + "}" +
-                          ");") %>
-    </td>
-    <td>
-      <a id="edit_mode_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_mode_<%= @scan.id %>_in_place_editor"><%= if @scan.mode then @scan.mode.name else "(none)" end %></span>
-      <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
-                          "'scan_mode_#{@scan.id}_in_place_editor', " +
-                          "'" + url_for({:controller => :shadow_scan, :action => :set_shadow_scan_mode_id, :id => @scan.id}) + "', " +
-                          "{" + "collection: " + ActiveSupport::JSON.encode(@modes.map{|s| [s.id, s.name]}) + ", " +
-                          "externalControl: 'edit_mode_#{@scan.id}'" + "}" +
-                          ");") %>
-    </td>
-    <td><%= @scan.user_id %></td>
-    <td><a id="edit_alias_<%= @scan.id %>" class="external_control">¤</a><%= in_place_editor_field :scan, :alias, {}, {:url => {:controller => :shadow_scan, :action => :set_shadow_scan_alias, :id => @scan.id}, :external_control=>"edit_alias_#{@scan.id}"} %></td>
+    <% if is_admin %>
+      <td>
+        <a id="edit_school_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_school_<%= @scan.id %>_in_place_editor"><%= if @scan.school then @scan.school.name else "(none)" end %></span>
+        <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
+                            "'scan_school_#{@scan.id}_in_place_editor', " +
+                            "'" + url_for({:controller => :shadow_scan, :action => :set_shadow_scan_school_id, :id => @scan.id}) + "', " +
+                            "{" + "collection: " + ActiveSupport::JSON.encode(@schools.map{|s| [s.id, s.name]}) + ", " +
+                            "externalControl: 'edit_school_#{@scan.id}'" + "}" +
+                            ");") %>
+      </td>
+      <td>
+        <a id="edit_mode_<%= @scan.id %>" class="external_control">¤</a><span class="in_place_select_field" id="scan_mode_<%= @scan.id %>_in_place_editor"><%= if @scan.mode then @scan.mode.name else "(none)" end %></span>
+        <%= javascript_tag("new Ajax.InPlaceCollectionEditor(" +
+                            "'scan_mode_#{@scan.id}_in_place_editor', " +
+                            "'" + url_for({:controller => :shadow_scan, :action => :set_shadow_scan_mode_id, :id => @scan.id}) + "', " +
+                            "{" + "collection: " + ActiveSupport::JSON.encode(@modes.map{|s| [s.id, s.name]}) + ", " +
+                            "externalControl: 'edit_mode_#{@scan.id}'" + "}" +
+                            ");") %>
+      </td>
+      <td><%= @scan.user_id %></td>
+      <td><a id="edit_alias_<%= @scan.id %>" class="external_control">¤</a><%= in_place_editor_field :scan, :alias, {}, {:url => {:controller => :shadow_scan, :action => :set_shadow_scan_alias, :id => @scan.id}, :external_control=>"edit_alias_#{@scan.id}"} %></td>
+    <% else %>
+      <td><%= if @scan.school then @scan.school.name else "(none)" end %></td>
+      <td><%= if @scan.mode then @scan.mode.name esle "(none)" end %></td>
+      <td><%= @scan.user_id %></td>
+      <td><%= @scan.alias %></td>
+    <% end %>
     <td><%= @scan.updated_at %></td>
     <% w = Wpscan.find_by_id(@scan.scan_id) %>
     <td><%= w ? Wpscan.find(@scan.scan_id).status : 'Unknown' %></td>

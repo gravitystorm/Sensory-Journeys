@@ -13,11 +13,15 @@
   <% @modes.each do |@mode| %>
   <tr>
     <td><%= @mode.id %></td>
-    <td><a id="edit_name_<%= @mode.id %>" class="external_control">¤</a><%= in_place_editor_field :mode, :name, {}, {:url => {:controller => :mode, :action => :set_mode_name, :id => @mode.id}, :external_control => "edit_name_#{@mode.id}"} %></td>
+    <% if is_admin %>
+      <td><a id="edit_name_<%= @mode.id %>" class="external_control">¤</a><%= in_place_editor_field :mode, :name, {}, {:url => {:controller => :mode, :action => :set_mode_name, :id => @mode.id}, :external_control => "edit_name_#{@mode.id}"} %></td>
+    <% else %>
+      <td><%= @mode.name %></td>
+    <% end %>
     <td><%= @mode.traces.count %></td>
     <td><%= @mode.shadow_scans.count %></td>
     <td><%= @mode.updated_at %></td>
-    <td><% if @mode.traces.count == 0 && @mode.shadow_scans.count == 0 %>
+    <td><% if @mode.traces.count == 0 && @mode.shadow_scans.count == 0 && is_admin %>
           <% form_tag({:controller => :mode, :action=> :delete}) do %>
             <%= hidden_field_tag 'mode_id', @mode.id %>
             <%= submit_tag 'Delete' %>
@@ -28,4 +32,6 @@
   <% end %>
 </table>
 
+<% if is_admin %>
 <p><%= link_to 'Add new mode', {:controller => :mode, :action => :new}, :rel => :facebox %></p>
+<% end %>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101106100153) do
+ActiveRecord::Schema.define(:version => 20110104162542) do
 
   create_table "emotions", :force => true do |t|
     t.string   "text"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20101106100153) do
     t.float    "dp_threshold"
     t.string   "location_text"
     t.string   "project_name"
+    t.string   "reviewer_password"
   end
 
   create_table "schools", :force => true do |t|

@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
     self.gps_not_before ||= 7
     self.gps_not_after ||= 20
     self.user_password ||= 'go'
+    self.reviewer_password ||= 'hybrid'
     self.admin_password ||= '26inchMTB'
     self.dp_threshold ||= '0.0002'
     self.location_text ||= 'location'

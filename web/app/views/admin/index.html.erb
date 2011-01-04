@@ -10,8 +10,8 @@
   <li><%= link_to (pluralize @emotions.count, 'emotion'), :action => :emotions %></li>
 </ul>
 
-<h2>Other admin tasks</h2>
+<h2>Other <%= is_admin ? 'Admin' : 'Reviewer' %> tasks</h2>
 <ul>
   <li><%= link_to 'List aliases', :action => :aliases %></li>
-  <li><%= link_to 'Change Settings', :action => :settings %></li>
+  <li><%= link_to (is_admin ? 'Change Settings': 'View Settings'), :action => :settings %></li>
 </ul>
