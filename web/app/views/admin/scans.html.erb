@@ -1,4 +1,4 @@
-<h2>Processed Scans (<%= @shadow_scans.count %>)</h2>
+<h2>Scans (<%= @shadow_scans.count %>)</h2>
 <table class="admin">
   <thead>
     <tr>
@@ -12,6 +12,7 @@
       <th>User</th>
       <th>Alias</th>
       <th>Updated</th>
+      <th>Status</th>
     </tr>
   </thead>
   <% @shadow_scans.each do |@scan| %>
@@ -46,33 +47,8 @@
     <td><%= @scan.user_id %></td>
     <td><a id="edit_alias_<%= @scan.id %>" class="external_control">¤</a><%= in_place_editor_field :scan, :alias, {}, {:url => {:controller => :shadow_scan, :action => :set_shadow_scan_alias, :id => @scan.id}, :external_control=>"edit_alias_#{@scan.id}"} %></td>
     <td><%= @scan.updated_at %></td>
-  </tr>
-  <% end %>
-</table>
-
-<h2>Unprocessed Scans (<%= @unclaimed_scans.count %>)</h2>
-
-<table class="admin">
-  <thead>
-    <tr>
-      <th>Action</th>
-      <th>Preview</th>
-      <th>Scan ID</th>
-      <th>Last Step</th>
-      <th>Description</th>
-      <th>Print ID</th>
-      <th>Uploaded</th>
-    </tr>
-  </thead>
-  <% @unclaimed_scans.each do |scan| %>
-  <tr>
-    <td><%= link_to 'Process Scan', :controller => :site, :action => :edit, :scan => scan.id if scan.last_step == 6 %></td>
-    <td><%= link_to 'Preview', WP_URL+ 'files/scans/' + scan.id + '/large.png', :rel => :facebox if scan.last_step == 6 %></td>
-    <td><%= scan.id %></td>
-    <td><%= scan.last_step %></td>
-    <td><%= scan.status %></td>
-    <td><%= scan.print_id %></td>
-    <td><%= scan.created %></td>
+    <% w = Wpscan.find_by_id(@scan.scan_id) %>
+    <td><%= w ? Wpscan.find(@scan.scan_id).status : 'Unknown' %></td>
   </tr>
   <% end %>
 </table>
