@@ -57,7 +57,7 @@ class AdminController < ApplicationController
   def scan_remove
     assert_method :post
     
-    scan = @current_projects.shadow_scans.find(params[:scan_id])
+    scan = @current_project.shadow_scans.find(params[:scan_id])
     scan.destroy
     flash[:notice] = "Deleted details of scan #{scan.scan_id}, which will now appear in the unprocessed list"
     redirect_to :action => :scans
