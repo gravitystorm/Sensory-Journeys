@@ -37,7 +37,8 @@ class ShadowScanController < ApplicationController
   end
   
   def doClaim
-    s = @current_project.shadow_scans.new
+    s = @current_project.shadow_scans.find_by_scan_id(params[:scan])
+    s = @current_project.shadow_scans.new unless s
     s.user_id = @user.id
     s.scan_id = params[:scan] # validate?
     s.alias = params[:alias]
