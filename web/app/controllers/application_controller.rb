@@ -48,9 +48,16 @@ class ApplicationController < ActionController::Base
 
   private
     def set_current_project
-      # make this really work
-      # @current_account = Account.find_by_subdomain(request.subdomains.last)
-      @current_project = Project.find(5)
+      # Find the project settings using the PROJECT_ID environment variable, set by e.g. apache site configs.
+      # For more flexibility this could be done via pattern matching against domain names, and there are appropriate
+      # columns in the projects table to support this, e.g.
+      # @current_project = Project.find_by_subdomain(request.subdomains.last)
+
+      id = ENV['PROJECT_ID'].to_i
+      if (!id || id == 0)
+        id = 1
+      end
+      @current_project = Project.find(id)
     end
   
   class NotThatMethodError < RuntimeError
