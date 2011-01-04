@@ -11,9 +11,6 @@ import psycopg2
 import dbconnect
 
 base = os.path.join(os.path.dirname(__file__) , "site", "www", "files", "scans")
-#base = "/home/andy/src/sustrans/wp/site/www/files/scans/"
-#base = "/home/andy/temp/sustrans/scans/"
-#path, scans, = os.walk(path)
 
 def composite(base, scan, target):
   print "\nCompositing %s onto %s" % (scan, target)
@@ -41,31 +38,35 @@ def composite(base, scan, target):
 conn = psycopg2.connect(dbconnect.dbconnection)
 cur = conn.cursor()
 
+cur.execute("select id from projects")
+projects = cur.fetchall()
 
-# composite all scans
-cur.execute("Select scan_id from shadow_scans")
-scans = cur.fetchall()
-all = "composite/all"
-try:
-  shutil.rmtree(os.path.join(base, all))
-except:
-  pass
-for scan in scans:
-  composite(base, scan[0], all)
+for project in projects:
 
-# composite each mode
-cur.execute("Select distinct mode_id from shadow_scans")
-modes = cur.fetchall()
-for mode in modes:
-  if mode[0] is None: # if there are no scans with modes, there will be one result of (None,)
-    continue
-  mode_path = "composite/mode_%i" % mode[0]
-  try:
-    shutil.rmtree(os.path.join(base, mode_path))
+  # composite all scans
+  cur.execute("Select scan_id from shadow_scans where project_id = %i" % project[0])
+  scans = cur.fetchall()
+  all = "composite/%i/all" % project[0]
+  try: # try removing the existing output, if any
+    shutil.rmtree(os.path.join(base, all)) 
   except:
     pass
-  cur.execute("select scan_id from shadow_scans where mode_id = %s" % mode[0])
-  scans = cur.fetchall()
   for scan in scans:
-    composite(base, scan[0], mode_path)
+    composite(base, scan[0], all)
+
+  # composite each mode
+  cur.execute("Select distinct mode_id from shadow_scans where project_id = %i" % project[0])
+  modes = cur.fetchall()
+  for mode in modes:
+    if mode[0] is None: # if there are no scans with modes, there will be one SQL result of (None,)
+      continue
+    mode_path = "composite/%i/mode_%i" % (project[0], mode[0])
+    try:
+      shutil.rmtree(os.path.join(base, mode_path))
+    except:
+      pass
+    cur.execute("select scan_id from shadow_scans where project_id = %i and mode_id = %s" % (project[0], mode[0]))
+    scans = cur.fetchall()
+    for scan in scans:
+      composite(base, scan[0], mode_path)
 

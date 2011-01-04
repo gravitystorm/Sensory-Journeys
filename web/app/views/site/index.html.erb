@@ -18,7 +18,7 @@
   function post_init() {
 
     var overlay = new OpenLayers.Layer.OSM("All Scans",
-                                      ["<%= (WP_URL+'files/scans/composite/'+ (@mode ? "mode_#{@mode.id}" : 'all') +'/${z}/${x}/${y}.png') %>"],
+                                      ["<%= (WP_URL+"files/scans/composite/#{@current_project.id}/" + (@mode ? "mode_#{@mode.id}" : 'all') +'/${z}/${x}/${y}.png') %>"],
                                       { displayOutsideMaxExtent: true,
                                         transitionEffect: 'resize', isBaseLayer: false});
     map.addLayer(overlay);
