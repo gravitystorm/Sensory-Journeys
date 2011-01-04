@@ -2,12 +2,12 @@
 
 <p>There are:</p>
 <ul>
-  <li><%= @markers.count %> <%= link_to 'markers', :action => :markers %></li>
-  <li><%= @traces.count %> <%= link_to 'traces', :action => :traces %></li>
-  <li><%= @scans.count %> <%= link_to 'scans', :action => :scans %></li>
-  <li><%= @schools.count %> <%= link_to @current_project.location_text, :action => :schools %></li>
-  <li><%= @modes.count %> <%= link_to 'modes', :action => :modes %></li>
-  <li><%= @emotions.count %> <%= link_to 'emotions', :action => :emotions %></li>
+  <li><%= link_to (pluralize @markers.count, 'marker'), :action => :markers %></li>
+  <li><%= link_to (pluralize @traces.count, 'trace'), :action => :traces %></li>
+  <li><%= link_to (pluralize @scans.count, 'scan'), :action => :scans %></li>
+  <li><%= link_to (pluralize @schools.count, @current_project.location_text), :action => :schools %></li>
+  <li><%= link_to (pluralize @modes.count, 'mode'), :action => :modes %></li>
+  <li><%= link_to (pluralize @emotions.count, 'emotion'), :action => :emotions %></li>
 </ul>
 
 <h2>Other admin tasks</h2>
