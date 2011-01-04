@@ -74,11 +74,11 @@ class AdminController < ApplicationController
     @aliases = []
     @scans = {}
     @traces = {}
-    ShadowScan.find(:all, :select => 'count(*) as scans, alias', :group => 'alias').each do |a|
+    @current_project.shadow_scans.find(:all, :select => 'count(*) as scans, alias', :group => 'alias').each do |a|
       @aliases << a.alias
       @scans[a.alias] = a.scans
     end
-    Trace.find(:all, :select => 'count(*) as traces, alias', :group => 'alias', :conditions => "alias is not null and alias != ''").each do |a|
+    @current_project.traces.find(:all, :select => 'count(*) as traces, alias', :group => 'alias', :conditions => "alias is not null and alias != ''").each do |a|
       @aliases << a.alias
       @traces[a.alias] = a.traces
     end
