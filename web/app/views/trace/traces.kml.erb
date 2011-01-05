@@ -8,7 +8,7 @@
         <LineString>
           <% segment = nil -%>
           <coordinates>
-          <% trace.trace_points.summary.each do |point| -%>
+          <% trace.trace_points.summary(@current_project.max_trace_points_summary).each do |point| -%>
             <% segment = point.segment unless segment -%>
             <% if segment != point.segment -%>
               <% segment = point.segment -%>
@@ -25,7 +25,7 @@
     </Placemark>
     <% end %>
     <% @traces.each do |trace| %>
-      <% trace.waypoints.summary.each do |wp| %>
+      <% trace.waypoints.summary(@current_project.max_waypoints_summary).each do |wp| %>
             <Placemark>
             <name>Waypoint</name>
             <Point>

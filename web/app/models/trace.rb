@@ -11,14 +11,14 @@ class Trace < ActiveRecord::Base
   validates_associated :project
   
   has_many :trace_points, :dependent => :destroy, :order => :timestamp do
-    def summary
-      find(:all, :limit => @current_project.max_trace_points_summary)
+    def summary(limit)
+      find(:all, :limit => limit)
     end
   end
 
   has_many :waypoints, :dependent => :destroy, :order => :timestamp do
-    def summary
-      find(:all, :limit => @current_project.max_waypoints_summary)
+    def summary(limit)
+      find(:all, :limit => limit)
     end
   end
   
