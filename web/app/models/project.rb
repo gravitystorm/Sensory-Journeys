@@ -17,9 +17,9 @@ class Project < ActiveRecord::Base
     self.max_waypoints_summary ||= 25
     self.gps_not_before ||= 7
     self.gps_not_after ||= 20
-    self.user_password ||= 'go'
-    self.reviewer_password ||= 'hybrid'
-    self.admin_password ||= '26inchMTB'
+    self.user_password ||= PASSWORD_EDIT
+    self.reviewer_password ||= PASSWORD_REVIEWER
+    self.admin_password ||= PASSWORD_ADMIN
     self.dp_threshold ||= '0.0002'
     self.location_text ||= 'location'
     self.project_name ||= 'Emotion Mapping'

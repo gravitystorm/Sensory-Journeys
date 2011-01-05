@@ -12,6 +12,12 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 WP_URL = 'http://wp.sensoryjourneys.net/' #with trailing slash
 
+# Set the default passwords for new projects. Change these if you like, since
+# these defaults are publically known
+PASSWORD_EDIT = 'go'
+PASSWORD_REVIEWER = 'hybrid'
+PASSWORD_ADMIN = '26inchMTB'
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
