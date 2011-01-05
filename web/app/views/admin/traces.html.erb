@@ -1,4 +1,15 @@
 <h2>Traces</h2>
+
+<ul>
+<li><%= link_to 'Download all traces (kml)', {:controller => :trace, :action => :all, :format => :kml} %></li>
+<% @modes.each do |m| %>
+<li><%= link_to "Download all traces with mode '#{m.name}' (kml)", {:controller => :trace, :action => :all, :format => :kml, :mode => m.id} %></li>
+<% end %>
+<% @schools.each do |s| %>
+<li><%= link_to "Download all traces with #{@current_project.location_text} '#{s.name}' (kml)", {:controller => :trace, :action => :all, :format => :kml, :school => s.id} %></li>
+<% end %>
+</ul>
+
 <table class="admin">
   <thead>
     <tr>

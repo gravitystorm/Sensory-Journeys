@@ -1,5 +1,10 @@
 <h2>Markers</h2>
-<%= link_to 'Download all markers (kml)', {:controller => :marker, :action => :all, :format => :kml} %>
+<ul>
+<li><%= link_to 'Download all markers (kml)', {:controller => :marker, :action => :all, :format => :kml} %></li>
+<% @emotions.each do |e| %>
+<li><%= link_to "Download all markers with emotion '#{e.text}' (kml)", {:controller => :marker, :action => :all, :format => :kml, :emotion => e.id} %></li>
+<% end %>
+</ul>
 
 <table class="admin markers">
   <thead>
