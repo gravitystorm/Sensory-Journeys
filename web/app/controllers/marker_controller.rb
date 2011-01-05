@@ -32,15 +32,13 @@ class MarkerController < ApplicationController
       minlon, minlat, maxlon, maxlat = params[:bbox].split(",").collect{|i| i.to_f}
       @markers = @current_project.markers.find(:all, :conditions => ["lat > ? AND lon > ? AND lat < ? AND lon < ?", minlat, minlon, maxlat, maxlon],
                              :limit => @current_project.max_markers, :order => "created_at DESC")
+    elsif params[:emotion]
+      emotion = @current_project.emotions.find_by_id(params[:emotion])
+      @markers = @current_project.markers.find(:all, :conditions => ["emotion_id = ?", emotion.id]) if emotion
     else
       @markers = @current_project.markers.find(:all)
     end
-  end
-
-  def special
-    @emotions = @current_project.emotions.find(:all)
-    @markers = Marker.find(:all, :conditions => ["emotion = ?", params[:emotion]])
-    render "all.kml"
+    render :nothing => :true, :status => 404 unless @markers
   end
 
   def set_marker_emotion

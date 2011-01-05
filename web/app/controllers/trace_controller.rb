@@ -47,10 +47,22 @@ class TraceController < ApplicationController
     @traces = [@current_project.traces.find(params[:id])] # array of traces
     render "traces.kml", :layout => false
   end
-  
-  def special
-    @traces = @current_project.traces.find(:all, :conditions => ["school_id = ? AND mode_id = ?", params[:school], params[:mode]])
-    render "traces.kml", :layout => false
+
+  def all
+    if params[:school] && params[:mode]
+      @traces = @current_project.traces.find(:all, :conditions => ["school_id = ? AND mode_id = ?", params[:school], params[:mode]])
+    elsif params[:school]
+      @traces = @current_project.traces.find(:all, :conditions => ["school_id = ?", params[:school]])
+    elsif params[:mode]
+      @traces = @current_project.traces.find(:all, :conditions => ["mode_id = ?", params[:mode]])
+    else
+      @traces = @current_project.traces.find(:all)
+    end
+    if @traces && @traces.length > 0
+      render "traces.kml", :layout => false
+    else
+      render :nothing => :true, :status => 404
+    end
   end
 
   def traces
