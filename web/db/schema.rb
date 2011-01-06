@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110104162542) do
+ActiveRecord::Schema.define(:version => 20110106112954) do
 
   create_table "emotions", :force => true do |t|
     t.string   "text"
@@ -70,16 +70,6 @@ ActiveRecord::Schema.define(:version => 20110104162542) do
     t.datetime "updated_at"
     t.integer  "project_id"
   end
-
-  create_table "settings", :force => true do |t|
-    t.string   "var",        :null => false
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "project_id"
-  end
-
-  add_index "settings", ["var"], :name => "index_settings_on_var"
 
   create_table "shadow_scans", :force => true do |t|
     t.text     "scan_id"
