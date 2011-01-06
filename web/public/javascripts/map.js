@@ -37,6 +37,12 @@ function createMap(divName, centre, zoom) {
                                         { displayOutsideMaxExtent: true,
                                           transitionEffect: 'resize'});
    map.addLayer(cycle);
+
+   var rastertraces = new OpenLayers.Layer.OSM("Raster Traces",
+                                               ["http://localhost:3000/trace/image?x=${x}&y=${y}&z=${z}"],
+                                               { displayOutsideMaxExtent: true,
+                                                 transitionEffect: 'resize'});
+   map.addLayer(rastertraces);
    
    var blank = new OpenLayers.Layer.TMS("No Map", 
                                          '',

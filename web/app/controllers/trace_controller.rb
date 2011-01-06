@@ -1,5 +1,6 @@
 class TraceController < ApplicationController
   require 'xml/libxml'
+  require 'RMagick'
   include XML
   
   before_filter :authorize
@@ -190,5 +191,58 @@ class TraceController < ApplicationController
       flash[:notice] = "You need to fill in everything when uploading a trace"
       redirect_to(:controller => :site, :action => :edit)
     end
+  end
+
+  def image
+    x = params[:x]
+    y = params[:y]
+    z = params[:z]
+    trace = Trace.find(92)
+
+    canvas = Magick::Image.new(256,256, Magick::HatchFill.new('white','lightcyan2'))
+    gc = Magick::Draw.new
+
+    gc.stroke('blue')
+    gc.stroke_width(5)
+
+    plat = nil
+    plon = nil
+    pseg = nil
+    strokes = 0
+    trace.trace_points.each do |tp|
+      if plat && plon && pseg
+        if(tp.segment == pseg)
+          gc.line(plat,plon,tp.lat,tp.lon.abs)
+          strokes += 1
+        end
+      end
+      plat = tp.lat
+      plon = tp.lon.abs
+      pseg = tp.segment
+    end
+
+    sph = latlon2sphm({:lat => plat, :lon => plon})
+
+    gc.stroke('transparent')
+    gc.text(5,50,"#{@current_project.id}")
+    gc.text(5,70,"x = #{x}")
+    gc.text(5,90,"y = #{y}")
+    gc.text(5,110,"z = #{z}")
+    gc.text(5,130,"strokes = #{strokes}")
+    gc.text(5,150,"lat = #{plat}")
+    gc.text(5,170,"lon = #{plon}")
+    gc.text(5,190,"sphlat = #{sph[:lat]}")
+    gc.text(5,210,"sphlon = #{sph[:lon]}")
+
+    gc.draw(canvas)
+    canvas.format = 'png'
+    send_data(canvas.to_blob,:type => 'image/png', :disposition => 'inline')
+  end
+
+  private
+  def latlon2sphm(ll)
+    sphlat = Math.log(Math.tan((90 + ll[:lat]) * Math::PI / 360)) / (Math::PI / 180)
+    sphlon = ll[:lon] * 20037508.34 / 180
+    {:lat => sphlat, :lon => sphlon}
   end
 end
