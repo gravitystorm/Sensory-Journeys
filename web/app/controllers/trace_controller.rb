@@ -216,11 +216,14 @@ class TraceController < ApplicationController
     gc.stroke_width(5)
     gc.stroke_linecap("round")
 
-    pxy = nil
+    pxy = nil #variable scoping
     pseg = nil
     strokes = 0
 
     traces.each do |trace|
+      pxy = nil
+      pseg = nil
+
       trace.trace_points.each do |tp|
         gxy = latlonzoom2globalxy(tp.lat,tp.lon,z)
         if pxy && pseg
