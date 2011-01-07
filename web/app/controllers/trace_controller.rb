@@ -215,6 +215,7 @@ class TraceController < ApplicationController
     gc.stroke('blue')
     gc.stroke_width(5)
     gc.stroke_linecap("round")
+    gc.stroke_opacity(0.4)
 
     pxy = nil #variable scoping
     pseg = nil
@@ -237,15 +238,28 @@ class TraceController < ApplicationController
       end
     end
 
+    gc.fill('#ff00ff')
+    gc.fill_opacity(0.4)
+    gc.stroke_width(1)
+
+    traces.each do |trace|
+      trace.waypoints.each do |wp|
+        gxy = latlonzoom2globalxy(wp.lat,wp.lon,z)
+        gc.circle((gxy[:x]*256)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256),(gxy[:x]*256-5)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256))
+      end
+    end
+
 #    sph = latlon2sphm({:lat => plat, :lon => plon})
 #    xy = latlonzoom2globalxy(plat, plon, z)
 
     gc.stroke('transparent')
+    gc.fill('black')
     gc.text(5,50,"#{@current_project.id}")
     gc.text(5,70,"x = #{x}")
     gc.text(5,90,"y = #{y}")
     gc.text(5,110,"z = #{z}")
     gc.text(5,130,"strokes = #{strokes}")
+    gc.text(5,150,"traces = #{traces.length}")
 #     gc.text(5,150,"lat = #{plat}")
 #     gc.text(5,170,"lon = #{plon}")
     gc.text(5,190,"x = #{(pxy[:x]*256)-(x.to_f*256)}")
