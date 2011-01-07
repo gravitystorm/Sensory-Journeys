@@ -38,7 +38,7 @@ class MarkerController < ApplicationController
     else
       @markers = @current_project.markers.find(:all)
     end
-    render :nothing => :true, :status => 404 unless @markers
+    render :nothing => :true, :status => :not_found unless @markers
   end
 
   def set_marker_emotion

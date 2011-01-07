@@ -62,7 +62,7 @@ class TraceController < ApplicationController
     if @traces && @traces.length > 0
       render "traces.kml", :layout => false
     else
-      render :nothing => :true, :status => 404
+      render :nothing => :true, :status => :not_found
     end
   end
 
