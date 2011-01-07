@@ -197,31 +197,44 @@ class TraceController < ApplicationController
     x = params[:x]
     y = params[:y]
     z = params[:z]
-    trace = Trace.find(92)
 
-    canvas = Magick::Image.new(256,256, Magick::HatchFill.new('white','lightcyan2'))
+    traces = []
+    if params[:user_id]
+      traces << User.find(params[:user_id]).traces
+    end
+    if params[:alias]
+      traces << @current_project.traces.find_by_alias(params[:alias])
+    end
+
+    render :nothing => true, :status => :not_found and return unless traces.length > 0
+
+    canvas = Magick::Image.new(256,256) {self.background_color = "transparent"} # Magick::HatchFill.new('white','lightcyan2'))
     gc = Magick::Draw.new
 
     gc.stroke('blue')
     gc.stroke_width(5)
+    gc.stroke_linecap("round")
 
-    plat = nil
-    plon = nil
+    pxy = nil
     pseg = nil
     strokes = 0
-    trace.trace_points.each do |tp|
-      if plat && plon && pseg
-        if(tp.segment == pseg)
-          gc.line(plat,plon,tp.lat,tp.lon.abs)
-          strokes += 1
+
+    traces.each do |trace|
+      trace.trace_points.each do |tp|
+        gxy = latlonzoom2globalxy(tp.lat,tp.lon,z)
+        if pxy && pseg
+          if(tp.segment == pseg)
+            gc.line((pxy[:x]*256)-(x.to_f*256),(pxy[:y]*256)-(y.to_f*256),(gxy[:x]*256)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256))
+            strokes += 1
+          end
         end
+        pxy = gxy
+        pseg = tp.segment
       end
-      plat = tp.lat
-      plon = tp.lon.abs
-      pseg = tp.segment
     end
 
-    sph = latlon2sphm({:lat => plat, :lon => plon})
+#    sph = latlon2sphm({:lat => plat, :lon => plon})
+#    xy = latlonzoom2globalxy(plat, plon, z)
 
     gc.stroke('transparent')
     gc.text(5,50,"#{@current_project.id}")
@@ -229,10 +242,10 @@ class TraceController < ApplicationController
     gc.text(5,90,"y = #{y}")
     gc.text(5,110,"z = #{z}")
     gc.text(5,130,"strokes = #{strokes}")
-    gc.text(5,150,"lat = #{plat}")
-    gc.text(5,170,"lon = #{plon}")
-    gc.text(5,190,"sphlat = #{sph[:lat]}")
-    gc.text(5,210,"sphlon = #{sph[:lon]}")
+#     gc.text(5,150,"lat = #{plat}")
+#     gc.text(5,170,"lon = #{plon}")
+    gc.text(5,190,"x = #{(pxy[:x]*256)-(x.to_f*256)}")
+    gc.text(5,210,"y = #{(pxy[:y]*256)-(y.to_f*256)}")
 
     gc.draw(canvas)
     canvas.format = 'png'
@@ -241,8 +254,18 @@ class TraceController < ApplicationController
 
   private
   def latlon2sphm(ll)
-    sphlat = Math.log(Math.tan((90 + ll[:lat]) * Math::PI / 360)) / (Math::PI / 180)
+    sphlat = Math.log(Math.tan((90 + ll[:lat]) * Math::PI / 360)) / (Math::PI / 180) * 20037508.34 / 180
     sphlon = ll[:lon] * 20037508.34 / 180
     {:lat => sphlat, :lon => sphlon}
   end
+
+
+  def latlonzoom2globalxy(lat, lon, zoom)
+    n = 2 ** zoom.to_f
+    x = ((lon + 180) / 360) * n
+    lat_rad = lat / 180 * Math::PI
+    y = ((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math::PI) / 2.0 * n)
+    {:x => x, :y => y}
+  end
+
 end
