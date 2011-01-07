@@ -216,6 +216,7 @@ class TraceController < ApplicationController
     gc.stroke_width(5)
     gc.stroke_linecap("round")
     gc.stroke_opacity(0.4)
+    gc.fill_opacity(0)
 
     pxy = nil #variable scoping
     pseg = nil
@@ -249,21 +250,18 @@ class TraceController < ApplicationController
       end
     end
 
-#    sph = latlon2sphm({:lat => plat, :lon => plon})
-#    xy = latlonzoom2globalxy(plat, plon, z)
-
-    gc.stroke('transparent')
-    gc.fill('black')
-    gc.text(5,50,"#{@current_project.id}")
-    gc.text(5,70,"x = #{x}")
-    gc.text(5,90,"y = #{y}")
-    gc.text(5,110,"z = #{z}")
-    gc.text(5,130,"strokes = #{strokes}")
-    gc.text(5,150,"traces = #{traces.length}")
-#     gc.text(5,150,"lat = #{plat}")
-#     gc.text(5,170,"lon = #{plon}")
-    gc.text(5,190,"x = #{(pxy[:x]*256)-(x.to_f*256)}")
-    gc.text(5,210,"y = #{(pxy[:y]*256)-(y.to_f*256)}")
+    if (false) # turn on this debug, if it helps you.
+      gc.stroke('transparent')
+      gc.fill('black')
+      gc.text(5,50,"#{@current_project.id}")
+      gc.text(5,70,"x = #{x}")
+      gc.text(5,90,"y = #{y}")
+      gc.text(5,110,"z = #{z}")
+      gc.text(5,130,"strokes = #{strokes}")
+      gc.text(5,150,"traces = #{traces.length}")
+      gc.text(5,190,"x = #{(pxy[:x]*256)-(x.to_f*256)}")
+      gc.text(5,210,"y = #{(pxy[:y]*256)-(y.to_f*256)}")
+    end
 
     gc.draw(canvas)
     canvas.format = 'png'
