@@ -34,6 +34,8 @@
         case 'utm':
         case 'mgrs':
             $provider .= sprintf(",http://osm.stamen.com/gridtile/tilecache.cgi/1.0/%s/{Z}/{X}/{Y}.png", strtolower($_POST['grid']));
+        case 'traces':
+            $provider .= sprintf(",%s", $_POST['rastertrace']);
     }
     
     $dbh =& get_db_connection();
