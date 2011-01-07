@@ -137,6 +137,11 @@
     $('trace_save').disable();
     $('trace_save').value = 'Uploading ...';
   }
+
+  function onPrintSubmit() {
+    $('print_button').disable();
+    $('print_button').value = 'Making ...';
+  }
   
   function onMarkerCancel() {
     //this could rearrange the boxes, but addMarker() assumes no in-progress markers
@@ -179,7 +184,7 @@
     
     <div id="sidebar-print" class="sidebarbox" style="display:none">
       <p>Print the section of the map that's highlighted.</p>
-      <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form'}) do %>
+      <% form_tag(WP_URL + 'compose.php', {:id => 'wp_form', :onsubmit => 'onPrintSubmit();'}) do %>
         <%= hidden_field_tag 'north', '51' %>
         <%= hidden_field_tag 'south', '51' %>
         <%= hidden_field_tag 'east', '-1' %>
@@ -193,7 +198,7 @@
           <%= hidden_field_tag 'rastertrace', url_for(:only_path => false, :controller => :trace, :action => :image, :user_id => @user.id)+'&z={Z}&x={X}&y={Y}' %>
         <% end %>
         <%= hidden_field_tag 'paper', 'landscape-a4' %>
-        <%= submit_tag 'Print' %><span style="float:right"><%= submit_tag 'Cancel', :id => :print_cancel, :onClick => 'onPrintCancel();return false;' %></span>
+        <%= submit_tag 'Print', :id => :print_button %><span style="float:right"><%= submit_tag 'Cancel', :id => :print_cancel, :onClick => 'onPrintCancel();return false;' %></span>
       <% end %>
     </div>
     
