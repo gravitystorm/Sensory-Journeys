@@ -243,10 +243,12 @@ class TraceController < ApplicationController
     gc.fill_opacity(0.4)
     gc.stroke_width(1)
 
+    circle_radius = 8
+
     traces.each do |trace|
       trace.waypoints.each do |wp|
         gxy = latlonzoom2globalxy(wp.lat,wp.lon,z)
-        gc.circle((gxy[:x]*256)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256),(gxy[:x]*256-5)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256))
+        gc.circle((gxy[:x]*256)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256),(gxy[:x]*256-circle_radius)-(x.to_f*256),(gxy[:y]*256)-(y.to_f*256))
       end
     end
 
