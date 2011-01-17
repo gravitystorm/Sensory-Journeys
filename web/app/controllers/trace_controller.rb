@@ -242,9 +242,10 @@ class TraceController < ApplicationController
       end
     end
 
-    gc.fill('#ff00ff')
+    gc.stroke('black')
+    gc.fill('#ffffff')
     gc.fill_opacity(0.4)
-    gc.stroke_width(1)
+    gc.stroke_width(2)
 
     circle_radius = 8
 
