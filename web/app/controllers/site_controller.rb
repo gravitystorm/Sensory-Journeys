@@ -70,12 +70,15 @@ class SiteController < ApplicationController
         user.save!
         session[:user] = user.id
         session[:alias] = nil
+        session[:reviewer] = false
+        session[:admin] = false
         flash[:notice] = "You are now logged in"
         redirect_to(:action => :edit)
       elsif params[:password] == @current_project.reviewer_password
         user = User.new
         user.save!
         session[:user] = user.id
+        session[:alias] = nil
         session[:reviewer] = true
         session[:admin] = false
         flash[:notice] = "Welcome, reviewer"
@@ -84,6 +87,8 @@ class SiteController < ApplicationController
         user = User.new
         user.save!
         session[:user] = user.id
+        session[:alias] = nil
+        session[:reviewer] = false
         session[:admin] = true
         flash[:notice] = "Welcome, administrator"
         redirect_to(:controller => :admin, :action => :index)
@@ -100,6 +105,9 @@ class SiteController < ApplicationController
   
   def logout
     session[:user] = nil
+    session[:alias] = nil
+    session[:reviewer] = false
+    session[:admin] = false
     flash[:notice] = "You are now logged out"
     redirect_to(:action => :index)
   end
