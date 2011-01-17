@@ -192,11 +192,10 @@
         <%= hidden_field_tag 'zoom', '16' %>
         <%= hidden_field_tag 'provider', 'http://tile.openstreetmap.org/{Z}/{X}/{Y}.png' %>
         <%= hidden_field_tag 'grid', 'traces' %>
-        <% if session[:alias] %>
-          <%= hidden_field_tag 'rastertrace', url_for(:only_path => false, :controller => :trace, :action => :image, :user_id => @user.id, :alias => session[:alias])+'&z={Z}&x={X}&y={Y}' %>
-        <% else %>
-          <%= hidden_field_tag 'rastertrace', url_for(:only_path => false, :controller => :trace, :action => :image, :user_id => @user.id)+'&z={Z}&x={X}&y={Y}' %>
-        <% end %>
+        <% printextras = "user_id=#{@user.id}" %>
+        <% printextras += "&alias=#{session[:alias]}" if session[:alias] %>
+        <% printextras += "&trace_id=#{@trace.id}" if @showtrace %>
+        <%= hidden_field_tag 'rastertrace', url_for(:only_path => false, :controller => :trace, :action => :image)+'?'+printextras+'&z={Z}&x={X}&y={Y}' %>
         <%= hidden_field_tag 'paper', 'landscape-a4' %>
         <%= submit_tag 'Print', :id => :print_button %><span style="float:right"><%= submit_tag 'Cancel', :id => :print_cancel, :onClick => 'onPrintCancel();return false;' %></span>
       <% end %>

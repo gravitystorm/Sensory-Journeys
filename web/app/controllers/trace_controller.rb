@@ -205,6 +205,9 @@ class TraceController < ApplicationController
     if params[:alias]
       traces << @current_project.traces.find(:all, :conditions => ["alias = ?", params[:alias]])
     end
+    if params[:trace_id]
+      traces << @current_project.traces.find(params[:trace_id])
+    end
     traces.flatten!
 
     render :nothing => true, :status => :not_found and return unless traces.length > 0
