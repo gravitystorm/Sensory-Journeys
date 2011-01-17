@@ -52,7 +52,7 @@
       <td><a id="edit_alias_<%= @scan.id %>" class="external_control">¤</a><%= in_place_editor_field :scan, :alias, {}, {:url => {:controller => :shadow_scan, :action => :set_shadow_scan_alias, :id => @scan.id}, :external_control=>"edit_alias_#{@scan.id}"} %></td>
     <% else %>
       <td><%= if @scan.school then @scan.school.name else "(none)" end %></td>
-      <td><%= if @scan.mode then @scan.mode.name esle "(none)" end %></td>
+      <td><%= if @scan.mode then @scan.mode.name else "(none)" end %></td>
       <td><%= @scan.user_id %></td>
       <td><%= @scan.alias %></td>
     <% end %>
