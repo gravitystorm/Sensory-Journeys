@@ -2,8 +2,8 @@
   <!--
 
   function onFormSubmit() {
-    $('trace_save').disable();
-    $('trace_save').value = 'Uploading ...';
+    $('scan_upload').disable();
+    $('scan_upload').value = 'Uploading ...';
   }
 
   // -->
@@ -15,7 +15,7 @@
 <p>You’re Uploading A Scanned Map</p>
 <p>You’re here because you have a paper version of a printed map and you’d like to send a scanned version to trace into the <%= @current_project.project_name %>. Your scan should be a reasonably-high resolution (200+ dpi) image file, such as a JPEG. A PDF file will not work.</p>
 
-<% form_tag({:action => 'uploadFile'}, :multipart => true, :id => :trace_form, :onsubmit => 'onFormSubmit();') do %>
+<% form_tag({:action => 'uploadFile'}, :multipart => true, :id => :scan_form, :onsubmit => 'onFormSubmit();') do %>
   <p><label for="upload_file">Select File</label> :
-  <%= file_field 'upload', 'scan' %><%= submit_tag 'Upload', :id => :alias_go %></p>
+  <%= file_field 'upload', 'scan' %><%= submit_tag 'Upload', :id => :scan_upload %></p>
 <% end %>
