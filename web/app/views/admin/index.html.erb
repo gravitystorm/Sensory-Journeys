@@ -13,5 +13,7 @@
 <h2>Other <%= is_admin ? 'Admin' : 'Reviewer' %> tasks</h2>
 <ul>
   <li><%= link_to 'List aliases', :action => :aliases %></li>
-  <li><%= link_to (is_admin ? 'Change Settings': 'View Settings'), :action => :settings %></li>
+  <% if is_admin %>
+    <li><%= link_to (is_admin ? 'Change Settings': 'View Settings'), :action => :settings %></li>
+  <% end %>
 </ul>
