@@ -104,6 +104,15 @@ class ProjectController < ApplicationController
     render :text => CGI::escapeHTML(@current_project.user_password)
   end
 
+  def set_reviewer_password
+    unless [:post, :put].include?(request.method) then
+      return render(:text => 'Method not allowed', :status => 405)
+    end
+    @current_project.reviewer_password = params[:value]
+    @current_project.save!
+    render :text => CGI::escapeHTML(@current_project.reviewer_password)
+  end
+
   def set_admin_password
     unless [:post, :put].include?(request.method) then
       return render(:text => 'Method not allowed', :status => 405)

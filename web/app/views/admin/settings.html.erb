@@ -20,8 +20,9 @@
         {:id => :gps_not_before, :name => "Don't store trace points before the hour of:", :default => '7'},
         {:id => :gps_not_after, :name => "Don't store trace points after the hour of:", :default => '20'},
         {:id => :dp_threshold, :name => "Simplify traces to this many degrees:", :default => '0.002'},
-        {:id => :user_password, :name => "User password", :default => 'go'},
-        {:id => :admin_password, :name => "Admin password", :default => '26inchMTB'},
+        {:id => :user_password, :name => "User password", :default => PASSWORD_EDIT},
+        {:id => :reviewer_password, :name => "Reviewer password", :default => PASSWORD_REVIEWER},
+        {:id => :admin_password, :name => "Admin password", :default => PASSWORD_ADMIN},
         {:id => :location_text, :name => "Refer to locations as (e.g. 'school')", :default => 'location'},
         {:id => :project_name, :name => "Name of the project", :default => 'Emotion Mapping'}
         ].each do |entry| %>
