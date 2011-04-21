@@ -51,6 +51,7 @@ $ rake db:migrate
 Install passenger. This is the apache module that deals with rails code.
 
 $ sudo gem install passenger
+$ sudo apt-get install libcurl4-openssl-dev
 $ sudo passenger-install-apache2-module # keep a note of the stuff it outputs
 
 Edit the following file
