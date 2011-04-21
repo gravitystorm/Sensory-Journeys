@@ -3,40 +3,66 @@ Installation Notes
 
 These are currently slightly cryptic, and are for Ubuntu 9.10
 
-sudo apt-get install postgresql
-sudo -u postgres -i
+If you are browsing this on the web, you'll first need to grab the code
 
-   11  createuser sensory -s -P
-   12  createdb -E UTF8 -O sensory sensory_dev
-   13  createdb -E UTF8 -O sensory sensory_test
-   14  createdb -E UTF8 -O sensory sensory_prod
+$ sudo apt-get install git
+$ git clone https://github.com/gravitystorm/Sensory-Journeys.git
 
-sudo apt-get install ruby1.8 rdoc1.8 ri1.8 ruby irb libxml2-dev ruby1.8-dev apache2-threaded-dev libmagick9-dev build-essential libopenssl-ruby apache2 libxml-ruby
-wget http://rubyforge.org/frs/download.php/69365/rubygems-1.3.6.tgz
-tar -xzvf rubygems-1.3.6.tgz 
-cd rubygems-1.3.6/
-sudo ruby setup.rb 
-sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+Install the database. We're using postgres
 
-sudo gem install rails
-sudo gem install pg
-sudo gem install libxml-ruby
+$ sudo apt-get install postgresql
+$ sudo -u postgres -i
 
-cd config
-cp postgres.example.database.yml database.yml
-nano database.yml
-cp example.environment.rb environment.rb
-nano environment.rb
+Create a user and three databases needed for the rails app. Remember the password you pick, you'll need it later.
 
-rake db:migrate
+  $ createuser sensory -s -P
+  $ createdb -E UTF8 -O sensory sensory_dev
+  $ createdb -E UTF8 -O sensory sensory_test
+  $ createdb -E UTF8 -O sensory sensory_prod
+  $ exit
 
-sudo gem install passenger
-sudo passenger-install-apache2-module  
+Install rubygems, and use rubygems to install rails and all the libraries needed for it.
 
-sudo nano /etc/apache2/conf.d/passenger
+$ sudo apt-get install ruby1.8 rdoc1.8 ri1.8 ruby irb libxml2-dev ruby1.8-dev \
+                       apache2-threaded-dev libmagick9-dev build-essential libopenssl-ruby \
+                       apache2 libxml-ruby
+$ wget http://rubyforge.org/frs/download.php/69365/rubygems-1.3.6.tgz
+$ tar -xzvf rubygems-1.3.6.tgz 
+$ cd rubygems-1.3.6/
+$ sudo ruby setup.rb 
+$ sudo ln -s /usr/bin/gem1.8 /usr/bin/gem
+
+$ sudo gem install -v=2.3.8 rails
+$ sudo gem install pg
+$ sudo gem install libxml-ruby
+
+Go into the project source code, and set up the database configuration
+
+$ cd Sensory-Journeys/web/config
+$ cp postgres.example.database.yml database.yml
+$ nano database.yml # you need to edit this with the database username (sensory) and password (you picked one earlier)
+$ cp example.environment.rb environment.rb
+$ nano environment.rb # you need to set the walking papers url and change the default passwords
+
+Setup the database with all the correct tables, columns etc for our project.
+
+$ rake db:migrate
+
+Install passenger. This is the apache module that deals with rails code.
+
+$ sudo gem install passenger
+$ sudo passenger-install-apache2-module # keep a note of the stuff it outputs
+
+Edit the following file
+$ sudo nano /etc/apache2/conf.d/passenger
+
+Add the contents you saw earlier. The exact version numbers will have changed slightly.
+
 LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11/ext/apache2/mod_passenger.so
    PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11
    PassengerRuby /usr/bin/ruby1.8
+
+Save the file.
 
 (apache sites-available stuff)
 
