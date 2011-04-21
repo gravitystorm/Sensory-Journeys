@@ -10,4 +10,4 @@ Further work includes pushing patches (especially to Walking Papers) upstream,
 and as already mentioned, making the whole thing easier to reuse and customise.
 
 Different parts of the project are based on various other projects. For licensing
-each component is under it's original license; new code is GPLv2 (copy at wp/LICENSE).
+each component is under its original license; all new code is GPLv2 (copy at wp/LICENSE).
