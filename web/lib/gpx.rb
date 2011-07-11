@@ -12,7 +12,7 @@ module GPX
       @file = file
     end
 
-    def points
+    def points(not_before, not_after)
       @possible_points = 0
       @actual_points = 0
       @tracksegs = 0
@@ -34,6 +34,10 @@ module GPX
             point.timestamp = DateTime.parse(reader.read_string)
           end
         elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
+          if reader.name == "trkpt" and point
+            point.not_before = not_before
+            point.not_after = not_after
+          end
           if reader.name == "trkpt" and point and point.valid?
             point.altitude ||= 0
             yield point
@@ -191,12 +195,12 @@ module GPX
 
 private
 
-  class TrkPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp)
+  class TrkPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp, :not_before, :not_after)
     def valid?
       self.latitude and self.longitude and
       self.latitude >= -90 and self.latitude <= 90 and
       self.longitude >= -180 and self.longitude <= 180 and
-      self.timestamp.hour >= Settings.gps_not_before.to_i and self.timestamp.hour < Settings.gps_not_after.to_i
+      self.timestamp.hour >= self.not_before and self.timestamp.hour < self.not_after
     end
   end
   

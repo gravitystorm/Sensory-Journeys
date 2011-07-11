@@ -118,7 +118,7 @@ class TraceController < ApplicationController
       dp = DpSimplify::LineString.new
 
       list = []
-      gpx.points do |point|
+      gpx.points(@current_project.gps_not_before, @current_project.gps_not_after) do |point|
         list << point
       end
       
@@ -135,7 +135,7 @@ class TraceController < ApplicationController
       #points list
       seglist.each do |seg|
         next if !seg || seg.length == 1 #some segments will be zero-length since all their points were invalid
-          dp.simplify(seg).each do |point|
+          dp.simplify(seg, @current_project.dp_threshold).each do |point|
           simpleList << point
         end
       end

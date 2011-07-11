@@ -6,10 +6,8 @@
 
 module DpSimplify
   class LineString
-  #@@dp_threshold = 0.00001
-  @@dp_threshold = Settings.dp_threshold.to_f
   
-  def simplify( points )
+  def simplify( points, threshold )
   
     #
     # This is an implementation of the Douglas-Peucker algorithm for simplifying
@@ -101,7 +99,7 @@ module DpSimplify
           max_dist = pb_dist
         end
         
-        if(pb_dist > @@dp_threshold)
+        if(pb_dist > threshold)
           # Our point, Pb, that had the greatest distance from the line, is also
           # greater than our threshold. Process again using Pb as a new 
           # start/end point. Record this distance - we'll use it later when
