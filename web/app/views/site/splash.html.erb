@@ -1,8 +1,76 @@
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-825603-11']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<div class="intro">
 <h1><%= @current_project.project_name %></h1>
 
-<p><%= @current_project.project_name %> is a project by the artist Christian Nold, commissioned by Sustrans the UK sustainable transport charity. This 1 year art project involved Christian Nold working closely with 4 schools in Bristol and Sustrans Bike It team to set up a series of creative in school workshops. The concept is, that people have very different sorts of experiences and relationships with their surroundings depending on their mode of travel. The project was based on inventing and using an innovative experiential toolkit of activities, technologies and visualisations with the children for intensive workshops. The final gathered material will be designed into large scale printed maps that will be presented to the schools for public discussions with the children, teachers, governors and local politicians. If this research project proves to be successful in bringing experiential transport awareness to the children as well as local area stakeholder, the long term plan is to setup a national network of Sensory Journey Schools.</p>
+<p><%= @current_project.project_name %> (2009-10) was a one year project by the artist Christian Nold, commissioned by Sustrans the UK sustainable transport charity. The project involved Christian Nold & Sustrans Bike-It team working closely with four schools in Bristol on a series of creative workshops that took place in and out of school.</p>
 
-<p>Guide to the software:</p>
-<p>For each of the schools there are 3 types of data created by the children. The drawings represent the 5 most important experiences the children had on their journeys to school, while the blue lines are GPS tracks from the devices that the children carried their journeys to school and home. The faces icons are Experience Markers which are their reflections on events that occurred on their journeys. I recommend comparing the drawings via the different forms of transport.</p>
+<p><b><%= link_to 'CLICK TO ENTER THE SPATIAL REPOSITORY', :action => :index %></b></p>
 
-<%= link_to 'View the project', :action => :index %>
+<p><b>Do people have different sensory experiences and emotional relationships with their local area depending on their mode of travel?</b></p>
+
+<p>To answer this question, Christian Nold developed an innovative experiential methodology & toolkit composed of activities, technologies and visualisations, designed to allow the children to document their experiences. During intensive, week long, workshops at each school, the children learned how to articulate and represent the sensory experiences that occured on their journey to school. The custom built Sensory Journeys web application functioned as a spatial archive to bring together all the collective experiences of the children. After all the workshops, Christian Nold analysed the material and used it to design a series of printed maps that break down the experiences by mode of transport. Tese maps were presented to the schools to initiate discussions about the sensory, emotional and social impact of travel choices for children, teachers, governors and local politicians. The aim of the project is to set up a national network of schools using this system to document and compare their transport provision and discuss new solutions. If you would like to join the project please contact Sustrans and Christian Nold.</p>
+
+<%= (image_tag 'activity.jpg')%>
+
+<h2>Collective Sensory Experience Maps:</h2>
+
+<%= (image_tag 'map.jpg')%>
+
+<p>Click to view, download and print<br/>
+<p>New Oak Primary School:<br/>
+<%= link_to 'New Oak Walking Map (PDF)', 'http://www.softhook.com/NewOakWalking.pdf' %><br/>
+<%= link_to 'New Oak Driving Map (PDF)', 'http://www.softhook.com/NewOakDriving.pdf' %></p>
+
+<p>Staple Hill Primary School:<br />
+<%= link_to 'Staple Hill Walking Map (PDF)', 'http://www.softhook.com/StapleHillWalking.pdf' %><br/>
+<%= link_to 'Staple Hill Driving Map (PDF)', 'http://www.softhook.com/StapleHillDriving.pdf' %></p>
+
+<p>Looking at the maps, there is clear difference between the modes of transport. The Walking Maps for both schools show a much larger number of interactions with people, plants and animals as well as as sensory events such as weather, noisees and smells. In comparison the Driving Maps show mainly buildings and sights. The experience of being driven to school appears to be like a teleport with a beginning and and end and little in between.</p>
+
+<p>--------------------------------------------------------------</p>
+
+<h2>Guide to the Sensory Journeys Application:</h2>
+<p>When viewing the website, 3 types of data are visible on the map:</p>
+
+<p>-GPS tracks with Waypoints (blue line with purple dots)<br/>
+-Drawings (red lines)<br/>
+-Point based Comments (smiley faces with text when clicked)<br/><br/>
+
+The children carried GPS units with a button that they pressed to mark the 5 most important experiences with a digital waypoint. When arriving at school the children then illustrated their experiences using drawings with a red pen made on special greyscale printed maps. These maps were then scanned and uploaded to the website. The software reads the QR code on the map and geo locates the childrens' drawings and places them onto the map. I recommend clicking on the name of a school and then comparing the drawings via the different forms of transport by clicking the tabs on the top left. Please note the software is mainly a spatial repository. To create the final maps required a lots of work in analysing and designing the printed maps that can be downloaded above.</p>
+
+<p>--------------------------------------------------------------</p>
+
+<h2>Credits:</h2>
+<p>Overall Project & Software Concept &amp; Design &amp; Map Design: Christian Nold<br />
+<%= link_to 'www.softhook.com', 'http://www.softhook.com' %></p>
+
+<p>Web Programming: Andy Allan<br />
+<%= link_to 'www.gravitystorm.co.uk', 'http://www.gravitystorm.co.uk' %></p>
+
+<p>Map Data: OpenStreetMap - Creative Commons Attribution-Share Alike
+<%= link_to 'www.openstreetmap.org', 'http://www.openstreetmap.org' %></p>
+
+<p>The application uses Walking Papers by Michal Migurski
+<%= link_to 'www.walking-papers.org', 'http://walking-papers.org' %></p>
+
+<p>Sustrans's vision is a world in which people choose to travel in ways that benefit their health and the environment. To find out more:
+<%= link_to 'www.sustrans.org.uk', 'http://www.sustrans.org.uk' %></p>
+
+<p>Sensory Journeys is supported by Arts Council England, Bristol City Cycling Demonstration Fund and The Ernest Cook Trust</p>
+
+<%= (image_tag 'logo.png')%>
+</div>
+
