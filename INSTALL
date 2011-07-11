@@ -52,12 +52,12 @@ Install passenger. This is the apache module that deals with rails code.
 
 $ sudo gem install passenger
 $ sudo apt-get install libcurl4-openssl-dev
-$ sudo passenger-install-apache2-module # keep a note of the stuff it outputs
+$ sudo passenger-install-apache2-module # keep a note of the stuff it outputs at the end regarding LoadModule. You'll want to copy it somewhere.
 
 Edit the following file
 $ sudo nano /etc/apache2/conf.d/passenger
 
-Add the contents you saw earlier. The exact version numbers will have changed slightly.
+Add the contents you copied earlier. The exact version numbers will have changed slightly from what's written here.
 
 LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11/ext/apache2/mod_passenger.so
    PassengerRoot /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11
@@ -65,39 +65,60 @@ LoadModule passenger_module /usr/lib/ruby/gems/1.8/gems/passenger-2.2.11/ext/apa
 
 Save the file.
 
-(apache sites-available stuff)
+Now you will need to set up your apache config files for the various virtual hosts you want to set up. An example would be as follows:
+
+<VirtualHost *:80>
+        ServerName www.sensoryjourneys.net
+        DocumentRoot /home/andy/production-multi/web/public
+        RailsEnv production
+</VirtualHost>
+
+You'll need to know enough about this stuff to sort it out!
 
 sudo /etc/init.d/apache2 restart
 
 ======== walking papers ===========
 
-% apt-get install curl python-imaging python-numpy openjdk-6-jre-headless
-% apt-get install libapache2-mod-php5 php5-gd php5-pgsql php-pear
+$ sudo apt-get install curl python-imaging python-numpy openjdk-6-jre-headless
+$ sudo apt-get install libapache2-mod-php5 php5-gd php5-pgsql php-pear
 
-% pear install Crypt_HMAC HTTP_Request DB
-% pear install Crypt_HMAC2 MDB2 MDB2#pgsql
+$ sudo pear install Crypt_HMAC HTTP_Request DB
+$ sudo pear install Crypt_HMAC2 MDB2 MDB2#pgsql
 
-sudo -u postgres -i
-  createdb -E UTF8 -O sensory paperwalking
+$ sudo -u postgres -i
+  $ createdb -E UTF8 -O sensory paperwalking
+  $ exit
 
-psql -U sensory -h localhost -f site/doc/create.postgres paperwalking
+Go into the Sensory-Journeys top level folder
+$ cd /path/to/Sensory-Journeys
 
-cd wp
-git submodule init && git submodule update
-cd site && make
-cd decoder && make
-cd site/lib
-cp init.php.txt init.php
-nano init.php (change dsn and final_destination)
-sudo nano /etc/php5/apache2/php.ini 
-  ; Maximum allowed size for uploaded files.
+# Add the tables to the paperwalking database
+
+$ psql -U sensory -h localhost -f wp/site/doc/create.postgres paperwalking
+
+Set up the rest of walking papers
+
+$ git submodule init && git submodule update
+$ cd wp/site && make
+$ cd ../decoder && make
+
+Set up the walking papers configuration
+
+$ cd ../site/lib
+$ cp init.php.txt init.php
+$ nano init.php (change dsn and final_destination)
+
+PHP limits the size of uploaded files and POST requests in general. We need to increase these dramatically given the size of scans
+
+$ sudo nano /etc/php5/apache2/php.ini # find and change these two values
   upload_max_filesize = 25M
-  *also max post size*
+  post_max_size = 25M
   
 ========= scans-compile.py ==========
 
-sudo apt-get install python-psycopg2
-cd wp
-cp example.dbconnect.py dbconnect.py
-nano dbconnect.py
+This is the utility that compiles the individual scans into slippy maps.
 
+sudo apt-get install python-psycopg2
+cd /path/to/Sensory-Journeys/wp
+cp example.dbconnect.py dbconnect.py
+nano dbconnect.py # set the password
